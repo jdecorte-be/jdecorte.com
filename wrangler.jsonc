@@ -1,6 +1,6 @@
 {
   // Wrangler configuration for Cloudflare Pages
-  "name": "jdecorte-com",
+  "name": "portfolio",
   "compatibility_date": "2026-01-03",
   "assets": {
     "directory": "./public"
