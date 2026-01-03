@@ -97,15 +97,23 @@ export default async function Page({ params }) {
 		return coreContent(authorResults as Authors);
 	});
 	const mainContent = coreContent(post);
-	const jsonLd = post.structuredData;
-	jsonLd.author = authorDetails.map((author) => {
+	const jsonLd: Record<string, unknown> = {
+		...(post.structuredData ?? {}),
+	};
+	(jsonLd as { author?: unknown }).author = authorDetails.map((author) => {
 		return {
 			"@type": "Person",
 			name: author.name,
 		};
 	});
 
-	const Layout = layouts[post.layout ?? defaultLayout];
+	// Resolve layout explicitly to avoid undefined component at runtime
+	const Layout =
+		post.layout === "PostSimple"
+			? PostSimple
+			: post.layout === "PostBanner"
+				? PostBanner
+				: PostLayout;
 
 	return (
 		<>
@@ -114,18 +122,15 @@ export default async function Page({ params }) {
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
 			/>
-			<Layout
-				content={mainContent}
-				authorDetails={authorDetails}
-				next={next}
-				prev={prev}
-			>
-				<MDXLayoutRenderer
-					code={post.body.code}
-					components={components}
-					toc={post.toc}
-				/>
-			</Layout>
+			{Layout === PostLayout ? (
+				<PostLayout content={mainContent} authorDetails={authorDetails} next={next} prev={prev}>
+					<MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
+				</PostLayout>
+			) : (
+				<Layout content={mainContent} next={next} prev={prev}>
+					<MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
+				</Layout>
+			)}
 		</>
 	);
 }
