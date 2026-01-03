@@ -1,0 +1,13 @@
+{
+  // Wrangler configuration for Cloudflare Pages
+  "name": "jdecorte-com",
+  "compatibility_date": "2026-01-03",
+  "assets": {
+    "directory": "./public"
+  }
+  
+  // Optional: Environment variables
+  // "vars": {
+  //   "ENVIRONMENT": "production"
+  // }
+}
