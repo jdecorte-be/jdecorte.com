@@ -7,7 +7,7 @@ const Hero = ({ heroFontStyles }) => {
 				className={`${heroFontStyles} fade-in-down-headline text-5xl font-bold uppercase tracking-tighter text-[#DBE8A8]
            opacity-0 md:text-[114px] lg:leading-[114px] xl:text-[168px] xl:leading-[168px]`}
 			>
-				Michael Schultz
+				John Decorte
 			</h1>
 			<div className="flex">
 				<p
@@ -17,7 +17,7 @@ const Hero = ({ heroFontStyles }) => {
 				</p>
 				<Image
 					src="/static/images/michael_fullbody.png"
-					alt="Michael Schultz"
+					alt="John Decorte"
 					width={305}
 					height={606}
 					className={`image-animate-on-load absolute -bottom-10 right-0 w-[160px] opacity-0 drop-shadow-2xl md:right-48 md:top-24 md:w-[305px] xl:left-60`}
