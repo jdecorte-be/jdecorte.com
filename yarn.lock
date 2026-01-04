@@ -6751,7 +6751,7 @@ __metadata:
     husky: "npm:^8.0.0"
     image-size: "npm:^1.2.1"
     lint-staged: "npm:^13.0.0"
-    next: "npm:^15.2.4"
+    next: "npm:^15.3.0"
     next-contentlayer2: "npm:^0.5.8"
     next-themes: "npm:^0.2.1"
     pliny: "npm:^0.4.1"
@@ -7763,7 +7763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^15.2.4":
+"next@npm:^15.3.0":
   version: 15.5.9
   resolution: "next@npm:15.5.9"
   dependencies:
