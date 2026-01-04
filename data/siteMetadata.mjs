@@ -1,19 +1,19 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-	title: "Michael Schultz",
-	author: "Michael Schultz",
-	headerTitle: "Michael Schultz",
-	description: "Michael Schultz | software and design",
+	title: "John Decorte",
+	author: "John Decorte",
+	headerTitle: "John Decorte",
+	description: "John Decorte | software and design",
 	language: "en-us",
 	theme: "dark", // system, dark or light
-	siteUrl: "https://michaelschultz.com",
-	siteRepo: "https://github.com/michaelwschultz/michaelschultz.com",
+	siteUrl: "https://jdecorte.com",
+	siteRepo: "https://github.com/jdecorte-be/jdecorte.com",
 	siteLogo: "/static/images/logo.png",
-	socialBanner: "/static/images/michael-schultz-social.jpg",
-	email: "hi@michaelschultz.com",
-	github: "https://github.com/michaelwschultz",
-	bluesky: "https://bsky.app/profile/michaelschultz.com",
-	linkedin: "https://www.linkedin.com/in/mikewschultz/",
+	socialBanner: "/static/images/jdecorte-social.jpg",
+	email: "jdecorte@proton.me",
+	github: "https://github.com/jdecorte-be",
+	// bluesky: "https://bsky.app/profile/jdecorte.com",
+	linkedin: "https://www.linkedin.com/in/johndecorte/",
 	locale: "en-US",
 	analytics: {
 		// If you want to use an analytics provider you have to add it to the
