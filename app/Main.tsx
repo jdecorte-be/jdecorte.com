@@ -44,7 +44,7 @@ export default function Home({ posts, heroFontStyles }) {
 				</ProjectCard>
 				<ProjectCard
 					title="Logs Dashboard 📊"
-					href="https://logs.jdecorte.com"
+					href="https://dashboard.jdecorte.com"
 					buttonText="View Dashboard"
 					buttonColor="bg-[#6BB0D4] hover:bg-[#8BCEF1]"
 				>
@@ -55,12 +55,12 @@ export default function Home({ posts, heroFontStyles }) {
 					</span>
 				</ProjectCard>
 				<ProjectCard
-					title="Get Next Line 📜"
-					href="https://github.com/jdecorte-be/42-get-next-line"
+					title="Tweetz 🐦"
+					href="https://github.com/jdecorte-be/tweetz"
 					buttonText="View Source"
 					buttonColor="bg-green-800 hover:bg-green-700"
 				>
-					A implementation of the get_next_line function from 42's curriculum.
+					A Twitter client built with React and Node.js.
 					2023.
 					<span className="block pt-4">
 						The game was designed and built in 8 days and lots of coffee. This

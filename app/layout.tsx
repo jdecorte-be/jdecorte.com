@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import { ThemeProviders } from "./theme-providers";
 import type { Metadata } from "next";
+import TransitionWrapper from "@/components/TransitionWrapper";
 
 const space_grotesk = Space_Grotesk({
 	subsets: ["latin"],
@@ -112,7 +113,11 @@ export default function RootLayout({
 								searchConfig={siteMetadata.search as SearchConfig}
 							>
 								<Header />
-								<main className="mb-auto">{children}</main>
+								<main className="mb-auto">
+									<TransitionWrapper>
+										{children}
+									</TransitionWrapper>
+								</main>
 							</SearchProvider>
 							<Footer />
 						</div>
