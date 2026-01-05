@@ -2,7 +2,7 @@ import siteMetadata from "@/data/siteMetadata.mjs";
 import ListLayout from "@/layouts/ListLayoutWithTags";
 import { genPageMetadata } from "app/seo";
 import tagData from "app/tag-data.json" with { type: "json" };
-import { allThoughts } from "contentlayer/generated";
+import { allWriteups } from "contentlayer/generated";
 import { slug } from "github-slugger";
 import type { Metadata } from "next";
 import { allCoreContent, sortPosts } from "pliny/utils/contentlayer";
@@ -18,7 +18,7 @@ export async function generateMetadata(props: {
 		alternates: {
 			canonical: "./",
 			types: {
-				"application/rss+xml": `${siteMetadata.siteUrl}/thoughts/tags/${tag}/feed.xml`,
+				"application/rss+xml": `${siteMetadata.siteUrl}/writeups/tags/${tag}/feed.xml`,
 			},
 		},
 	});
@@ -42,7 +42,7 @@ export default async function TagPage(
 	const title = tag[0].toUpperCase() + tag.split(" ").join("-").slice(1);
 	const filteredPosts = allCoreContent(
 		sortPosts(
-			allThoughts.filter((post) =>
+			allWriteups.filter((post) =>
 				post.tags?.map((t) => slug(t)).includes(tag),
 			),
 		),

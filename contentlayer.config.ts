@@ -46,11 +46,11 @@ const computedFields: ComputedFields = {
 };
 
 /**
- * Count the occurrences of all tags across thoughts posts and write to json file
+ * Count the occurrences of all tags across writeups posts and write to json file
  */
-function createTagCount(allThoughts) {
+function createTagCount(allWriteups) {
 	const tagCount: Record<string, number> = {};
-	const filteredPosts = allThoughts.filter((post) => post.draft !== true);
+	const filteredPosts = allWriteups.filter((post) => post.draft !== true);
 
 	for (const file of filteredPosts) {
 		if (file.tags) {
@@ -67,22 +67,22 @@ function createTagCount(allThoughts) {
 	writeFileSync("./app/tag-data.json", JSON.stringify(tagCount));
 }
 
-function createSearchIndex(allThoughts) {
+function createSearchIndex(allWriteups) {
 	if (
 		siteMetadata?.search?.provider === "kbar" &&
 		siteMetadata.search.kbarConfig.searchDocumentsPath
 	) {
 		writeFileSync(
 			`public/${siteMetadata.search.kbarConfig.searchDocumentsPath}`,
-			JSON.stringify(allCoreContent(sortPosts(allThoughts))),
+			JSON.stringify(allCoreContent(sortPosts(allWriteups))),
 		);
 		console.log("Local search index generated...");
 	}
 }
 
-export const Thoughts = defineDocumentType(() => ({
-	name: "Thoughts",
-	filePathPattern: "thoughts/**/*.mdx",
+export const Writeups = defineDocumentType(() => ({
+	name: "Writeups",
+	filePathPattern: "writeups/**/*.mdx",
 	contentType: "mdx",
 	fields: {
 		title: { type: "string", required: true },
@@ -135,7 +135,7 @@ export const Authors = defineDocumentType(() => ({
 
 export default makeSource({
 	contentDirPath: "data",
-	documentTypes: [Thoughts, Authors],
+	documentTypes: [Writeups, Authors],
 	mdx: {
 		cwd: process.cwd(),
 		remarkPlugins: [
@@ -155,8 +155,8 @@ export default makeSource({
 		],
 	},
 	onSuccess: async (importData) => {
-		const { allThoughts } = await importData();
-		createTagCount(allThoughts);
-		createSearchIndex(allThoughts);
+		const { allWriteups } = await importData();
+		createTagCount(allWriteups);
+		createSearchIndex(allWriteups);
 	},
 });

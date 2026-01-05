@@ -3,15 +3,15 @@ import path from 'node:path'
 import { slug } from 'github-slugger'
 import { sortPosts } from 'pliny/utils/contentlayer.js'
 import { escape as escaper } from 'pliny/utils/htmlEscaper.js'
-import { allThoughts } from '../.contentlayer/generated/index.mjs'
+import { allWriteups } from '../.contentlayer/generated/index.mjs'
 import tagData from '../app/tag-data.json' with { type: 'json' }
 import siteMetadata from '../data/siteMetadata.mjs'
 
 const generateRssItem = (config, post) => `
   <item>
-    <guid>${config.siteUrl}/thoughts/${post.slug}</guid>
+    <guid>${config.siteUrl}/writeups/${post.slug}</guid>
     <title>${escaper(post.title)}</title>
-    <link>${config.siteUrl}/thoughts/${post.slug}</link>
+    <link>${config.siteUrl}/writeups/${post.slug}</link>
     ${post.summary && `<description>${escaper(post.summary)}</description>`}
     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>
@@ -23,7 +23,7 @@ const generateRss = (config, posts, page = 'feed.xml') => `
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
       <title>${escaper(config.title)}</title>
-      <link>${config.siteUrl}/thoughts</link>
+      <link>${config.siteUrl}/writeups</link>
       <description>${escaper(config.description)}</description>
       <language>${config.language}</language>
       <managingEditor>${config.email} (${config.author})</managingEditor>
@@ -35,9 +35,9 @@ const generateRss = (config, posts, page = 'feed.xml') => `
   </rss>
 `
 
-async function generateRSS(config, allThoughts, page = 'feed.xml') {
-  const publishPosts = allThoughts.filter((post) => post.draft !== true)
-  // RSS for thoughts post
+async function generateRSS(config, allWriteups, page = 'feed.xml') {
+  const publishPosts = allWriteups.filter((post) => post.draft !== true)
+  // RSS for writeups post
   if (publishPosts.length > 0) {
     const rss = generateRss(config, sortPosts(publishPosts))
     writeFileSync(`./public/${page}`, rss)
@@ -45,7 +45,7 @@ async function generateRSS(config, allThoughts, page = 'feed.xml') {
 
   if (publishPosts.length > 0) {
     for (const tag of Object.keys(tagData)) {
-      const filteredPosts = allThoughts.filter((post) =>
+      const filteredPosts = allWriteups.filter((post) =>
         post.tags.map((t) => slug(t)).includes(tag)
       )
       const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
@@ -57,7 +57,7 @@ async function generateRSS(config, allThoughts, page = 'feed.xml') {
 }
 
 const rss = () => {
-  generateRSS(siteMetadata, allThoughts)
+  generateRSS(siteMetadata, allWriteups)
   console.log('RSS feed generated...')
 }
 export default rss

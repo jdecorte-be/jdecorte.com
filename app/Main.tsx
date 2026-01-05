@@ -125,7 +125,7 @@ export default function Home({ posts, heroFontStyles }) {
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
 				<div className="space-y-2 pb-8 pt-6 md:space-y-5">
 					<h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:leading-14">
-						Latest thoughts
+						Latest writeups
 					</h1>
 				</div>
 				{/* POSTS */}
@@ -150,7 +150,7 @@ export default function Home({ posts, heroFontStyles }) {
 												<div>
 													<h2 className="text-2xl font-bold leading-8 tracking-tight">
 														<Link
-															href={`/thoughts/${slug}`}
+															href={`/writeups/${slug}`}
 															className="text-gray-900 dark:text-gray-100"
 														>
 															{title}
@@ -168,7 +168,7 @@ export default function Home({ posts, heroFontStyles }) {
 											</div>
 											<div className="text-base font-medium leading-6">
 												<Link
-													href={`/thoughts/${slug}`}
+													href={`/writeups/${slug}`}
 													className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
 													aria-label={`Read more: "${title}"`}
 												>
@@ -186,7 +186,7 @@ export default function Home({ posts, heroFontStyles }) {
 			{posts.length > MAX_DISPLAY && (
 				<div className="flex justify-end text-base font-medium leading-6">
 					<Link
-						href="/thoughts"
+						href="/writeups"
 						className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
 						aria-label="All posts"
 					>
