@@ -29,10 +29,11 @@ export default function Home({ posts, heroFontStyles }) {
 			{/* PROJECTS - move to component */}
 			<div className="flex flex-wrap gap-4 pt-24">
 				<ProjectCard
-					title="Light The Night ✨"
-					href="https://ratracestudio.itch.io/light-the-night"
-					buttonText="Play Game"
-					buttonColor="bg-[#0f175a] hover:bg-[#141c64]"
+					title="D34TH 👨‍💻"
+					href="https://github.com/jdecorte-be/D34TH"
+					buttonText="View Source"
+					buttonColor="bg-blue-900 hover:bg-blue-800"
+					// imgSrc="/static/images/projects/death.png"
 				>
 					A modern take on the one-button infinite runner. Travel across a
 					lively pond while collecting more light to hold back the encroching
@@ -42,24 +43,24 @@ export default function Home({ posts, heroFontStyles }) {
 					</span>
 				</ProjectCard>
 				<ProjectCard
-					title="Prism Quest 🔮"
-					href="https://ratracestudio.itch.io/prism-quest"
-					buttonText="Play Game"
+					title="Logs Dashboard 📊"
+					href="https://logs.jdecorte.com"
+					buttonText="View Dashboard"
 					buttonColor="bg-[#6BB0D4] hover:bg-[#8BCEF1]"
 				>
-					Our kaizo inspired platformer built for the 2024 1-Bit game jam where
+					A real-time monitoring and analytics dashboard for our game development logs.
 					we placed 20th out of 108 entries.
 					<span className="block pt-4">
 						Many have tried, few have overcome. Will you?
 					</span>
 				</ProjectCard>
 				<ProjectCard
-					title="Pack Rat 🐭"
-					href="https://ratracestudio.itch.io/pack-rat"
-					buttonText="Play Game"
+					title="Get Next Line 📜"
+					href="https://github.com/jdecorte-be/42-get-next-line"
+					buttonText="View Source"
 					buttonColor="bg-green-800 hover:bg-green-700"
 				>
-					A point-and-click adventure game built for the Cozy Autumn Game Jam
+					A implementation of the get_next_line function from 42's curriculum.
 					2023.
 					<span className="block pt-4">
 						The game was designed and built in 8 days and lots of coffee. This
@@ -73,59 +74,12 @@ export default function Home({ posts, heroFontStyles }) {
 						</Link>
 					</span>
 				</ProjectCard>
-				<ProjectCard
-					title="Hemolog 2.0"
-					href="https://hemolog.com"
-					buttonText="Try Now"
-					buttonColor="bg-[#FF1E68] hover:bg-[#FF4D9E]"
-				>
-					A free health tracking tool for people with Hemophilia, rebuilt from
-					the ground up to be simple and more insightful than ever.
-				</ProjectCard>
-				<ProjectCard title="(Ph)one Stand" buttonText="Available Soon">
-					Tired of not having a quality phone stand that rotated nicely with one
-					hand, I decided to design my own. Made with strong, recyclable
-					plastics and eco-friendly Jesmonite.
-				</ProjectCard>
-				<ProjectCard title="Time Between The Stars" buttonText="Coming Soon">
-					Space simulation game influenced by the short story{" "}
-					<Link
-						href="https://www.amazon.com/Slow-Between-Stars-Reaches-collection-ebook/dp/B0C4QX2FSF"
-						data-umami-event="outbound-link-click"
-						data-umami-event-url="https://www.amazon.com/Slow-Between-Stars-Reaches-collection-ebook/dp/B0C4QX2FSF"
-					>
-						Slow Time Between The Stars by John Scalzi
-					</Link>
-					.
-				</ProjectCard>
-				<ProjectCard title="Toko Roko" buttonText="Coming Soon">
-					Hand drawn parkour platformer for PC and consoles.
-					<span className="block pt-4">
-						This will be the first full-length game from{" "}
-						<Link
-							href="https://ratrace.studio"
-							data-umami-event="outbound-link-click"
-							data-umami-event-url="https://ratrace.studio"
-						>
-							RatRace.studio
-						</Link>
-						, a collaboration with{" "}
-						<Link
-							href="https://luketns.com"
-							data-umami-event="outbound-link-click"
-							data-umami-event-url="https://luketns.com"
-						>
-							Luke Schultz
-						</Link>
-						.
-					</span>
-				</ProjectCard>
 			</div>
 
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
 				<div className="space-y-2 pb-8 pt-6 md:space-y-5">
 					<h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:leading-14">
-						Latest writeups
+						Latest write ups
 					</h1>
 				</div>
 				{/* POSTS */}
