@@ -1,11 +1,11 @@
 import ListLayout from '@/layouts/ListLayoutWithTags'
-import { allThoughts } from 'contentlayer/generated'
+import { allWriteups } from 'contentlayer/generated'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 
 const POSTS_PER_PAGE = 5
 
 export const generateStaticParams = async () => {
-  const totalPages = Math.ceil(allThoughts.length / POSTS_PER_PAGE)
+  const totalPages = Math.ceil(allWriteups.length / POSTS_PER_PAGE)
   const paths = Array.from({ length: totalPages }, (_, i) => ({
     page: (i + 1).toString(),
   }))
@@ -15,7 +15,7 @@ export const generateStaticParams = async () => {
 
 export default async function Page(props: Readonly<{ params: Promise<{ page: string }> }>) {
   const params = await props.params
-  const posts = allCoreContent(sortPosts(allThoughts))
+  const posts = allCoreContent(sortPosts(allWriteups))
   const pageNumber = Number.parseInt(params.page)
   const initialDisplayPosts = posts.slice(
     POSTS_PER_PAGE * (pageNumber - 1),

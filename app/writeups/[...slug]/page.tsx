@@ -7,8 +7,8 @@ import {
 	coreContent,
 	allCoreContent,
 } from "pliny/utils/contentlayer";
-import { allThoughts, allAuthors } from "contentlayer/generated";
-import type { Authors, Thoughts } from "contentlayer/generated";
+import { allWriteups, allAuthors } from "contentlayer/generated";
+import type { Authors, Writeups } from "contentlayer/generated";
 import PostSimple from "@/layouts/PostSimple";
 import PostLayout from "@/layouts/PostLayout";
 import PostBanner from "@/layouts/PostBanner";
@@ -28,7 +28,7 @@ export async function generateMetadata({
 }): Promise<Metadata | undefined> {
 	const { slug } = await params;
 	const newslug = decodeURI(slug?.join("/"));
-	const post = allThoughts.find((p) => p.slug === newslug);
+	const post = allWriteups.find((p) => p.slug === newslug);
 	const authorList = post?.authors || ["default"];
 	const authorDetails = authorList.map((author) => {
 		const authorResults = allAuthors.find((p) => p.slug === author);
@@ -72,7 +72,7 @@ export async function generateMetadata({
 }
 
 export const generateStaticParams = async () => {
-	const paths = allThoughts.map((p) => ({ slug: p.slug.split("/") }));
+	const paths = allWriteups.map((p) => ({ slug: p.slug.split("/") }));
 
 	return paths;
 };
@@ -81,7 +81,7 @@ export default async function Page({ params }) {
 	const { slug } = await params;
 	const newslug = decodeURI(slug?.join("/"));
 	// Filter out drafts in production
-	const sortedCoreContents = allCoreContent(sortPosts(allThoughts));
+	const sortedCoreContents = allCoreContent(sortPosts(allWriteups));
 	const postIndex = sortedCoreContents.findIndex((p) => p.slug === newslug);
 	if (postIndex === -1) {
 		return notFound();
@@ -89,7 +89,7 @@ export default async function Page({ params }) {
 
 	const prev = sortedCoreContents[postIndex + 1];
 	const next = sortedCoreContents[postIndex - 1];
-	const post = allThoughts.find((p) => p.slug === newslug) as Thoughts;
+	const post = allWriteups.find((p) => p.slug === newslug) as Writeups;
 	const authorList = post?.authors || ["default"];
 	const authorDetails = authorList.map((author) => {
 		const authorResults = allAuthors.find((p) => p.slug === author);

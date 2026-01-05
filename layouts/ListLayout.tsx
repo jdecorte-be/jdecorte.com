@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { formatDate } from "pliny/utils/formatDate";
 import type { CoreContent } from "pliny/utils/contentlayer";
-import type { Thoughts } from "contentlayer/generated";
+import type { Writeups } from "contentlayer/generated";
 import Link from "@/components/Link";
 import Tag from "@/components/Tag";
 import siteMetadata from "@/data/siteMetadata.mjs";
@@ -14,9 +14,9 @@ interface PaginationProps {
 	currentPage: number;
 }
 interface ListLayoutProps {
-	posts: CoreContent<Thoughts>[];
+	posts: CoreContent<Writeups>[];
 	title: string;
-	initialDisplayPosts?: CoreContent<Thoughts>[];
+	initialDisplayPosts?: CoreContent<Writeups>[];
 	pagination?: PaginationProps;
 }
 
@@ -79,7 +79,7 @@ export default function ListLayout({
 	pagination,
 }: Readonly<ListLayoutProps>) {
 	const [searchValue, setSearchValue] = useState("");
-	const filteredThoughtsPosts = posts.filter((post) => {
+	const filteredWriteupsPosts = posts.filter((post) => {
 		const searchContent = post.title + post.summary + post.tags?.join(" ");
 		return searchContent.toLowerCase().includes(searchValue.toLowerCase());
 	});
@@ -88,7 +88,7 @@ export default function ListLayout({
 	const displayPosts =
 		initialDisplayPosts.length > 0 && !searchValue
 			? initialDisplayPosts
-			: filteredThoughtsPosts;
+			: filteredWriteupsPosts;
 
 	return (
 		<>
@@ -126,7 +126,7 @@ export default function ListLayout({
 					</div>
 				</div>
 				<ul>
-					{!filteredThoughtsPosts.length && "No posts found."}
+					{!filteredWriteupsPosts.length && "No posts found."}
 					{displayPosts.map((post) => {
 						const { path, date, title, summary, tags } = post;
 						return (

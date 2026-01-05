@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { formatDate } from "pliny/utils/formatDate";
 import type { CoreContent } from "pliny/utils/contentlayer";
-import type { Thoughts } from "contentlayer/generated";
+import type { Writeups } from "contentlayer/generated";
 import Comments from "@/components/Comments";
 import Link from "@/components/Link";
 import PageTitle from "@/components/PageTitle";
@@ -10,7 +10,7 @@ import siteMetadata from "@/data/siteMetadata.mjs";
 import ScrollTopAndComment from "@/components/ScrollTopAndComment";
 
 interface LayoutProps {
-	content: CoreContent<Thoughts>;
+	content: CoreContent<Writeups>;
 	children: ReactNode;
 	next?: { path: string; title: string };
 	prev?: { path: string; title: string };
