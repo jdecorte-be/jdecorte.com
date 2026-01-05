@@ -5132,6 +5132,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.23.27":
+  version: 12.23.27
+  resolution: "framer-motion@npm:12.23.27"
+  dependencies:
+    motion-dom: "npm:^12.23.23"
+    motion-utils: "npm:^12.23.6"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/1c7fd6c1aa7d0bec9e3dd3387f4e5334abab92fb0811bbfd6cc4dd90a5b88f2eee76189dde94d1772b32b843b630d4f0db181d5bfac2dd51d005ac7cc158dc9c
+  languageName: node
+  linkType: hard
+
 "fs-minipass@npm:^3.0.0":
   version: 3.0.3
   resolution: "fs-minipass@npm:3.0.3"
@@ -6028,6 +6050,51 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jdecorte.com@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "jdecorte.com@workspace:."
+  dependencies:
+    "@biomejs/biome": "npm:^1.9.4"
+    "@next/bundle-analyzer": "npm:^15.2.3"
+    "@svgr/webpack": "npm:^8.0.1"
+    "@tailwindcss/forms": "npm:^0.5.4"
+    "@tailwindcss/typography": "npm:^0.5.9"
+    "@types/mdx": "npm:^2.0.5"
+    "@types/node": "npm:25.0.3"
+    "@types/react": "npm:^18.2.14"
+    autoprefixer: "npm:^10.4.13"
+    contentlayer2: "npm:^0.5.8"
+    cross-env: "npm:^7.0.3"
+    esbuild: "npm:^0.25.2"
+    framer-motion: "npm:^12.23.27"
+    github-slugger: "npm:^2.0.0"
+    gray-matter: "npm:^4.0.2"
+    husky: "npm:^8.0.0"
+    image-size: "npm:^1.2.1"
+    lint-staged: "npm:^13.0.0"
+    next: "npm:^15.3.0"
+    next-contentlayer2: "npm:^0.5.8"
+    next-themes: "npm:^0.2.1"
+    pliny: "npm:^0.4.1"
+    postcss: "npm:^8.5.3"
+    react: "npm:^19.0.0"
+    react-dom: "npm:^19.0.0"
+    reading-time: "npm:1.5.0"
+    rehype-autolink-headings: "npm:^7.1.0"
+    rehype-citation: "npm:^2.3.1"
+    rehype-katex: "npm:^7.0.1"
+    rehype-preset-minify: "npm:^7.0.1"
+    rehype-prism-plus: "npm:^2.0.1"
+    rehype-slug: "npm:^6.0.0"
+    remark: "npm:^14.0.2"
+    remark-gfm: "npm:^4.0.1"
+    remark-math: "npm:^6.0.0"
+    tailwindcss: "npm:^3.4.1"
+    typescript: "npm:^5.1.3"
+    unist-util-visit: "npm:^4.1.0"
+  languageName: unknown
+  linkType: soft
+
 "jiti@npm:^1.21.7":
   version: 1.21.7
   resolution: "jiti@npm:1.21.7"
@@ -6729,50 +6796,6 @@ __metadata:
   checksum: 10c0/bdf7cc72ff0a33e3eede03708c08983c4d7a173f91348b4b1e4f47d4cdbf734433ad971e7d1e8c77247d9e5cd8adb81ea4c67b0a2db526b758b2233d7814b8b2
   languageName: node
   linkType: hard
-
-"michaelschultz.com@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "michaelschultz.com@workspace:."
-  dependencies:
-    "@biomejs/biome": "npm:^1.9.4"
-    "@next/bundle-analyzer": "npm:^15.2.3"
-    "@svgr/webpack": "npm:^8.0.1"
-    "@tailwindcss/forms": "npm:^0.5.4"
-    "@tailwindcss/typography": "npm:^0.5.9"
-    "@types/mdx": "npm:^2.0.5"
-    "@types/node": "npm:25.0.3"
-    "@types/react": "npm:^18.2.14"
-    autoprefixer: "npm:^10.4.13"
-    contentlayer2: "npm:^0.5.8"
-    cross-env: "npm:^7.0.3"
-    esbuild: "npm:^0.25.2"
-    github-slugger: "npm:^2.0.0"
-    gray-matter: "npm:^4.0.2"
-    husky: "npm:^8.0.0"
-    image-size: "npm:^1.2.1"
-    lint-staged: "npm:^13.0.0"
-    next: "npm:^15.3.0"
-    next-contentlayer2: "npm:^0.5.8"
-    next-themes: "npm:^0.2.1"
-    pliny: "npm:^0.4.1"
-    postcss: "npm:^8.5.3"
-    react: "npm:^19.0.0"
-    react-dom: "npm:^19.0.0"
-    reading-time: "npm:1.5.0"
-    rehype-autolink-headings: "npm:^7.1.0"
-    rehype-citation: "npm:^2.3.1"
-    rehype-katex: "npm:^7.0.1"
-    rehype-preset-minify: "npm:^7.0.1"
-    rehype-prism-plus: "npm:^2.0.1"
-    rehype-slug: "npm:^6.0.0"
-    remark: "npm:^14.0.2"
-    remark-gfm: "npm:^4.0.1"
-    remark-math: "npm:^6.0.0"
-    tailwindcss: "npm:^3.4.1"
-    typescript: "npm:^5.1.3"
-    unist-util-visit: "npm:^4.1.0"
-  languageName: unknown
-  linkType: soft
 
 "micromark-core-commonmark@npm:^1.0.1":
   version: 1.1.0
@@ -7649,6 +7672,22 @@ __metadata:
   version: 0.5.2
   resolution: "moo@npm:0.5.2"
   checksum: 10c0/a9d9ad8198a51fe35d297f6e9fdd718298ca0b39a412e868a0ebd92286379ab4533cfc1f1f34516177f5129988ab25fe598f78e77c84e3bfe0d4a877b56525a8
+  languageName: node
+  linkType: hard
+
+"motion-dom@npm:^12.23.23":
+  version: 12.23.23
+  resolution: "motion-dom@npm:12.23.23"
+  dependencies:
+    motion-utils: "npm:^12.23.6"
+  checksum: 10c0/139705731085063519b88f23fcc5b1c13e15707a4ff3365da02ef9a4bf2a2d8ebed9a151c57e7f215ccd9e822365d93c16e28e619fbf25611f61dcff5ee81d75
+  languageName: node
+  linkType: hard
+
+"motion-utils@npm:^12.23.6":
+  version: 12.23.6
+  resolution: "motion-utils@npm:12.23.6"
+  checksum: 10c0/c058e8ba6423b3baa63e985bcc669877ee7d9579d938f5348b4e60c5ea1b4b33dd7f4877434436a4a5807f3cf00370d3fd4079a6fdd6309c5c87aa62b311a897
   languageName: node
   linkType: hard
 
