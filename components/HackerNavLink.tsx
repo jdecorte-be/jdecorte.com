@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "./Link";
 
 type HackerNavLinkProps = {
@@ -91,6 +92,8 @@ const HackerNavLink = ({
 		};
 	}, []);
 
+	const pathname = usePathname();
+
 	return (
 		<Link
 			href={href}
@@ -100,7 +103,10 @@ const HackerNavLink = ({
 			onFocus={start}
 			onBlur={stop}
 		>
-			<span aria-hidden="true">{displayText}</span>
+			<span aria-hidden="true">
+				{pathname === href && '> '}
+				{displayText}
+			</span>
 			<span className="sr-only">{title}</span>
 		</Link>
 	);
