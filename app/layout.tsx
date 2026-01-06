@@ -11,6 +11,7 @@ import siteMetadata from "@/data/siteMetadata.mjs";
 import { ThemeProviders } from "./theme-providers";
 import type { Metadata } from "next";
 import TransitionWrapper from "@/components/TransitionWrapper";
+import MaintenancePage from "./maintenance";
 
 const space_grotesk = Space_Grotesk({
 	subsets: ["latin"],
@@ -61,6 +62,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
+
+	const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+	if (isMaintenanceMode) {
+		return (
+			<html>
+				<body>
+					<MaintenancePage />
+				</body>
+			</html>
+		)
+	}
+
 	return (
 		<html
 			lang={siteMetadata.language}
