@@ -12,6 +12,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+// Check if maintenance mode is enabled
+const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
@@ -66,6 +69,19 @@ const securityHeaders = [
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+  // Handle maintenance mode
+  async redirects() {
+    if (isMaintenanceMode) {
+      return [
+        {
+          source: '/((?!maintenance|_next/static|_next/image|favicon.ico).*)',
+          destination: '/maintenance',
+          permanent: false,
+        },
+      ];
+    }
+    return [];
+  },
   reactStrictMode: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   eslint: {
