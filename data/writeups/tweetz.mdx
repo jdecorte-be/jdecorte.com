@@ -1,0 +1,208 @@
+---
+title: 'My adventure at Tweetz'
+date: '2024-12-10'
+tags: ['c-programming', '42-school', 'get_next_line', 'low-level', 'memory-management']
+draft: false
+summary: "We're going to break down a solution to the infamous 'get_next_line' project from 42 School. This function acts like a patient reader, designed to read a file line by line without loading the entire content into memory. The core of this solution relies on the clever use of a static buffer."
+---
+
+We're going to break down a solution to the infamous `get_next_line` project from 42 School. `get_next_line` is like a patient reader. Its job is to read a file, line by line, whenever you ask it to. It's pretty handy when you don't want to (or can't) load an entire file into memory at once.
+
+Let's dive in and see how this implementation tackles the challenge!
+
+## Static Buffer: Our Faithful Memory Keeper
+
+The magic of `get_next_line` hinges entirely on state management—specifically, using a **static variable** to maintain data between function calls:
+
+```c
+char *get_next_line(int fd)
+{
+    static char *buffer;
+    // ... rest of the function
+}
+```
+
+This buffer isn't just any ordinary variable. It possesses superpowers that solve the core problem of reading partially:
+
+*   **Persistent Memory:** Unlike regular variables that forget everything when the function ends, our static buffer remembers its contents between function calls. It's like having a notepad that doesn't get erased when you close the book!
+*   **Picking Up Where We Left Off:** Thanks to this memory, we can continue reading from exactly where we stopped last time. No need to start from the beginning of the file each time `get_next_line` is called.
+*   **Handling Partial Reads:** Sometimes, we might read more than one line into our buffer. The static variable allows us to keep that extra data for the next function call, ensuring we don't lose any information.
+
+### How It Works in get\_next\_line
+
+Let's walk through a typical lifecycle of our static buffer:
+
+1.  **First Call:** Memory is allocated for `buffer`, and we read the initial chunk from the file. We extract the first line and return it. Any leftover data stays persistently in `buffer`.
+2.  **Subsequent Calls:** `buffer` still contains the leftover data from last time. We check if there's a complete line already present. If not, we read more from the file and append to `buffer`. We extract the next line and update `buffer` again.
+3.  **Last Call:** We've reached the end of the file. We return any remaining data in `buffer`, then properly free and set it to `NULL`.
+
+### The Catch (Because There's Always One)
+
+While our static buffer is awesome for memory persistence, it does come with a few quirks:
+
+*   **Multiple File Descriptors:** Since this implementation uses a single `static char *buffer`, it can only reliably track the progress of **one file descriptor** at a time. A robust solution requires an array or structure (like a linked list or hash map) indexed by the file descriptor (`fd`) to handle multiple open files simultaneously.
+*   **Memory Usage:** The buffer sticks around until the program ends, even if you're done reading the file (unless explicitly freed).
+*   **Thread Safety:** If you're working in a multi-threaded environment, you'll need extra care (like mutexes) to ensure two threads don't try to access or modify the same static memory simultaneously.
+
+---
+
+## The Implementation Breakdown
+
+This solution relies on four main functions working together: the main function (`get_next_line`) and three helper functions (`read_file`, `ft_line`, and `ft_next`) to manage the reading, extraction, and cleanup.
+
+### The Main Function: `get_next_line`
+
+This function orchestrates the entire process, calling the necessary helpers in sequence.
+
+```c
+char	*get_next_line(int fd)
+{
+	static char	*buffer;
+	char		*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (NULL);
+	buffer = read_file(fd, buffer);
+	if (!buffer)
+		return (NULL);
+	line = ft_line(buffer);
+	buffer = ft_next(buffer);
+	return (line);
+}
+```
+
+**What’s going on:**
+1.  **Error Checking:** Checks for invalid file descriptors, buffer size, or read errors.
+2.  **Reading:** Calls `read_file` to ensure `buffer` contains at least a full line (or the end of the file).
+3.  **Extraction:** Calls `ft_line` to allocate and return the line found in the buffer.
+4.  **Cleanup:** Calls `ft_next` to trim the extracted line from the static buffer, saving the remaining data for the next call.
+
+### Reading from the File: `read_file`
+
+This function iteratively reads chunks from the file descriptor and appends them to our static result string (`res`) until a newline character is found or the end of the file is reached.
+
+```c
+char	*read_file(int fd, char *res)
+{
+	char	*buffer;
+	int		byte_read;
+
+	if (!res)
+		res = ft_calloc(1, 1);
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	byte_read = 1;
+	while (byte_read > 0)
+	{
+		byte_read = read(fd, buffer, BUFFER_SIZE);
+		if (byte_read == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[byte_read] = 0;
+		res = ft_free(res, buffer);
+		if (ft_strchr(buffer, '\n'))
+			break ;
+	}
+	free(buffer);
+	return (res);
+}
+```
+
+**Key mechanisms:**
+*   It allocates a temporary buffer (`buffer`) based on `BUFFER_SIZE`.
+*   The `while` loop continues reading chunks of data.
+*   The helper function `ft_free` (which internally uses `ft_strjoin`) is called to append the newly read data (`buffer`) to the persistent result string (`res`) while simultaneously freeing the old `res` content.
+*   The loop breaks immediately once a newline (`\n`) is detected, preventing unnecessary reads.
+
+### Extracting a Line: `ft_line`
+
+This function isolates the line (including the newline character, if present) from the larger persistent buffer.
+
+```c
+char	*ft_line(char *buffer)
+{
+	char	*line;
+	int		i;
+
+	i = 0;
+	if (!buffer[i])
+		return (NULL);
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	line = ft_calloc(i + 2, sizeof(char));
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	if (buffer[i] && buffer[i] == '\n')
+		line[i++] = '\n';
+	return (line);
+}
+```
+
+**Process:**
+1.  It first calculates the length of the line (up to `\n`).
+2.  It allocates memory for the new line string (`i + 2` to accommodate the newline and the null terminator).
+3.  It copies the characters, ensuring the `\n` is included in the returned string if it was found.
+
+### Updating the Buffer: `ft_next`
+
+Crucially, this function ensures that only the leftover data (everything after the line just returned) remains in the static buffer for the next call. It handles the essential memory cleanup.
+
+```c
+char	*ft_next(char *buffer)
+{
+	int		i;
+	int		j;
+	char	*line;
+
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (!buffer[i])
+	{
+		free(buffer);
+		return (NULL);
+	}
+	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	i++;
+	j = 0;
+	while (buffer[i])
+		line[j++] = buffer[i++];
+	free(buffer);
+	return (line);
+}
+```
+
+**Cleanup Steps:**
+1.  It locates the end of the line just read (`i`).
+2.  If `i` is the end of the buffer (no more content), the buffer is freed and `NULL` is returned.
+3.  Otherwise, it allocates memory for the **remainder** of the buffer.
+4.  It copies all characters starting *after* the newline into the new, smaller buffer.
+5.  It frees the old, large buffer and returns the pointer to the new, clean buffer.
+
+### Helper Function: `ft_free`
+
+This is a wrapper designed to simplify the process of extending the result string while managing memory responsibly.
+
+```c
+char	*ft_free(char *buffer, char *buf)
+{
+	char	*temp;
+
+	temp = ft_strjoin(buffer, buf);
+	free(buffer);
+	return (temp);
+}
+```
+
+It concatenates the existing `buffer` with the newly read data (`buf`) and then immediately frees the original `buffer` pointer before returning the new, joined string.
+
+---
+
+And there you have it! That's how this implementation of `get_next_line` works. It's a clever use of static variables, dynamic memory allocation, and string manipulation to solve the problem of reading a file line by line while efficiently managing memory state.
+
+Happy coding, and may your lines always be well-read! 😉

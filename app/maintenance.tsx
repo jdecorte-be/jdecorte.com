@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 const MAINTENANCE_END = '2026-01-30T12:00:00'; // Set your expected end time
 

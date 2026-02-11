@@ -1,18 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import type { ReactNode } from "react";
-import Image from "./Image";
-import Link from "./Link";
-import ProjectButton from "./ProjectButton";
+import { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   title: string;
   imgSrc?: string;
-  href?: string;
+  href: string;
   children?: ReactNode;
   buttonText: string;
-  buttonColor?: string;
+  tags?: string[];
+  size?: "large" | "small";
 }
 
 const ProjectCard = ({
@@ -21,73 +20,81 @@ const ProjectCard = ({
   href,
   children,
   buttonText,
-  buttonColor,
+  tags = [],
+  size = "small",
 }: Props) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const isLarge = size === "large";
 
   return (
-    <div 
-      className="project-card-blur group relative w-full md:w-1/2 md:max-w-[348px] xl:w-1/3 xl:max-w-[330px]"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative flex h-full flex-col justify-between p-6">
-        {imgSrc && (
-          <div 
-            className={`
-              absolute left-1/2 z-30 w-[120%] -translate-x-1/2 overflow-hidden rounded-xl shadow-2xl
-              transition-all duration-300 ease-out
-              ${isHovered 
-                ? '-top-4 opacity-100 scale-100' 
-                : 'top-1/2 opacity-0 scale-95 translate-y-4'
-              }
-            `}
-            style={{
-              aspectRatio: '16/9',
-              pointerEvents: 'none',
-              transform: isHovered 
-                ? 'translateX(-50%) translateY(-100%) scale(1.05)' 
-                : 'translateX(-50%) translateY(-50%) scale(0.95)'
-            }}
-          >
+    <Link href={href} className="group block h-full">
+      {/* 
+        Main Container: 
+        - bg-white/70: Semi-opaque for legibility
+        - backdrop-blur-xl: Creates the high-end glass effect
+      */}
+      <div className="relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-gray-200/50 bg-white/70 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:bg-white/90 hover:shadow-2xl hover:shadow-green-500/20 dark:border-white/10 dark:bg-gray-900/70 dark:hover:bg-gray-900/90">
+        
+        {/* Image Section */}
+        <div className={`relative w-full overflow-hidden ${
+          isLarge ? "h-80 md:h-[700px]" : "h-64"
+        }`}>
+          {imgSrc && (
             <Image
               alt={title}
               src={imgSrc}
-              className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-100"
-              width={800}
-              height={450}
-              priority
+              fill
+              className="object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-110"
             />
-          </div>
-        )}
-        <div className="relative z-20">
-          <h2 className="mb-3 text-2xl font-bold leading-8 tracking-tight">
-            {href ? (
-              <Link
-                href={href}
-                aria-label={`Link to ${title}`}
-                data-umami-event={`Clicked ${title}`}
-                className="hover:underline"
-              >
-                {title}
-              </Link>
-            ) : (
-              title
-            )}
-          </h2>
-          <div className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400 ">
-            {children}
+          )}
+          
+          {/* Gradient overlay to help image blend into the glass bottom */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent dark:from-gray-900/40" />
+
+          {/* Tags */}
+          <div className="absolute left-6 top-6 flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <span key={tag} className="rounded-full bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900 backdrop-blur-md dark:bg-gray-950/80 dark:text-white">
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
-        <ProjectButton 
-          as={href ? "a" : "button"}
-          href={href}
-          buttonColor={buttonColor}
-        >
-          {buttonText}
-        </ProjectButton>
+
+        {/* Content Section (Translucent) */}
+        <div className="flex flex-1 flex-col p-8 md:p-10">
+          <div className="flex-1">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className={`${isLarge ? "text-2xl md:text-3xl" : "text-xl"} font-black tracking-tight text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors`}>
+                {title}
+              </h3>
+              
+              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-900/10 bg-white/50 transition-all group-hover:bg-green-500 dark:border-white/10 dark:bg-white/5">
+                <svg className="h-4 w-4 text-gray-900 transition-colors group-hover:text-white dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-300 md:text-base">
+              {children}
+            </div>
+          </div>
+
+          {/* Button */}
+          <div className="mt-8">
+            <div className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-bold text-white transition-all group-hover:bg-green-600 dark:bg-white dark:text-gray-900 dark:group-hover:bg-green-400">
+              {buttonText}
+              <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Inner Shine (Depth Effect) */}
+        <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] border border-white/40 dark:border-white/10" />
       </div>
-    </div>
+    </Link>
   );
 };
 
