@@ -26,54 +26,60 @@ export default function Home({ posts, heroFontStyles }) {
 
 			<Hero heroFontStyles={heroFontStyles} />
 
-			{/* PROJECTS - move to component */}
-			<div className="flex flex-wrap gap-4 pt-24">
-				<ProjectCard
-					title="D34TH 👨‍💻"
-					href="https://github.com/jdecorte-be/D34TH"
-					buttonText="View Source"
-					buttonColor="bg-blue-900 hover:bg-blue-800"
-					// imgSrc="/static/images/projects/death.png"
-				>
-					A modern take on the one-button infinite runner. Travel across a
-					lively pond while collecting more light to hold back the encroching
-					night.
-					<span className="block pt-4">
-						If nothing else, check it out for the good vibes.
-					</span>
-				</ProjectCard>
-				<ProjectCard
-					title="Logs Dashboard 📊"
-					href="https://dashboard.jdecorte.com"
-					buttonText="View Dashboard"
-					buttonColor="bg-[#6BB0D4] hover:bg-[#8BCEF1]"
-				>
-					A real-time monitoring and analytics dashboard for our game development logs.
-					we placed 20th out of 108 entries.
-					<span className="block pt-4">
-						Many have tried, few have overcome. Will you?
-					</span>
-				</ProjectCard>
-				<ProjectCard
-					title="Tweetz 🐦"
-					href="https://github.com/jdecorte-be/tweetz"
-					buttonText="View Source"
-					buttonColor="bg-green-800 hover:bg-green-700"
-				>
-					A Twitter client built with React and Node.js.
-					2023.
-					<span className="block pt-4">
-						The game was designed and built in 8 days and lots of coffee. This
-						was also the first ever game published by{" "}
-						<Link
-							href="https://ratrace.studio"
-							data-umami-event="outbound-link-click"
-							data-umami-event-url="https://ratrace.studio"
-						>
-							RatRace.studio
-						</Link>
-					</span>
-				</ProjectCard>
+			{/* PORTFOLIO SECTION */}
+			<div className="px-4 pt-24">
+				<div className="mx-auto max-w-7xl">
+					<div className="mb-12 text-center">
+						<p className="mb-4 text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+							PORTFOLIO
+						</p>
+						<h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-5xl">
+							Discover what I've created
+						</h2>
+						<p className="mx-auto max-w-3xl text-base text-gray-600 dark:text-gray-400 md:text-lg">
+							Each piece reflects my passion for innovation and commitment to delivering
+							high-quality results. Feel free to explore and get inspired!
+						</p>
+					</div>
+
+					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+						{/* Left Column: Large Card */}
+						<div className="lg:h-full">
+							<ProjectCard
+								title="Tweetz"
+								size="large"
+								buttonText="View Writeup"
+								imgSrc="/static/images/projects/tweetz.png"
+								href="/writeups/tweetz"
+							>
+								Book a stay at our cozy hotel, enjoy the comfort, and feel at home.
+							</ProjectCard>
+						</div>
+
+						{/* Right Column: Stacked Small Cards */}
+						<div className="flex flex-col gap-6">
+							<ProjectCard
+								title="Wili Logs"
+								size="small"
+								buttonText="View Writeup"
+								imgSrc="/static/images/projects/wilink.png"
+								href="/writeups/wilink"
+							>
+								Discover the best video content on our streaming platform tailored to your needs.
+							</ProjectCard>
+
+							<ProjectCard
+								title="42 Network"
+								size="small"
+								buttonText="View Writeup"
+								imgSrc="/static/images/projects/42.png"
+								href="/writeups/42"
+							>
+								Your favorite platform for watching movies and series in top quality.
+							</ProjectCard>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
