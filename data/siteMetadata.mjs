@@ -9,7 +9,7 @@ const siteMetadata = {
 	siteUrl: "https://jdecorte.com",
 	siteRepo: "https://github.com/jdecorte-be/jdecorte.com",
 	siteLogo: "/static/images/logo.png",
-	socialBanner: "/static/images/jdecorte-social.jpg",
+	socialBanner: "/static/images/jdecorte-social.png",
 	email: "jdecorte@proton.me",
 	github: "https://github.com/jdecorte-be",
 	// bluesky: "https://bsky.app/profile/jdecorte.com",

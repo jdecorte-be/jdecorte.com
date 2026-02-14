@@ -17,7 +17,7 @@ const Hero = ({ heroFontStyles }) => {
 					{/* {`Backend & Cybersec Engineer \nBuilding secure, real-time\nsystems for InsurTech\nand Social Media.`} */}
 				</p>
 				<Image
-					src="/static/images/michael_fullbody.png"
+					src="/static/images/jdecorte_fullbody.png"
 					alt="John Decorte"
 					width={305}
 					height={606}
