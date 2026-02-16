@@ -11,14 +11,14 @@ const workData: Work[] = [
     title: 'Wilink',
     description: `Wilink is a platform for creating and sharing interactive experiences. I worked on the frontend and backend systems, helping to build a scalable platform that could handle thousands of concurrent users. The project involved working with real-time data streaming and building a responsive UI that could adapt to different devices and screen sizes.`,
     imgSrc: '/static/images/works/wilink.png',
-    href: 'https://wilink.com',
+    href: 'https://wilink.be',
     buttonText: 'Visit Wilink',
   },
   {
     title: 'Tweetz',
     description: `Tweetz was a social media management tool that I helped develop. It allowed users to schedule posts, track engagement, and manage multiple social media accounts from a single dashboard.`,
     imgSrc: '/static/images/works/tweetz.png',
-    href: 'https://tweetz.com',
+    // href: 'https://tweetz.com',
   },
   {
     title: '42 Belgium',
