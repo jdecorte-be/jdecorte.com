@@ -11,10 +11,9 @@ import HackerNavLink from "./HackerNavLink";
 const Header = () => {
 	return (
 		<header
-			className="sticky top-0 z-40 flex items-center justify-between py-10 backdrop-blur"
+			className="sticky top-0 z-40 flex items-center justify-between py-5 backdrop-blur-sm transition-colors duration-300"
 			style={{
-				opacity: 0.65,
-				background: `rgba(0, 14, 4, 0.8)`,
+				background: `rgba(0, 14, 4, 0.6)`,
 			}}
 		>
 			<div>
