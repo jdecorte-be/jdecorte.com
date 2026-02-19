@@ -27,12 +27,7 @@ const ProjectCard = ({
 
   return (
     <Link href={href} className="group block h-full">
-      {/* 
-        Main Container: 
-        - bg-white/70: Semi-opaque for legibility
-        - backdrop-blur-xl: Creates the high-end glass effect
-      */}
-      <div className="relative flex h-full flex-col overflow-hidden rounded-[2.5rem] border border-gray-200/50 bg-white/70 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:bg-white/90 hover:shadow-2xl hover:shadow-green-500/20 dark:border-white/10 dark:bg-gray-900/70 dark:hover:bg-gray-900/90">
+      <div className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-gray-200/30 bg-white/60 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-gray-300/40 hover:bg-white/80 hover:shadow-xl hover:shadow-gray-200/50 dark:border-gray-800/30 dark:bg-gray-900/60 dark:hover:border-gray-700/40 dark:hover:bg-gray-900/80 dark:hover:shadow-gray-900/50">
         
         {/* Image Section */}
         <div className={`relative w-full overflow-hidden ${
@@ -43,56 +38,55 @@ const ProjectCard = ({
               alt={title}
               src={imgSrc}
               fill
-              className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-110"
+              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
             />
           )}
           
-          {/* Gradient overlay to help image blend into the glass bottom */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent dark:from-gray-900/40" />
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent dark:from-gray-900/30" />
 
           {/* Tags */}
-          <div className="absolute left-6 top-6 flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <span key={tag} className="rounded-full bg-white/80 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-gray-900 backdrop-blur-md dark:bg-gray-950/80 dark:text-white">
-                {tag}
-              </span>
-            ))}
-          </div>
+          {tags.length > 0 && (
+            <div className="absolute left-6 top-6 flex flex-wrap gap-2">
+              {tags.map((tag) => (
+                <span key={tag} className="rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-gray-800 backdrop-blur-sm dark:bg-gray-900/90 dark:text-gray-200">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Content Section (Translucent) */}
+        {/* Content Section */}
         <div className="flex flex-1 flex-col p-8 md:p-10">
-          <div className="flex-1">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className={`${isLarge ? "text-2xl md:text-3xl" : "text-xl"} font-black tracking-tight text-gray-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors`}>
+          <div className="flex-1 space-y-3">
+            <div className="flex items-start justify-between gap-4">
+              <h3 className={`${isLarge ? "text-2xl md:text-3xl" : "text-xl"} font-bold tracking-tight text-gray-900 transition-colors dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400`}>
                 {title}
               </h3>
               
-              <div className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-900/10 bg-white/50 transition-all group-hover:bg-green-500 dark:border-white/10 dark:bg-white/5">
-                <svg className="h-4 w-4 text-gray-900 transition-colors group-hover:text-white dark:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 transition-all group-hover:bg-green-500 dark:bg-gray-800 dark:group-hover:bg-green-500">
+                <svg className="h-4 w-4 text-gray-700 transition-colors group-hover:text-white dark:text-gray-300 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </div>
             </div>
 
-            <div className="text-sm leading-relaxed text-gray-600 dark:text-gray-300 md:text-base">
+            <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 md:text-base">
               {children}
-            </div>
+            </p>
           </div>
 
           {/* Button */}
-          <div className="mt-8">
-            <div className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-sm font-bold text-white transition-all group-hover:bg-green-600 dark:bg-white dark:text-gray-900 dark:group-hover:bg-green-400">
+          <div className="mt-6">
+            <span className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-all group-hover:bg-green-600 dark:bg-white dark:text-gray-900 dark:group-hover:bg-green-400">
               {buttonText}
-              <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </div>
+            </span>
           </div>
         </div>
-
-        {/* Inner Shine (Depth Effect) */}
-        <div className="pointer-events-none absolute inset-0 rounded-[2.5rem] border border-white/40 dark:border-white/10" />
       </div>
     </Link>
   );

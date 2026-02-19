@@ -1,4 +1,8 @@
 import Image from "next/image";
+import siteMetadata from "@/data/siteMetadata.mjs";
+import { AvatarGroup, AvatarGroupTooltip } from "@/components/animate-ui/components/animate/avatar-group";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Mail, Github, Linkedin } from "@/components/social-icons/icons";
 
 const Hero = ({ heroFontStyles }) => {
 	return (
@@ -24,6 +28,34 @@ const Hero = ({ heroFontStyles }) => {
 					className={`image-animate-on-load absolute -bottom-10 right-0 w-[160px] opacity-0 drop-shadow-2xl md:right-48 md:top-24 md:w-[305px] xl:left-60`}
 					priority
 				/>
+			</div>
+			<div className="absolute bottom-4 right-4 md:bottom-6 md:right-6">
+				<AvatarGroup translate="-40%">
+					<a href={`mailto:${siteMetadata.email}`} className="block transition-transform hover:scale-110">
+						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">
+							<AvatarFallback className="bg-[#042C0E]">
+								<Mail className="h-6 w-6 fill-[#DBE8A8]" />
+							</AvatarFallback>
+							<AvatarGroupTooltip>Email</AvatarGroupTooltip>
+						</Avatar>
+					</a>
+					<a href={siteMetadata.github} target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-110">
+						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">
+							<AvatarFallback className="bg-[#042C0E]">
+								<Github className="h-6 w-6 fill-[#DBE8A8]" />
+							</AvatarFallback>
+							<AvatarGroupTooltip>GitHub</AvatarGroupTooltip>
+						</Avatar>
+					</a>
+					<a href={siteMetadata.linkedin} target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-110">
+						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">
+							<AvatarFallback className="bg-[#042C0E]">
+								<Linkedin className="h-6 w-6 fill-[#DBE8A8]" />
+							</AvatarFallback>
+							<AvatarGroupTooltip>LinkedIn</AvatarGroupTooltip>
+						</Avatar>
+					</a>
+				</AvatarGroup>
 			</div>
 		</div>
 	);

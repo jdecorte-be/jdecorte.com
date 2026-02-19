@@ -1,6 +1,6 @@
 import Hero from "@/components/Hero";
 import Link from "@/components/Link";
-import ProjectCard from "@/components/ProjectCard";
+import PortfolioSection from "@/components/PortfolioSection";
 import Tag from "@/components/Tag";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import { formatDate } from "pliny/utils/formatDate";
@@ -26,61 +26,7 @@ export default function Home({ posts, heroFontStyles }) {
 
 			<Hero heroFontStyles={heroFontStyles} />
 
-			{/* PORTFOLIO SECTION */}
-			<div className="px-4 pt-24">
-				<div className="mx-auto max-w-7xl">
-					<div className="mb-12 text-center">
-						<p className="mb-4 text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-							PORTFOLIO
-						</p>
-						<h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-5xl">
-							Discover what I've created
-						</h2>
-						<p className="mx-auto max-w-3xl text-base text-gray-600 dark:text-gray-400 md:text-lg">
-							Each piece reflects my passion for innovation and commitment to delivering
-							high-quality results. Feel free to explore and get inspired!
-						</p>
-					</div>
-
-					<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-						{/* Left Column: Large Card */}
-						<div className="lg:h-full">
-							<ProjectCard
-								title="Tweetz"
-								size="large"
-								buttonText="View Writeup"
-								imgSrc="/static/images/projects/tweetz.png"
-								href="/writeups/tweetz"
-							>
-								Book a stay at our cozy hotel, enjoy the comfort, and feel at home.
-							</ProjectCard>
-						</div>
-
-						{/* Right Column: Stacked Small Cards */}
-						<div className="flex flex-col gap-6">
-							<ProjectCard
-								title="Wili Logs"
-								size="small"
-								buttonText="View Writeup"
-								imgSrc="/static/images/projects/wilink.png"
-								href="/writeups/wilink"
-							>
-								Discover the best video content on our streaming platform tailored to your needs.
-							</ProjectCard>
-
-							<ProjectCard
-								title="42 Network"
-								size="small"
-								buttonText="View Writeup"
-								imgSrc="/static/images/projects/42.png"
-								href="/writeups/42"
-							>
-								Your favorite platform for watching movies and series in top quality.
-							</ProjectCard>
-						</div>
-					</div>
-				</div>
-			</div>
+			<PortfolioSection />
 
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
 				<div className="space-y-2 pb-8 pt-6 md:space-y-5">
