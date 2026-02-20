@@ -114,6 +114,13 @@ const nextConfig = {
     })
     return config
   },
+  // Ignore contentlayer2 dynamic import warnings
+  ignoreWarnings: [
+    {
+      module: /node_modules\/@contentlayer2\/core\/dist\/generation\/generate-dotpkg\.js/,
+      message: /Parsing of .+ for build dependencies failed/,
+    },
+  ],
 }
 
 // Export the config with plugins
