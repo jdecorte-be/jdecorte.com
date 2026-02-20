@@ -12,7 +12,7 @@ import {
 
 type Category = "Network" | "Low level" | "Web Development";
 
-const projects: Record<Category, Array<{ title: string; size: "small" | "large"; buttonText: string; imgSrc: string; href: string; description: string }>> = {
+const projects: Record<Category, Array<{ title: string; size: "small" | "large"; buttonText: string; imgSrc: string; href: string; description: string; index: number }>> = {
 	"Network": [
 		{
 			title: "42 Network",
@@ -21,6 +21,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/42.png",
 			href: "/writeups/42",
 			description: "A comprehensive network infrastructure project for distributed computing and real-time communication.",
+			index: 0,
 		},
 		{
 			title: "TCP/IP Stack",
@@ -29,6 +30,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/42.png",
 			href: "#",
 			description: "Custom implementation of TCP/IP networking protocols from scratch.",
+			index: 1,
 		},
 		{
 			title: "VPN Gateway",
@@ -37,6 +39,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/42.png",
 			href: "#",
 			description: "Secure VPN gateway with encryption and authentication mechanisms.",
+			index: 2,
 		},
 	],
 	"Low level": [
@@ -47,6 +50,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "/writeups/macho-injection",
 			description: "Advanced binary manipulation techniques for macOS executable injection and dynamic analysis.",
+			index: 0,
 		},
 		{
 			title: "Custom Allocator",
@@ -55,6 +59,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "#",
 			description: "High-performance memory allocator with custom heap management strategies.",
+			index: 1,
 		},
 		{
 			title: "Kernel Module",
@@ -63,6 +68,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "#",
 			description: "Linux kernel module for system call interception and monitoring.",
+			index: 2,
 		},
 	],
 	"Web Development": [
@@ -73,6 +79,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "/writeups/tweetz",
 			description: "Real-time social media platform with scalable microservices architecture and WebSocket integration.",
+			index: 0,
 		},
 		{
 			title: "Wili Logs",
@@ -81,6 +88,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/wilink.png",
 			href: "/writeups/wilink",
 			description: "Advanced logging and monitoring dashboard with analytics and visualization.",
+			index: 1,
 		},
 		{
 			title: "E-Commerce Platform",
@@ -89,6 +97,7 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			imgSrc: "/static/images/projects/wilink.png",
 			href: "#",
 			description: "Full-stack e-commerce solution with payment integration and inventory management.",
+			index: 2,
 		},
 	],
 };
@@ -180,9 +189,9 @@ export default function PortfolioSection() {
 				{/* Category Tabs */}
 				<Tabs defaultValue="Network" className="w-full">
 					<div className="mb-8 flex justify-center">
-						<TabsList className="gap-1 py-5">
+						<TabsList className="h-auto flex-wrap gap-1 py-1.5 px-1.5">
 							{categories.map((category) => (
-								<TabsTrigger key={category} value={category}>
+								<TabsTrigger key={category} value={category} className="px-3 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-sm">
 									{category}
 								</TabsTrigger>
 							))}
@@ -208,25 +217,27 @@ export default function PortfolioSection() {
 									{projects["Network"]
 										.filter((p) => p.size === "large")
 										.map((project) => (
-											<div key={project.title}>
+										<div key={project.title} className="h-full">
 												<ProjectCard
 													title={project.title}
 													size={project.size}
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
+												index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
 											</div>
 										))}
 								</motion.div>
-								<div className="flex flex-col gap-6">
-									{projects["Network"]
-										.filter((p) => p.size === "small")
-										.map((project, index) => (
-											<motion.div
-												key={project.title}
+							<div className="flex h-full flex-col gap-6">
+								{projects["Network"]
+									.filter((p) => p.size === "small")
+									.map((project, index) => (
+										<motion.div
+											key={project.title}
+											className="flex-1"
 												initial="hidden"
 												whileInView="visible"
 												viewport={{ once: true, amount: 0.2 }}
@@ -238,6 +249,7 @@ export default function PortfolioSection() {
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
+												index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
@@ -255,12 +267,13 @@ export default function PortfolioSection() {
 								animate="visible"
 								variants={staggerContainer}
 							>
-								<div className="flex flex-col gap-6">
-									{projects["Low level"]
-										.filter((p) => p.size === "small")
-										.map((project, index) => (
-											<motion.div
-												key={project.title}
+							<div className="flex h-full flex-col gap-6">
+								{projects["Low level"]
+									.filter((p) => p.size === "small")
+									.map((project, index) => (
+										<motion.div
+											key={project.title}
+											className="flex-1"
 												initial="hidden"
 												whileInView="visible"
 												viewport={{ once: true, amount: 0.2 }}
@@ -272,6 +285,7 @@ export default function PortfolioSection() {
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
+												index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
@@ -288,13 +302,14 @@ export default function PortfolioSection() {
 									{projects["Low level"]
 										.filter((p) => p.size === "large")
 										.map((project) => (
-											<div key={project.title}>
+										<div key={project.title} className="h-full">
 												<ProjectCard
 													title={project.title}
 													size={project.size}
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
+												index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
@@ -328,6 +343,7 @@ export default function PortfolioSection() {
 												buttonText={project.buttonText}
 												imgSrc={project.imgSrc}
 												href={project.href}
+												index={project.index}
 											>
 												{project.description}
 											</ProjectCard>
@@ -350,6 +366,7 @@ export default function PortfolioSection() {
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
+												index={project.index}
 												>
 													{project.description}
 												</ProjectCard>

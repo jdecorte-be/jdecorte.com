@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,6 +12,7 @@ interface Props {
   buttonText: string;
   tags?: string[];
   size?: "large" | "small";
+  index?: number;
 }
 
 const ProjectCard = ({
@@ -22,34 +23,27 @@ const ProjectCard = ({
   buttonText,
   tags = [],
   size = "small",
+  index = 0,
 }: Props) => {
   const isLarge = size === "large";
+  const indexLabel = String(index + 1).padStart(2, "0");
 
   return (
     <Link href={href} className="group block h-full">
-      <div className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-gray-200/30 bg-white/60 backdrop-blur-lg transition-all duration-300 hover:-translate-y-1 hover:border-gray-300/40 hover:bg-white/80 hover:shadow-xl hover:shadow-gray-200/50 dark:border-gray-800/30 dark:bg-gray-900/60 dark:hover:border-gray-700/40 dark:hover:bg-gray-900/80 dark:hover:shadow-gray-900/50">
-        
-        {/* Image Section */}
-        <div className={`relative w-full overflow-hidden ${
-          isLarge ? "h-80 md:h-[700px]" : "h-64"
-        }`}>
-          {imgSrc && (
-            <Image
-              alt={title}
-              src={imgSrc}
-              fill
-              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-            />
-          )}
-          
-          {/* Subtle gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-transparent dark:from-gray-900/30" />
+      <div className="relative flex h-full flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-green-500 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-green-500">
 
-          {/* Tags */}
+        {/* Top bar — index + tags */}
+        <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3 dark:border-gray-800">
+          <span className="font-mono text-xs font-bold tracking-widest text-gray-400 dark:text-gray-600">
+            /{indexLabel}
+          </span>
           {tags.length > 0 && (
-            <div className="absolute left-6 top-6 flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {tags.map((tag) => (
-                <span key={tag} className="rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-gray-800 backdrop-blur-sm dark:bg-gray-900/90 dark:text-gray-200">
+                <span
+                  key={tag}
+                  className="rounded-sm border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-500"
+                >
                   {tag}
                 </span>
               ))}
@@ -57,34 +51,60 @@ const ProjectCard = ({
           )}
         </div>
 
-        {/* Content Section */}
-        <div className="flex flex-1 flex-col p-8 md:p-10">
-          <div className="flex-1 space-y-3">
-            <div className="flex items-start justify-between gap-4">
-              <h3 className={`${isLarge ? "text-2xl md:text-3xl" : "text-xl"} font-bold tracking-tight text-gray-900 transition-colors dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400`}>
-                {title}
-              </h3>
-              
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 transition-all group-hover:bg-green-500 dark:bg-gray-800 dark:group-hover:bg-green-500">
-                <svg className="h-4 w-4 text-gray-700 transition-colors group-hover:text-white dark:text-gray-300 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </div>
-            </div>
+        {/* Image */}
+        <div
+          className={`relative w-full shrink-0 overflow-hidden ${
+            isLarge ? "h-72 md:h-[560px]" : "h-52"
+          }`}
+        >
+          {imgSrc && (
+            <Image
+              alt={title}
+              src={imgSrc}
+              fill
+              className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100"
+            />
+          )}
+          {/* Green tint reveal on hover */}
+          <div className="absolute inset-0 bg-green-500/0 transition-colors duration-500 group-hover:bg-green-500/10" />
+        </div>
 
-            <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 md:text-base">
+        {/* Content */}
+        <div className="flex flex-1 flex-col gap-4 p-6 md:p-8">
+          <div className="flex flex-1 flex-col gap-2">
+            <h3
+              className={`${
+                isLarge ? "text-2xl md:text-3xl" : "text-lg"
+              } font-extrabold leading-tight tracking-tight text-gray-900 transition-colors group-hover:text-green-600 dark:text-white dark:group-hover:text-green-400`}
+            >
+              {title}
+            </h3>
+            <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 md:text-base">
               {children}
             </p>
           </div>
 
-          {/* Button */}
-          <div className="mt-6">
-            <span className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-all group-hover:bg-green-600 dark:bg-white dark:text-gray-900 dark:group-hover:bg-green-400">
+          {/* Footer row */}
+          <div className="flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-800">
+            <span className="text-xs font-semibold uppercase tracking-widest text-gray-400 transition-colors group-hover:text-green-500 dark:text-gray-600 dark:group-hover:text-green-400">
               {buttonText}
-              <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
             </span>
+            {/* Animated arrow */}
+            <div className="flex h-8 w-8 items-center justify-center border border-gray-200 transition-all duration-300 group-hover:border-green-500 group-hover:bg-green-500 dark:border-gray-800 dark:group-hover:border-green-500">
+              <svg
+                className="h-3.5 w-3.5 text-gray-600 transition-all duration-300 group-hover:-rotate-45 group-hover:text-white dark:text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </div>
           </div>
         </div>
       </div>

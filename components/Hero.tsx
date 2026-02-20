@@ -6,7 +6,7 @@ import { Mail, Github, Linkedin } from "@/components/social-icons/icons";
 
 const Hero = ({ heroFontStyles }) => {
 	return (
-		<div className="relative min-h-[500px] overflow-hidden rounded-md bg-[#6D962A] p-6 md:p-10 lg:min-h-0">
+		<div className="relative min-h-[380px] overflow-hidden rounded-md bg-[#6D962A] p-6 md:min-h-[500px] md:p-10 lg:min-h-0">
 			<h1
 				className={`${heroFontStyles} fade-in-down-headline text-5xl font-bold uppercase tracking-tighter text-[#DBE8A8]
            opacity-0 md:text-[114px] lg:leading-[114px] xl:text-[168px] xl:leading-[168px]`}
@@ -29,7 +29,7 @@ const Hero = ({ heroFontStyles }) => {
 					priority
 				/>
 			</div>
-			<div className="absolute bottom-4 right-4 md:bottom-6 md:right-6">
+			<div className="absolute bottom-4 left-4 md:bottom-6 md:left-auto md:right-6">
 				<AvatarGroup translate="-40%">
 					<a href={`mailto:${siteMetadata.email}`} className="block transition-transform hover:scale-110">
 						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">

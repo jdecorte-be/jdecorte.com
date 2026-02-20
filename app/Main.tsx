@@ -9,7 +9,7 @@ const MAX_DISPLAY = 2;
 
 export default function Home({ posts, heroFontStyles }) {
 	return (
-		<div className="relative">
+		<div className="relative overflow-hidden">
 			{/* NOTE: Animations might be a little much, also animate-blob is on a second line to get around prettier ordering error */}
 			<div
 				className={
