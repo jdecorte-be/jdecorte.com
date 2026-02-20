@@ -115,7 +115,7 @@ export default function RootLayout({
 				content="#000"
 			/>
 			<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-			<body className="bg-white text-black antialiased dark:bg-[#000E04] dark:text-white">
+			<body className="overflow-x-hidden bg-white text-black antialiased dark:bg-[#000E04] dark:text-white">
 				<ThemeProviders>
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
