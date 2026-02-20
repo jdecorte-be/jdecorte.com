@@ -207,13 +207,16 @@ function TooltipArrow({
   const { side, align, open } = useRenderedTooltip();
   const { context, arrowRef } = useFloatingContext();
   const { transition, globalId } = useGlobalTooltip();
-  React.useImperativeHandle(ref, () => arrowRef.current as SVGSVGElement);
+  React.useImperativeHandle(
+    typeof ref !== 'string' ? ref : null,
+    () => arrowRef.current as SVGSVGElement
+  );
 
   const deg = { top: 0, right: 90, bottom: 180, left: -90 }[side];
 
   return (
     <MotionTooltipArrow
-      ref={arrowRef}
+      ref={arrowRef as React.RefObject<SVGSVGElement>}
       context={context}
       data-state={open ? 'open' : 'closed'}
       data-side={side}
@@ -306,42 +309,48 @@ function TooltipOverlay() {
                   open: rendered.open,
                 }}
               >
-                <Component
-                  data-slot="tooltip-content"
-                  data-side={resolvedSide}
-                  data-align={rendered.data.align}
-                  data-state={rendered.open ? 'open' : 'closed'}
-                  layoutId={`tooltip-content-${globalId}`}
-                  initial={{
-                    opacity: 0,
-                    scale: 0,
-                    ...initialFromSide(rendered.data.side),
-                  }}
-                  animate={
-                    rendered.open
-                      ? { opacity: 1, scale: 1, x: 0, y: 0 }
-                      : {
-                          opacity: 0,
-                          scale: 0,
-                          ...initialFromSide(rendered.data.side),
-                        }
-                  }
-                  exit={{
-                    opacity: 0,
-                    scale: 0,
-                    ...initialFromSide(rendered.data.side),
-                  }}
-                  onAnimationComplete={() => {
-                    if (!rendered.open)
-                      setRendered({ data: null, open: false });
-                  }}
-                  transition={transition}
-                  {...rendered.data.contentProps}
-                  style={{
-                    position: 'relative',
-                    ...(rendered.data.contentProps?.style || {}),
-                  }}
-                />
+                {(() => {
+                  const { ref, ...contentPropsWithoutRef } = rendered.data.contentProps || {};
+                  return (
+                    <Component
+                      data-slot="tooltip-content"
+                      data-side={resolvedSide}
+                      data-align={rendered.data.align}
+                      data-state={rendered.open ? 'open' : 'closed'}
+                      layoutId={`tooltip-content-${globalId}`}
+                      initial={{
+                        opacity: 0,
+                        scale: 0,
+                        ...initialFromSide(rendered.data.side),
+                      }}
+                      animate={
+                        rendered.open
+                          ? { opacity: 1, scale: 1, x: 0, y: 0 }
+                          : {
+                              opacity: 0,
+                              scale: 0,
+                              ...initialFromSide(rendered.data.side),
+                            }
+                      }
+                      exit={{
+                        opacity: 0,
+                        scale: 0,
+                        ...initialFromSide(rendered.data.side),
+                      }}
+                      onAnimationComplete={() => {
+                        if (!rendered.open)
+                          setRendered({ data: null, open: false });
+                      }}
+                      transition={transition}
+                      ref={typeof ref !== 'string' ? ref : undefined}
+                      {...contentPropsWithoutRef}
+                      style={{
+                        position: 'relative',
+                        ...(rendered.data.contentProps?.style || {}),
+                      }}
+                    />
+                  );
+                })()}
               </RenderedTooltipProvider>
             </FloatingProvider>
           </div>
@@ -401,7 +410,6 @@ function shallowEqualWithoutChildren(
   const keysB = Object.keys(b).filter((k) => k !== 'children');
   if (keysA.length !== keysB.length) return false;
   for (const k of keysA) {
-    // @ts-expect-error index
     if (a[k] !== b[k]) return false;
   }
   return true;
@@ -457,7 +465,10 @@ function TooltipTrigger({
   } = useGlobalTooltip();
 
   const triggerRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref, () => triggerRef.current as HTMLDivElement);
+  React.useImperativeHandle(
+    typeof ref !== 'string' ? ref : null,
+    () => triggerRef.current as HTMLDivElement
+  );
 
   const suppressNextFocusRef = React.useRef(false);
 
