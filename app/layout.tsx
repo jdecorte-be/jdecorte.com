@@ -3,7 +3,7 @@ import "pliny/search/algolia.css";
 
 import { Space_Grotesk } from "next/font/google";
 import { Analytics, type AnalyticsConfig } from "pliny/analytics";
-import { SearchProvider, type SearchConfig } from "pliny/search";
+import { CustomKBarSearchProvider } from "@/components/CustomKBarSearch";
 import Header from "@/components/Header";
 import SectionContainer from "@/components/SectionContainer";
 import Footer from "@/components/Footer";
@@ -122,8 +122,8 @@ export default function RootLayout({
 					/>
 					<SectionContainer>
 						<div className="flex h-screen flex-col justify-between font-sans">
-							<SearchProvider
-								searchConfig={siteMetadata.search as SearchConfig}
+							<CustomKBarSearchProvider
+								searchConfig={siteMetadata.search as { provider: "kbar"; kbarConfig: { searchDocumentsPath: string } }}
 							>
 								<Header />
 								<main className="mb-auto">
@@ -131,7 +131,7 @@ export default function RootLayout({
 										{children}
 									</TransitionWrapper>
 								</main>
-							</SearchProvider>
+							</CustomKBarSearchProvider>
 							<Footer />
 						</div>
 					</SectionContainer>
