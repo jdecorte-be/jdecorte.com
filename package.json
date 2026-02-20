@@ -14,6 +14,7 @@
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "^1.4.0",
     "@floating-ui/react": "^0.27.18",
     "@next/bundle-analyzer": "^15.2.3",
     "@radix-ui/react-avatar": "^1.1.11",

@@ -423,8 +423,11 @@ function HighlightItem<T extends React.ElementType>({
   const isDisabled = disabled === undefined ? contextDisabled : disabled;
   const itemTransition = transition ?? contextTransition;
 
-  const localRef = React.useRef<HTMLDivElement>(null);
-  React.useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
+  const localRef = React.useRef<HTMLDivElement | null>(null) as React.MutableRefObject<HTMLDivElement | null>;
+  React.useImperativeHandle(
+    typeof ref !== 'string' ? ref : null,
+    () => localRef.current as HTMLDivElement
+  );
 
   const refCallback = React.useCallback((node: HTMLElement | null) => {
     localRef.current = node as HTMLDivElement;
