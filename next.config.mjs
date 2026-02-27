@@ -83,11 +83,15 @@ const nextConfig = {
     return [];
   },
   reactStrictMode: true,
+  // Enable gzip/brotli compression for responses served by Next.js
+  compress: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   eslint: {
     dirs: ['app', 'components', 'layouts', 'scripts'],
   },
   images: {
+      formats: ['image/avif', 'image/webp'], // ✅ Add this
+      minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days ✅
     // remotePatterns: [
     //   {
     //     protocol: 'https',
@@ -97,6 +101,36 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Cache immutable static assets (JS/CSS/images/fonts) for a long time
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/image/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Static files and common asset extensions
+      {
+        source: '/:path*\\.(js|css|svg|jpg|jpeg|png|webp|avif|gif|ico|ttf|woff|woff2|eot)$',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Fallback: security headers for all routes
       {
         source: '/(.*)',
         headers: securityHeaders,

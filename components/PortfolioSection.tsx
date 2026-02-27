@@ -102,67 +102,67 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 	],
 };
 
+// Animation variants from different directions
+const fadeInFromLeft = {
+	hidden: { opacity: 0, x: -60 },
+	visible: {
+		opacity: 1,
+		x: 0,
+		transition: {
+			duration: 0.7,
+			ease: "easeOut" as const,
+		},
+	},
+};
+
+const fadeInFromRight = {
+	hidden: { opacity: 0, x: 60 },
+	visible: {
+		opacity: 1,
+		x: 0,
+		transition: {
+			duration: 0.7,
+			ease: "easeOut" as const,
+		},
+	},
+};
+
+const fadeInFromTop = {
+	hidden: { opacity: 0, y: -60 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.7,
+			ease: "easeOut" as const,
+		},
+	},
+};
+
+const fadeInFromBottom = {
+	hidden: { opacity: 0, y: 60 },
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: 0.7,
+			ease: "easeOut" as const,
+		},
+	},
+};
+
+const staggerContainer = {
+	hidden: { opacity: 0 },
+	visible: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.15,
+		},
+	},
+};
+
 export default function PortfolioSection() {
 	const categories: Category[] = ["Network", "Low level", "Web Development"];
-
-	// Animation variants from different directions
-	const fadeInFromLeft = {
-		hidden: { opacity: 0, x: -60 },
-		visible: { 
-			opacity: 1, 
-			x: 0,
-			transition: {
-				duration: 0.7,
-				ease: "easeOut" as const
-			}
-		}
-	};
-
-	const fadeInFromRight = {
-		hidden: { opacity: 0, x: 60 },
-		visible: { 
-			opacity: 1, 
-			x: 0,
-			transition: {
-				duration: 0.7,
-				ease: "easeOut" as const
-			}
-		}
-	};
-
-	const fadeInFromTop = {
-		hidden: { opacity: 0, y: -60 },
-		visible: { 
-			opacity: 1, 
-			y: 0,
-			transition: {
-				duration: 0.7,
-				ease: "easeOut" as const
-			}
-		}
-	};
-
-	const fadeInFromBottom = {
-		hidden: { opacity: 0, y: 60 },
-		visible: { 
-			opacity: 1, 
-			y: 0,
-			transition: {
-				duration: 0.7,
-				ease: "easeOut" as const
-			}
-		}
-	};
-
-	const staggerContainer = {
-		hidden: { opacity: 0 },
-		visible: {
-			opacity: 1,
-			transition: {
-				staggerChildren: 0.15
-			}
-		}
-	};
 
 	return (
 		<div className="px-4 pt-24">
