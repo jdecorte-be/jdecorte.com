@@ -1,208 +1,291 @@
----
-title: 'Building a Dynamic Mach-O ARM64 Packer: Low-Level Binary Manipulation'
-date: '2024-11-20'
-tags: ['mach-o', 'arm64', 'binary-analysis', 'code-injection', 'low-level', 'reverse-engineering']
-draft: false
-summary: 'This project dives into the fascinating world of low-level programming and binary manipulation, challenging you to understand and modify Mach-O files (the executable format used by macOS). We explore the complex process of creating a functional packer tailored specifically for the ARM64 architecture (Apple Silicon).'
----
+# Building a Dynamic Mach-O ARM64 Packer: Low-Level Binary Manipulation
 
-# Understanding Mach-O: The Blueprint of macOS Binaries
-
-Welcome to the world of Mach-O files! Before we can dive into code injection or create something as cool as your own packer, we need to get our hands dirty and understand the intricate structure of these binaries. Think of this as your blueprint for understanding how macOS executables work under the hood.
-
-By the end of this guide, you'll not only feel comfortable navigating a Mach-O file, but also confident in modifying one. Let’s jump in.
+**Tags:** `mach-o` · `arm64` · `binary-analysis` · `code-injection` · `low-level` · `reverse-engineering`
 
 ---
 
-## What's a Mach-O File, Really?
+## Understanding Mach-O: The Blueprint of macOS Binaries
 
-Imagine a Mach-O file as a well-organized toolbox. Inside, you’ve got everything macOS needs to:
+If you've ever wondered what's actually happening beneath the surface when macOS runs a program, Mach-O files are your answer. They're the executable format powering every native macOS and iOS application — and once you understand their structure, you'll see the entire system in a completely different light.
 
-*   Load the program into memory.
-*   Resolve any external dependencies (like dynamic libraries).
-*   Protect the program with security features.
-*   Execute the program starting at the right place.
+This guide walks you through the anatomy of Mach-O binaries, then gets into the advanced stuff: dynamic library injection, entry point manipulation, and the kind of low-level tricks that make a real packer tick. By the end, you'll be comfortable not just reading these files, but bending them to your will.
 
-It’s a modular format, which means every piece has a job, and the system knows exactly where to find it. This precision makes Mach-O files powerful but also a little tricky to work with—mess up one part, and the whole thing might crash. That’s why understanding its structure is so crucial.
+Let's get into it.
 
-## Peeking Inside a Mach-O File
+---
 
-To understand a Mach-O file, let’s break it down into its major components. Each part serves a specific purpose, like gears in a machine.
+## What Is a Mach-O File, Really?
 
-### 1. The Header: The File's Introduction
+Strip away the abstraction and a Mach-O file is just a precisely structured sequence of bytes — but those bytes carry everything macOS needs to:
 
-The header is the very first thing you’ll find in a Mach-O file. It’s like the front page of a book—it tells the system what kind of file it’s dealing with.
+- Load the program into the right memory regions
+- Resolve external library dependencies at runtime
+- Enforce memory permissions (read, write, execute)
+- Know exactly where to begin execution
 
-Here are some important details stored in the header:
+The format is modular by design. Every section has a defined role, every offset is deliberate, and the kernel reads it all before a single line of your code ever runs. That precision is what makes Mach-O files so powerful to work with — and so unforgiving when you get something wrong.
 
-*   **Magic Number:** Identifies the file as a Mach-O binary (e.g., `MH_MAGIC_64` for 64-bit files).
-*   **CPU Type and Subtype:** Specifies the architecture (like ARM64 for Apple Silicon or x86\_64).
-*   **File Type:** Indicates whether it’s an executable, library, or object file.
-*   **Load Command Info:** Includes how many load commands follow (`ncmds`) and their total size (`sizeofcmds`).
+---
 
-The header is small but mighty. It’s the first thing the system reads, so if it’s corrupted, the program won’t even start.
+## The Anatomy of a Mach-O Binary
 
-**How to Inspect It:** Want to see the header of a Mach-O file? Use `otool` like this:
+### 1. The Header — First Bytes, First Impressions
+
+The Mach-O header sits at byte zero and is the first thing the kernel reads. It's compact but critical — corrupting it means the binary doesn't even get off the ground.
+
+Key fields you'll encounter:
+
+| Field | What It Tells the System |
+|---|---|
+| `magic` | Identifies the file as Mach-O (`0xFEEDFACF` for 64-bit) |
+| `cputype` / `cpusubtype` | Target architecture — ARM64 for Apple Silicon |
+| `filetype` | Executable, dylib, object file, etc. |
+| `ncmds` | Number of load commands that follow |
+| `sizeofcmds` | Total byte size of all load commands |
+| `flags` | Behavior flags (PIE, dyldlink, etc.) |
+
+Want to inspect a real header? Run:
 
 ```bash
-otool -h /path/to/mach-o/binary
+otool -h /path/to/binary
 ```
 
-### 2. Load Commands: The Brain of the Binary
-
-Right after the header, you’ll find the load commands. These are the real instructions for the operating system. They tell it how to:
-
-*   Map the binary into memory.
-*   Handle external libraries.
-*   Set up the entry point for execution.
-
-Some of the most common load commands include:
-
-*   `LC_SEGMENT_64`: Describes segments in the binary, such as code or data.
-*   `LC_LOAD_DYLIB`: Points to dynamic libraries the binary depends on.
-*   `LC_MAIN`: Tells the system where to start execution.
-*   `LC_CODE_SIGNATURE`: Holds the code signature to verify the binary’s integrity.
-
-**Why Load Commands Matter:** When you’re injecting code or adding functionality, these commands will likely be the first thing you modify. For instance, adding a new library involves inserting an `LC_LOAD_DYLIB` command. Want to redirect execution? You’ll tweak the `LC_MAIN` command.
-
-**Toolbox Tip:** Run this command to list all load commands in a Mach-O file:
-
-```bash
-otool -l /path/to/mach-o/binary
-```
-
-### 3. Segments and Sections: The Binary's Organization
-
-Segments are like the big rooms in a house, and sections are the furniture inside them. Segments divide the binary into logical regions:
-
-| Segment | Purpose | Key Sections |
-| :--- | :--- | :--- |
-| **`__TEXT`** | Where the program’s code lives. This segment is typically read-only and executable. | `__text` (actual machine instructions), `__stubs` (dynamic linking data) |
-| **`__DATA`** | Holds writable data like global variables. | `__data` (initialized global variables), `__bss` (uninitialized variables) |
-| **`__LINKEDIT`** | Stores metadata for linking, like symbol tables. | |
-
-**Why They Matter:** If you’re injecting code, you’ll likely add it to the `__TEXT` segment or create a new segment altogether. Segments also dictate permissions (read, write, execute), so you’ll need to ensure your modifications don’t break these rules.
-
-### 4. Entry Point: Where the Magic Starts
-
-The entry point is where the system starts executing your program. It’s defined by the `LC_MAIN` load command, which provides the offset to the starting function. This is the heart of the binary, and modifying it is common in code injection.
-
-Here’s what you’ll do when injecting:
-
-1.  Redirect the entry point to point to your custom loader.
-2.  Have your loader do its thing (decrypting, decompressing, etc.).
-3.  Jump back to the original entry point to resume normal execution.
+You'll immediately see the architecture and file type staring back at you.
 
 ---
 
-# The Mach-O Packer: Advanced Mach-O Tricks
+### 2. Load Commands — The Real Instructions
 
-Now that you have a solid understanding of the Mach-O file structure, let’s take it up a notch and explore advanced techniques. These methods transform basic binary modifications into powerful, functional injections.
+Immediately following the header, load commands are where the actual orchestration happens. These tell the dynamic linker and kernel how to set up the process before execution begins.
 
-In this section, we focus on the art of **dynamic injection**—adding a dynamic library to an existing Mach-O binary. This is the core of many packing and customization projects and an essential skill for modifying macOS executables. Dynamic library injection allows you to extend the functionality of a program without rewriting its original code.
+Some of the most important ones:
 
-## What is Dynamic Library Injection?
+- **`LC_SEGMENT_64`** — Maps a segment of the binary into virtual memory
+- **`LC_LOAD_DYLIB`** — Declares a dynamic library dependency
+- **`LC_MAIN`** — Specifies the entry point offset
+- **`LC_DYLD_INFO_ONLY`** — Contains binding and rebase information for dyld
+- **`LC_CODE_SIGNATURE`** — Points to the cryptographic signature blob
 
-Dynamic library injection involves modifying a Mach-O binary to include a new `LC_LOAD_DYLIB` load command. This command instructs macOS to load a specified dynamic library at runtime. Once loaded, the library’s functions become accessible to the binary, allowing you to introduce new behavior or augment existing functionality.
+This is where most binary modification work lives. Adding a library? Insert an `LC_LOAD_DYLIB`. Redirecting execution? Patch `LC_MAIN`. Understanding load commands is non-negotiable for Mach-O work.
 
-In essence, you’re embedding a new dependency into the binary. The operating system will treat this library as if it were always part of the program.
+List all load commands in a binary with:
 
-## Injecting a Dynamic Library: The Process
+```bash
+otool -l /path/to/binary
+```
 
-Dynamic injection involves a few key steps that require precise file manipulation:
+---
 
-### Step 1: Extending the Load Commands
+### 3. Segments and Sections — The Memory Layout
 
-The first step in dynamic injection is adding an `LC_LOAD_DYLIB` load command. This command contains the library path and metadata, such as the library's compatibility and current version.
+Segments define large regions of the binary that get mapped into memory. Sections live inside segments and hold specific types of data.
 
-A typical `LC_LOAD_DYLIB` command structure looks like this:
+| Segment | Role | Notable Sections |
+|---|---|---|
+| `__TEXT` | Read-only, executable code | `__text` (machine code), `__stubs`, `__unwind_info` |
+| `__DATA` | Readable and writable runtime data | `__data`, `__bss`, `__got`, `__la_symbol_ptr` |
+| `__LINKEDIT` | Linker metadata | Symbol tables, string tables, code signature |
+
+When you're injecting code, you're typically either appending to `__TEXT`, adding a new segment, or — in more aggressive approaches — squeezing into the padding between sections. The permission model here matters enormously: memory that isn't marked executable will trigger an immediate crash or kernel exception on modern Apple Silicon hardware.
+
+---
+
+### 4. The Entry Point — Where Execution Begins
+
+The `LC_MAIN` load command holds a single critical value: the file offset to the `main()` function. When dyld finishes setting up the process, this is where control transfers.
+
+For a packer, this is your primary hook. The classic pattern looks like this:
+
+1. Save the original `LC_MAIN` offset
+2. Redirect the entry point to your custom stub
+3. The stub performs its work — decrypting, unpacking, whatever you need
+4. Execution jumps to the original entry point and the program runs normally
+
+Everything else in the packer design flows from this single redirection.
+
+---
+
+## Advanced Mach-O: Dynamic Library Injection
+
+With the structure clear in your head, let's get into the real meat of this project — dynamically injecting a library into an existing Mach-O binary.
+
+The goal: insert an `LC_LOAD_DYLIB` command that causes macOS to load your library at runtime, every time the target binary runs. No source code needed. No recompilation. Just raw binary surgery.
+
+---
+
+### How Dynamic Library Injection Works
+
+When dyld processes a Mach-O binary, it walks every load command sequentially. When it hits an `LC_LOAD_DYLIB`, it loads that library before handing off to `LC_MAIN`. Your injection exploits this behavior by appending a new `LC_LOAD_DYLIB` entry that points to a library you control.
+
+The library loads, your code runs, and the original program continues unaffected — or modified, depending on what your library does.
+
+---
+
+### Step 1: Understanding the `LC_LOAD_DYLIB` Structure
+
+Before writing anything, know exactly what you're inserting:
 
 ```c
 struct dylib_command {
-    uint32_t cmd;       // LC_LOAD_DYLIB
-    uint32_t cmdsize;   // Size of this command (struct + path + padding)
+    uint32_t cmd;               // LC_LOAD_DYLIB = 0xC
+    uint32_t cmdsize;           // Total size: struct + path string + padding
     struct dylib {
-        uint32_t name;  // Offset to the library path (relative to struct start)
-        uint32_t timestamp;
+        uint32_t name;          // Offset to path string, relative to struct start
+        uint32_t timestamp;     // Usually set to 2 (build time placeholder)
         uint32_t current_version;
         uint32_t compatibility_version;
     } dylib;
+    // Library path string follows immediately, null-terminated + padded to 8 bytes
 };
 ```
 
-To add this command, you must locate the end of the existing load commands, append the `LC_LOAD_DYLIB` structure, and write the library path immediately after. Ensure the `cmdsize` includes the size of the structure and the library path, padded to alignment.
-
-### Step 2: Adjusting the Mach-O Header
-
-The Mach-O header specifies the total number and size of load commands. After adding the new load command, you must update these fields to reflect the changes:
-
-1.  Increment the `ncmds` field to include the new command.
-2.  Add the size of the new load command to `sizeofcmds`.
-
-**Example:**
-
-```c
-struct mach_header_64 header;
-fread(&header, sizeof(header), 1, binary_file);
-
-// Assuming new_command_size includes the command struct and the padded path
-header.ncmds += 1;
-header.sizeofcmds += new_command_size;
-
-fseek(binary_file, 0, SEEK_SET);
-fwrite(&header, sizeof(header), 1, binary_file);
-```
-
-### Step 3: Writing the Library Path
-
-The `LC_LOAD_DYLIB` command includes an offset to the library path, which must be appended to the binary after the load command section. The path must be null-terminated and padded to maintain 8-byte alignment, as required by Mach-O standards.
-
-For instance, if you’re injecting a library located at `/usr/local/lib/my_library.dylib`, ensure the path fits within the allocated space or extend the binary accordingly.
-
-```c
-char library_path[] = "/usr/local/lib/my_library.dylib";
-size_t path_size = strlen(library_path) + 1; // Include null terminator
-
-// Logic to calculate padding and write
-fwrite(library_path, path_size, 1, binary_file);
-// Append padding bytes here
-```
-
-### Step 4: Testing the Injection
-
-Dynamic library injection isn’t complete until you test your changes. Load the modified binary in a debugger or simply run it to ensure that:
-
-1.  The library loads without errors.
-2.  The program executes as expected.
-3.  The new functionality introduced by the library is active.
-
-Using `otool`, you can confirm that your library was successfully added:
-
-```bash
-otool -L modified_binary
-```
-
-You should see your injected library listed alongside the binary’s original dependencies.
-
-## Challenges and Considerations
-
-Manipulating Mach-O files is difficult due to their strict requirements. Be mindful of these challenges:
-
-*   **Alignment and Padding:** Mach-O binaries are highly sensitive to alignment. Ensure that the library path and load command are properly padded to align with memory boundaries (typically 8 bytes). Failure to do so will corrupt the binary.
-*   **File Size Limits:** If there isn’t enough space for your new load command or library path, you must resize and realign the `__LINKEDIT` segment. This is a complex operation.
-*   **Code Signing:** Modifying a Mach-O binary invalidates its code signature. To bypass this for testing purposes, you can remove the `LC_CODE_SIGNATURE` command. However, this disables macOS security checks and should only be used in controlled, non-production environments.
-
-## Putting It All Together: A Dynamic Injection Workflow
-
-Here’s a summary workflow for injecting a dynamic library into a Mach-O binary:
-
-1.  **Locate the Load Commands:** Use `otool -l` to inspect the existing load commands and determine the offset where the new command can be safely appended.
-2.  **Append the Load Command:** Write the `LC_LOAD_DYLIB` structure to the binary, ensuring proper alignment.
-3.  **Add the Library Path:** Append the null-terminated and padded library path to the binary immediately after the command.
-4.  **Update the Header:** Increment the `ncmds` and adjust `sizeofcmds` in the Mach-O header at the start of the file.
-5.  **Test the Modified Binary:** Run the binary and confirm that the library loads and functions as expected using `otool -L`.
-6.  **Debug Any Issues:** Use `lldb` or other debuggers to trace runtime behavior if the modification introduces errors.
+The `cmdsize` field must account for the struct itself, the path string, and any padding required to maintain 8-byte alignment. Getting this wrong corrupts every load command that follows.
 
 ---
 
-**Disclaimer:** The information you gather from this guide, all the techniques, proofs-of-concept code, or whatever else you may possibly find here, are strictly for **educational purposes**. I do not condone the usage of anything you might gather from this blog for malicious purposes. I’ve made this blog to consolidate my learning by teaching it to the world.
+### Step 2: Finding Space for the New Command
+
+Here's the first real challenge. Load commands live between the header and the first segment's content. If there's no free space there — and often there isn't — you have a few options:
+
+- **Use existing padding** — Many binaries have a small gap between the end of load commands and the start of `__TEXT` content. Check `sizeofcmds` against the segment's file offset.
+- **Shift file content** — More invasive; requires updating every file offset in every segment and section.
+- **Extend `__LINKEDIT`** — Append data to the end of the file, where `__LINKEDIT` lives, and adjust its size accordingly.
+
+For a first implementation, checking for existing padding is the cleanest approach.
+
+---
+
+### Step 3: Writing the Command
+
+Once you've confirmed available space, write the struct and path:
+
+```c
+// Build the command in memory first
+struct dylib_command new_cmd = {0};
+new_cmd.cmd = LC_LOAD_DYLIB;
+new_cmd.dylib.name = sizeof(struct dylib_command); // Path starts right after struct
+new_cmd.dylib.timestamp = 2;
+new_cmd.dylib.current_version = 0x10000;       // 1.0.0
+new_cmd.dylib.compatibility_version = 0x10000; // 1.0.0
+
+const char *lib_path = "/usr/local/lib/my_library.dylib";
+size_t path_len = strlen(lib_path) + 1;
+
+// Calculate aligned cmdsize
+uint32_t raw_size = sizeof(struct dylib_command) + path_len;
+uint32_t aligned_size = (raw_size + 7) & ~7; // Round up to 8-byte boundary
+new_cmd.cmdsize = aligned_size;
+
+// Seek to insertion point and write
+fseek(binary, insert_offset, SEEK_SET);
+fwrite(&new_cmd, sizeof(struct dylib_command), 1, binary);
+fwrite(lib_path, path_len, 1, binary);
+
+// Write alignment padding
+uint8_t padding[8] = {0};
+fwrite(padding, aligned_size - raw_size, 1, binary);
+```
+
+---
+
+### Step 4: Updating the Header
+
+The header must reflect your changes or dyld will ignore or misparse your new command:
+
+```c
+// Read existing header
+struct mach_header_64 header;
+fseek(binary, 0, SEEK_SET);
+fread(&header, sizeof(header), 1, binary);
+
+// Update command count and total size
+header.ncmds += 1;
+header.sizeofcmds += aligned_size;
+
+// Write it back
+fseek(binary, 0, SEEK_SET);
+fwrite(&header, sizeof(header), 1, binary);
+```
+
+Two fields. Easy to forget one of them. Don't.
+
+---
+
+### Step 5: Handling Code Signatures
+
+Any modification to a signed binary invalidates its signature. macOS will refuse to run it. For testing and development, you have two paths:
+
+**Option A — Remove the signature entirely:**
+
+```bash
+codesign --remove-signature ./modified_binary
+```
+
+Simplest option. Works on binaries that don't require hardened runtime.
+
+**Option B — Re-sign after modification:**
+
+```bash
+codesign -s - ./modified_binary  # Ad-hoc signature (local testing only)
+```
+
+For anything beyond personal testing, you'll need a valid Apple Developer identity. Also note that on ARM64 Apple Silicon, SIP and the kernel's trust chain add additional constraints that ad-hoc signing doesn't always satisfy. Know your environment.
+
+---
+
+### Step 6: Verification
+
+Confirm your injection landed correctly:
+
+```bash
+# Should show your injected library in the dependency list
+otool -L ./modified_binary
+
+# Inspect all load commands and verify ncmds / sizeofcmds updated correctly
+otool -l ./modified_binary | head -30
+```
+
+If you see your library path in the output and the binary runs — congratulations, you've performed surgical Mach-O modification by hand.
+
+---
+
+## Common Failure Modes
+
+If you're seeing crashes or load failures, run through this checklist:
+
+| Problem | Likely Cause |
+|---|---|
+| `killed: 9` on launch | Code signature invalid — re-sign or strip it |
+| `dyld: malformed mach-o` | `ncmds` or `sizeofcmds` mismatch, or bad alignment |
+| Library not loading | Path incorrect or library missing at runtime |
+| Segfault at entry | Entry point offset wrong after modification |
+| `SIGBUS` immediately | Segment file offsets misaligned after content shift |
+
+When debugging, `lldb` and `DYLD_PRINT_LIBRARIES=1` are your best friends:
+
+```bash
+DYLD_PRINT_LIBRARIES=1 ./modified_binary
+```
+
+This prints every library dyld attempts to load, letting you confirm your injected dylib is being picked up — or diagnose exactly where it's failing.
+
+---
+
+## Putting It All Together
+
+The full workflow for a dynamic library injection:
+
+1. **Parse the header** — Read `ncmds`, `sizeofcmds`, confirm architecture
+2. **Walk load commands** — Map out existing commands, find available space
+3. **Build the `LC_LOAD_DYLIB` struct** — Set all fields, calculate aligned `cmdsize`
+4. **Write the command and path** — Insert at the correct offset with proper padding
+5. **Update the header** — Increment `ncmds`, add to `sizeofcmds`
+6. **Handle code signing** — Strip or re-sign as appropriate for your environment
+7. **Verify with `otool`** — Confirm the injection appears in load commands
+8. **Test execution** — Run the binary, check library loads, debug with `lldb` if needed
+
+This same pattern — read, modify, update bookkeeping, verify — applies to virtually every Mach-O modification you'll ever do. Master it here and the more complex stuff (segment injection, entry point redirection, packing/unpacking stubs) becomes a natural extension.
+
+---
+
+> **Disclaimer:** Everything covered in this guide is strictly for educational purposes. Understanding binary formats, packing techniques, and low-level system internals is legitimate and valuable knowledge for security researchers, reverse engineers, and systems programmers. Nothing here should be applied to systems or software you don't own or have explicit permission to modify.
