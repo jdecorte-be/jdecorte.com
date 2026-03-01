@@ -1,4 +1,5 @@
 import "css/tailwind.css";
+import "css/prism.css";
 import "pliny/search/algolia.css";
 
 import type { Metadata } from "next";
