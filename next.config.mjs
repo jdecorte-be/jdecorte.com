@@ -1,11 +1,7 @@
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { createRequire } from 'node:module'
 import { withContentlayer } from 'next-contentlayer2'
 
-
 const require = createRequire(import.meta.url)
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Initialize bundle analyzer after import
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -13,7 +9,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 // Check if maintenance mode is enabled
-const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true'
 
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
@@ -78,26 +74,18 @@ const nextConfig = {
           destination: '/maintenance',
           permanent: false,
         },
-      ];
+      ]
     }
-    return [];
+    return []
   },
   reactStrictMode: true,
   // Enable gzip/brotli compression for responses served by Next.js
   compress: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
-  eslint: {
-    dirs: ['app', 'components', 'layouts', 'scripts'],
-  },
+  turbopack: {},
   images: {
-      formats: ['image/avif', 'image/webp'], // ✅ Add this
-      minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days ✅
-    // remotePatterns: [
-    //   {
-    //     protocol: 'https',
-    //     hostname: 'picsum.photos',
-    //   },
-    // ],
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   async headers() {
     return [
@@ -137,24 +125,6 @@ const nextConfig = {
       },
     ]
   },
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname),
-    }
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
-    return config
-  },
-  // Ignore contentlayer2 dynamic import warnings
-  ignoreWarnings: [
-    {
-      module: /node_modules\/@contentlayer2\/core\/dist\/generation\/generate-dotpkg\.js/,
-      message: /Parsing of .+ for build dependencies failed/,
-    },
-  ],
 }
 
 // Export the config with plugins
