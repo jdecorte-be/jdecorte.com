@@ -160,10 +160,7 @@ function TabsTrigger({
   const { activeValue, handleValueChange, registerTrigger } = useTabs();
 
   const localRef = React.useRef<HTMLButtonElement | null>(null);
-  React.useImperativeHandle(
-    typeof ref !== 'string' ? ref : null,
-    () => localRef.current as HTMLButtonElement
-  );
+  React.useImperativeHandle(ref, () => localRef.current as HTMLButtonElement);
 
   React.useEffect(() => {
     registerTrigger(value, localRef.current);
@@ -316,7 +313,6 @@ function TabsContent({
   value,
   style,
   asChild = false,
-  ref,
   ...props
 }: TabsContentProps) {
   const { activeValue } = useTabs();
@@ -334,7 +330,6 @@ function TabsContent({
       animate={{ filter: isActive ? 'blur(0px)' : 'blur(4px)' }}
       exit={{ filter: 'blur(0px)' }}
       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-      ref={typeof ref !== 'string' ? ref : undefined}
       {...props}
     />
   );
