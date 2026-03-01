@@ -9,19 +9,26 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**",
-			"!**/.github/",
-			"!**/.husky/",
-			"!**/.next/",
-			"!**/.contentlayer/",
-			"!**/.yarn/",
-			"!**/.vscode/"
+			"!.github/",
+			"!.husky/",
+			"!.next/",
+			"!.contentlayer/",
+			"!.yarn/",
+			"!.vscode/"
 		]
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab"
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -29,6 +36,7 @@
 		}
 	},
 	"javascript": {
+		"jsxRuntime": "transparent",
 		"formatter": {
 			"quoteStyle": "double"
 		}
