@@ -12,15 +12,27 @@ import {
 
 type Category = "Network" | "Low level" | "Web Development";
 
-const projects: Record<Category, Array<{ title: string; size: "small" | "large"; buttonText: string; imgSrc: string; href: string; description: string; index: number }>> = {
-	"Network": [
+const projects: Record<
+	Category,
+	Array<{
+		title: string;
+		size: "small" | "large";
+		buttonText: string;
+		imgSrc: string;
+		href: string;
+		description: string;
+		index: number;
+	}>
+> = {
+	Network: [
 		{
 			title: "42 Network",
 			size: "large",
 			buttonText: "View Writeup",
 			imgSrc: "/static/images/projects/42.png",
 			href: "/writeups/42",
-			description: "A comprehensive network infrastructure project for distributed computing and real-time communication.",
+			description:
+				"A comprehensive network infrastructure project for distributed computing and real-time communication.",
 			index: 0,
 		},
 		{
@@ -29,7 +41,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Project",
 			imgSrc: "/static/images/projects/42.png",
 			href: "#",
-			description: "Custom implementation of TCP/IP networking protocols from scratch.",
+			description:
+				"Custom implementation of TCP/IP networking protocols from scratch.",
 			index: 1,
 		},
 		{
@@ -38,7 +51,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Project",
 			imgSrc: "/static/images/projects/42.png",
 			href: "#",
-			description: "Secure VPN gateway with encryption and authentication mechanisms.",
+			description:
+				"Secure VPN gateway with encryption and authentication mechanisms.",
 			index: 2,
 		},
 	],
@@ -49,7 +63,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Writeup",
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "/writeups/macho-injection",
-			description: "Advanced binary manipulation techniques for macOS executable injection and dynamic analysis.",
+			description:
+				"Advanced binary manipulation techniques for macOS executable injection and dynamic analysis.",
 			index: 0,
 		},
 		{
@@ -58,7 +73,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Project",
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "#",
-			description: "High-performance memory allocator with custom heap management strategies.",
+			description:
+				"High-performance memory allocator with custom heap management strategies.",
 			index: 1,
 		},
 		{
@@ -67,7 +83,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Project",
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "#",
-			description: "Linux kernel module for system call interception and monitoring.",
+			description:
+				"Linux kernel module for system call interception and monitoring.",
 			index: 2,
 		},
 	],
@@ -78,7 +95,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Writeup",
 			imgSrc: "/static/images/projects/tweetz.png",
 			href: "/writeups/tweetz",
-			description: "Real-time social media platform with scalable microservices architecture and WebSocket integration.",
+			description:
+				"Real-time social media platform with scalable microservices architecture and WebSocket integration.",
 			index: 0,
 		},
 		{
@@ -87,7 +105,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Writeup",
 			imgSrc: "/static/images/projects/wilink.png",
 			href: "/writeups/wilink",
-			description: "Advanced logging and monitoring dashboard with analytics and visualization.",
+			description:
+				"Advanced logging and monitoring dashboard with analytics and visualization.",
 			index: 1,
 		},
 		{
@@ -96,7 +115,8 @@ const projects: Record<Category, Array<{ title: string; size: "small" | "large";
 			buttonText: "View Project",
 			imgSrc: "/static/images/projects/wilink.png",
 			href: "#",
-			description: "Full-stack e-commerce solution with payment integration and inventory management.",
+			description:
+				"Full-stack e-commerce solution with payment integration and inventory management.",
 			index: 2,
 		},
 	],
@@ -167,7 +187,7 @@ export default function PortfolioSection() {
 	return (
 		<div className="px-4 pt-24">
 			<div className="mx-auto max-w-7xl">
-				<motion.div 
+				<motion.div
 					className="mb-12 text-center"
 					initial="hidden"
 					whileInView="visible"
@@ -181,8 +201,9 @@ export default function PortfolioSection() {
 						Discover what I've created
 					</h2>
 					<p className="mx-auto max-w-3xl text-base text-gray-600 dark:text-gray-400 md:text-lg">
-						Each piece reflects my passion for innovation and commitment to delivering
-						high-quality results. Feel free to explore and get inspired!
+						Each piece reflects my passion for innovation and commitment to
+						delivering high-quality results. Feel free to explore and get
+						inspired!
 					</p>
 				</motion.div>
 
@@ -191,7 +212,11 @@ export default function PortfolioSection() {
 					<div className="mb-8 flex justify-center">
 						<TabsList className="h-auto flex-wrap gap-1 py-1.5 px-1.5">
 							{categories.map((category) => (
-								<TabsTrigger key={category} value={category} className="px-3 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-sm">
+								<TabsTrigger
+									key={category}
+									value={category}
+									className="px-3 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-sm"
+								>
 									{category}
 								</TabsTrigger>
 							))}
@@ -201,13 +226,13 @@ export default function PortfolioSection() {
 					<TabsContents>
 						{/* Network Layout: Large left, Small cards stacked right */}
 						<TabsContent value="Network">
-							<motion.div 
+							<motion.div
 								className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 								initial="hidden"
 								animate="visible"
 								variants={staggerContainer}
 							>
-								<motion.div 
+								<motion.div
 									className="lg:h-full"
 									initial="hidden"
 									whileInView="visible"
@@ -217,31 +242,33 @@ export default function PortfolioSection() {
 									{projects["Network"]
 										.filter((p) => p.size === "large")
 										.map((project) => (
-										<div key={project.title} className="h-full">
+											<div key={project.title} className="h-full">
 												<ProjectCard
 													title={project.title}
 													size={project.size}
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
-												index={project.index}
+													index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
 											</div>
 										))}
 								</motion.div>
-							<div className="flex h-full flex-col gap-6">
-								{projects["Network"]
-									.filter((p) => p.size === "small")
-									.map((project, index) => (
-										<motion.div
-											key={project.title}
-											className="flex-1"
+								<div className="flex h-full flex-col gap-6">
+									{projects["Network"]
+										.filter((p) => p.size === "small")
+										.map((project, index) => (
+											<motion.div
+												key={project.title}
+												className="flex-1"
 												initial="hidden"
 												whileInView="visible"
 												viewport={{ once: true, amount: 0.2 }}
-												variants={index === 0 ? fadeInFromRight : fadeInFromBottom}
+												variants={
+													index === 0 ? fadeInFromRight : fadeInFromBottom
+												}
 											>
 												<ProjectCard
 													title={project.title}
@@ -249,7 +276,7 @@ export default function PortfolioSection() {
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
-												index={project.index}
+													index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
@@ -261,23 +288,25 @@ export default function PortfolioSection() {
 
 						{/* Low level Layout: Small cards stacked left, Large right */}
 						<TabsContent value="Low level">
-							<motion.div 
+							<motion.div
 								className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 								initial="hidden"
 								animate="visible"
 								variants={staggerContainer}
 							>
-							<div className="flex h-full flex-col gap-6">
-								{projects["Low level"]
-									.filter((p) => p.size === "small")
-									.map((project, index) => (
-										<motion.div
-											key={project.title}
-											className="flex-1"
+								<div className="flex h-full flex-col gap-6">
+									{projects["Low level"]
+										.filter((p) => p.size === "small")
+										.map((project, index) => (
+											<motion.div
+												key={project.title}
+												className="flex-1"
 												initial="hidden"
 												whileInView="visible"
 												viewport={{ once: true, amount: 0.2 }}
-												variants={index === 0 ? fadeInFromLeft : fadeInFromBottom}
+												variants={
+													index === 0 ? fadeInFromLeft : fadeInFromBottom
+												}
 											>
 												<ProjectCard
 													title={project.title}
@@ -285,14 +314,14 @@ export default function PortfolioSection() {
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
-												index={project.index}
+													index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
 											</motion.div>
 										))}
 								</div>
-								<motion.div 
+								<motion.div
 									className="lg:h-full"
 									initial="hidden"
 									whileInView="visible"
@@ -302,14 +331,14 @@ export default function PortfolioSection() {
 									{projects["Low level"]
 										.filter((p) => p.size === "large")
 										.map((project) => (
-										<div key={project.title} className="h-full">
+											<div key={project.title} className="h-full">
 												<ProjectCard
 													title={project.title}
 													size={project.size}
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
-												index={project.index}
+													index={project.index}
 												>
 													{project.description}
 												</ProjectCard>
@@ -320,8 +349,8 @@ export default function PortfolioSection() {
 						</TabsContent>
 
 						{/* Web Layout: Grid with large card on top, two small cards below */}
-					<TabsContent value="Web Development">
-							<motion.div 
+						<TabsContent value="Web Development">
+							<motion.div
 								className="flex flex-col gap-6"
 								initial="hidden"
 								animate="visible"
@@ -350,7 +379,7 @@ export default function PortfolioSection() {
 										))}
 								</motion.div>
 								<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-								{projects["Web Development"]
+									{projects["Web Development"]
 										.filter((p) => p.size === "small")
 										.map((project, index) => (
 											<motion.div
@@ -358,7 +387,9 @@ export default function PortfolioSection() {
 												initial="hidden"
 												whileInView="visible"
 												viewport={{ once: true, amount: 0.2 }}
-												variants={index === 0 ? fadeInFromLeft : fadeInFromRight}
+												variants={
+													index === 0 ? fadeInFromLeft : fadeInFromRight
+												}
 											>
 												<ProjectCard
 													title={project.title}
@@ -366,7 +397,7 @@ export default function PortfolioSection() {
 													buttonText={project.buttonText}
 													imgSrc={project.imgSrc}
 													href={project.href}
-												index={project.index}
+													index={project.index}
 												>
 													{project.description}
 												</ProjectCard>

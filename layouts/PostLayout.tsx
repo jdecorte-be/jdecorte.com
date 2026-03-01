@@ -1,14 +1,14 @@
-import type { ReactNode } from "react";
+import type { Authors, Writeups } from "contentlayer/generated";
 import type { CoreContent } from "pliny/utils/contentlayer";
-import type { Writeups, Authors } from "contentlayer/generated";
+import type { ReactNode } from "react";
 import Comments from "@/components/Comments";
+import Image from "@/components/Image";
 import Link from "@/components/Link";
 import PageTitle from "@/components/PageTitle";
+import ScrollTopAndComment from "@/components/ScrollTopAndComment";
 import SectionContainer from "@/components/SectionContainer";
-import Image from "@/components/Image";
 import Tag from "@/components/Tag";
 import siteMetadata from "@/data/siteMetadata.mjs";
-import ScrollTopAndComment from "@/components/ScrollTopAndComment";
 
 const editUrl = (path: string) =>
 	`${siteMetadata.siteRepo}/blob/main/data/${path}`;

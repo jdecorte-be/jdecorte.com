@@ -11,7 +11,7 @@
     "build:content": "contentlayer2 build",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
-    "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts"
+    "lint": "biome check --write pages app components lib layouts scripts"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.4.0",
@@ -26,7 +26,6 @@
     "clsx": "^2.1.1",
     "contentlayer2": "^0.5.8",
     "esbuild": "^0.25.2",
-    "framer-motion": "^12.23.27",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.2",
     "image-size": "^1.2.1",
@@ -56,7 +55,7 @@
     "unist-util-visit": "^4.1.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.4.4",
     "@svgr/webpack": "^8.0.1",
     "@types/mdx": "^2.0.5",
     "@types/node": "25.0.3",
@@ -77,10 +76,10 @@
     "@opentelemetry/semantic-conventions": "1.13.0"
   },
   "lint-staged": {
-    "*.+(js|jsx|ts|tsx)": [
-      "eslint --fix"
+    "*.{js,jsx,ts,tsx,json,css}": [
+      "biome check --write --no-errors-on-unmatched"
     ],
-    "*.+(js|jsx|ts|tsx|json|css|md|mdx)": [
+    "*.{md,mdx}": [
       "prettier --write"
     ]
   },

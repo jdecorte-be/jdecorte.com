@@ -21,7 +21,7 @@ const Card = ({ title, description, imgSrc, href, buttonText }) => (
 							className="h-112 object-cover object-center"
 							width={630}
 							height={500}
-								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 						/>
 					</Link>
 				) : (
@@ -31,7 +31,7 @@ const Card = ({ title, description, imgSrc, href, buttonText }) => (
 						className="h-112 object-cover object-center"
 						width={630}
 						height={306}
-								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 					/>
 				))}
 			<div className="p-6">

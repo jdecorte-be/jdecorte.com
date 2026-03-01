@@ -22,9 +22,7 @@ export default function Footer() {
 					<div>{`© ${new Date().getFullYear()}`}</div>
 				</div>
 				<div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-					<Link href="https://github.com/jdecorte-be/jdecorte.com">
-						Source
-					</Link>
+					<Link href="https://github.com/jdecorte-be/jdecorte.com">Source</Link>
 				</div>
 			</div>
 		</footer>

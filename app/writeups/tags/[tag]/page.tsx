@@ -1,11 +1,11 @@
-import siteMetadata from "@/data/siteMetadata.mjs";
-import ListLayout from "@/layouts/ListLayoutWithTags";
 import { genPageMetadata } from "app/seo";
 import tagData from "app/tag-data.json" with { type: "json" };
 import { allWriteups } from "contentlayer/generated";
 import { slug } from "github-slugger";
 import type { Metadata } from "next";
 import { allCoreContent, sortPosts } from "pliny/utils/contentlayer";
+import siteMetadata from "@/data/siteMetadata.mjs";
+import ListLayout from "@/layouts/ListLayoutWithTags";
 
 export async function generateMetadata(props: {
 	params: Promise<{ tag: string }>;

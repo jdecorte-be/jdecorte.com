@@ -1,20 +1,20 @@
 import "css/prism.css";
 
-import { components } from "@/components/MDXComponents";
+import type { Authors, Writeups } from "contentlayer/generated";
+import { allAuthors, allWriteups } from "contentlayer/generated";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { MDXLayoutRenderer } from "pliny/mdx-components";
 import {
-	sortPosts,
-	coreContent,
 	allCoreContent,
+	coreContent,
+	sortPosts,
 } from "pliny/utils/contentlayer";
-import { allWriteups, allAuthors } from "contentlayer/generated";
-import type { Authors, Writeups } from "contentlayer/generated";
-import PostSimple from "@/layouts/PostSimple";
-import PostLayout from "@/layouts/PostLayout";
-import PostBanner from "@/layouts/PostBanner";
-import type { Metadata } from "next";
+import { components } from "@/components/MDXComponents";
 import siteMetadata from "@/data/siteMetadata.mjs";
-import { notFound } from "next/navigation";
+import PostBanner from "@/layouts/PostBanner";
+import PostLayout from "@/layouts/PostLayout";
+import PostSimple from "@/layouts/PostSimple";
 
 const defaultLayout = "PostLayout";
 const layouts = {
@@ -124,7 +124,6 @@ export default async function Page({ params }) {
 					components={components}
 					toc={post.toc}
 				/>
-				
 			</Layout>
 		</>
 	);
