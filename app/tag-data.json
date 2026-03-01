@@ -1,15 +1,1 @@
-{
-	"42-school": 2,
-	"education": 1,
-	"peer-to-peer": 1,
-	"software-engineering": 1,
-	"wuri-ranking": 1,
-	"c-programming": 1,
-	"get_next_line": 1,
-	"low-level": 1,
-	"memory-management": 1,
-	"cybersecurity": 2,
-	"tweetz": 1,
-	"pentest": 2,
-	"wilink": 1
-}
+{"42-school":3,"education":1,"peer-to-peer":1,"software-engineering":1,"wuri-ranking":1,"c-programming":2,"get_next_line":2,"low-level":2,"memory-management":2,"cybersecurity":2,"tweetz":1,"pentest":2,"wilink":1}
