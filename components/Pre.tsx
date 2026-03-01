@@ -18,7 +18,7 @@ const execCopy = (text: string) => {
 };
 
 const Pre = ({ children }: PreProps) => {
-  const textInput = useRef<HTMLDivElement>(null);
+  const textInput = useRef<HTMLPreElement>(null);
   const [hovered, setHovered] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copyCount, setCopyCount] = useState(0);
@@ -33,27 +33,18 @@ const Pre = ({ children }: PreProps) => {
   const onCopy = () => {
     if (copied) return;
     const text = textInput.current?.textContent ?? "";
-    const write = () => {
-      if (navigator.clipboard?.writeText) {
-        navigator.clipboard.writeText(text).catch(() => execCopy(text));
-      } else {
-        execCopy(text);
-      }
-    };
-    write();
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).catch(() => execCopy(text));
+    } else {
+      execCopy(text);
+    }
     setCopied(true);
     setCopyCount((c) => c + 1);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div ref={textInput} onMouseEnter={onEnter} onMouseLeave={onExit} className="group relative">
-      {/* writing cursor animation */}
-      <span
-        className="pointer-events-none absolute bottom-3 right-3 h-4 w-[2px] bg-primary-400 opacity-0 group-hover:opacity-100"
-        style={{ animation: "blink 1s step-end infinite" }}
-      />
-
+    <div onMouseEnter={onEnter} onMouseLeave={onExit} className="relative">
       {/* copy button */}
       <AnimatePresence>
         {hovered && (
@@ -120,17 +111,7 @@ const Pre = ({ children }: PreProps) => {
         )}
       </AnimatePresence>
 
-      {/* copy log notification */}
-
-
-      <pre>{children}</pre>
-
-      <style>{`
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0; }
-        }
-      `}</style>
+      <pre ref={textInput}>{children}</pre>
     </div>
   );
 };

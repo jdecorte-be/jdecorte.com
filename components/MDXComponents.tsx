@@ -4,6 +4,7 @@ import Image from "./Image";
 import CustomLink from "./Link";
 import Pre from "./Pre";
 import TableWrapper from "./TableWrapper";
+// import Pre from "pliny/ui/Pre";
 
 export const components: MDXComponents = {
 	Image,
