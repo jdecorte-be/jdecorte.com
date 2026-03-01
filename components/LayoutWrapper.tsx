@@ -1,7 +1,7 @@
-import SectionContainer from "./SectionContainer";
-import Footer from "./Footer";
 import type { ReactNode } from "react";
+import Footer from "./Footer";
 import Header from "./Header";
+import SectionContainer from "./SectionContainer";
 
 interface Props {
 	children: ReactNode;

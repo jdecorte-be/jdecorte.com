@@ -1,6 +1,6 @@
-import workData from "@/data/workData";
-import Card from "@/components/Card";
 import { genPageMetadata } from "app/seo";
+import Card from "@/components/Card";
+import workData from "@/data/workData";
 
 export const metadata = genPageMetadata({ title: "Work" });
 

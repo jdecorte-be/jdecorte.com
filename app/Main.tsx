@@ -1,9 +1,9 @@
+import { formatDate } from "pliny/utils/formatDate";
 import Hero from "@/components/Hero";
 import Link from "@/components/Link";
 import PortfolioSection from "@/components/PortfolioSection";
 import Tag from "@/components/Tag";
 import siteMetadata from "@/data/siteMetadata.mjs";
-import { formatDate } from "pliny/utils/formatDate";
 
 const MAX_DISPLAY = 2;
 

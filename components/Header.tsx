@@ -1,12 +1,12 @@
 "use client";
 
-import siteMetadata from "@/data/siteMetadata.mjs";
 import headerNavLinks from "@/data/headerNavLinks";
+import siteMetadata from "@/data/siteMetadata.mjs";
+import HackerNavLink from "./HackerNavLink";
 import Link from "./Link";
+import Logo from "./Logo";
 import MobileNav from "./MobileNav";
 import SearchButton from "./SearchButton";
-import Logo from "./Logo";
-import HackerNavLink from "./HackerNavLink";
 
 const Header = () => {
 	return (

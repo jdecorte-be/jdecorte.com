@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "./Link";
 
 type HackerNavLinkProps = {
@@ -53,7 +53,7 @@ const HackerNavLink = ({
 						if (index < iteration) return char;
 						return chars[Math.floor(Math.random() * chars.length)] ?? char;
 					})
-					.join("")
+					.join(""),
 			);
 
 			iteration += 1 / 3;
@@ -104,7 +104,7 @@ const HackerNavLink = ({
 			onBlur={stop}
 		>
 			<span aria-hidden="true">
-				{pathname === href && '> '}
+				{pathname === href && "> "}
 				{displayText}
 			</span>
 			<span className="sr-only">{title}</span>

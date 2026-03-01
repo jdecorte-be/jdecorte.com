@@ -1,17 +1,17 @@
 import "css/tailwind.css";
 import "pliny/search/algolia.css";
 
+import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { Analytics, type AnalyticsConfig } from "pliny/analytics";
 import { CustomKBarSearchProvider } from "@/components/CustomKBarSearch";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import SectionContainer from "@/components/SectionContainer";
-import Footer from "@/components/Footer";
-import siteMetadata from "@/data/siteMetadata.mjs";
-import { ThemeProviders } from "./theme-providers";
-import type { Metadata } from "next";
 import TransitionWrapper from "@/components/TransitionWrapper";
+import siteMetadata from "@/data/siteMetadata.mjs";
 import MaintenancePage from "./maintenance";
+import { ThemeProviders } from "./theme-providers";
 
 const space_grotesk = Space_Grotesk({
 	subsets: ["latin"],
@@ -62,8 +62,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
-
-	const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+	const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true";
 	if (isMaintenanceMode) {
 		return (
 			<html>
@@ -71,7 +70,7 @@ export default function RootLayout({
 					<MaintenancePage />
 				</body>
 			</html>
-		)
+		);
 	}
 
 	return (
@@ -123,13 +122,16 @@ export default function RootLayout({
 					<SectionContainer>
 						<div className="flex h-screen flex-col justify-between font-sans">
 							<CustomKBarSearchProvider
-								searchConfig={siteMetadata.search as { provider: "kbar"; kbarConfig: { searchDocumentsPath: string } }}
+								searchConfig={
+									siteMetadata.search as {
+										provider: "kbar";
+										kbarConfig: { searchDocumentsPath: string };
+									}
+								}
 							>
 								<Header />
 								<main className="mb-auto">
-									<TransitionWrapper>
-										{children}
-									</TransitionWrapper>
+									<TransitionWrapper>{children}</TransitionWrapper>
 								</main>
 							</CustomKBarSearchProvider>
 							<Footer />

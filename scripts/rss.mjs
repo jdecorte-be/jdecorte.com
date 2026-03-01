@@ -1,11 +1,11 @@
-import { mkdirSync, writeFileSync } from 'node:fs'
-import path from 'node:path'
-import { slug } from 'github-slugger'
-import { sortPosts } from 'pliny/utils/contentlayer.js'
-import { escape as escaper } from 'pliny/utils/htmlEscaper.js'
-import { allWriteups } from '../.contentlayer/generated/index.mjs'
-import tagData from '../app/tag-data.json' with { type: 'json' }
-import siteMetadata from '../data/siteMetadata.mjs'
+import { mkdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import { slug } from "github-slugger";
+import { sortPosts } from "pliny/utils/contentlayer.js";
+import { escape as escaper } from "pliny/utils/htmlEscaper.js";
+import { allWriteups } from "../.contentlayer/generated/index.mjs";
+import tagData from "../app/tag-data.json" with { type: "json" };
+import siteMetadata from "../data/siteMetadata.mjs";
 
 const generateRssItem = (config, post) => `
   <item>
@@ -15,11 +15,11 @@ const generateRssItem = (config, post) => `
     ${post.summary && `<description>${escaper(post.summary)}</description>`}
     <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     <author>${config.email} (${config.author})</author>
-    ${post?.tags.map((t) => `<category>${t}</category>`).join('')}
+    ${post?.tags.map((t) => `<category>${t}</category>`).join("")}
   </item>
-`
+`;
 
-const generateRss = (config, posts, page = 'feed.xml') => `
+const generateRss = (config, posts, page = "feed.xml") => `
   <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
       <title>${escaper(config.title)}</title>
@@ -30,34 +30,34 @@ const generateRss = (config, posts, page = 'feed.xml') => `
       <webMaster>${config.email} (${config.author})</webMaster>
       <lastBuildDate>${new Date(posts[0].date).toUTCString()}</lastBuildDate>
       <atom:link href="${config.siteUrl}/${page}" rel="self" type="application/rss+xml"/>
-      ${posts.map((post) => generateRssItem(config, post)).join('')}
+      ${posts.map((post) => generateRssItem(config, post)).join("")}
     </channel>
   </rss>
-`
+`;
 
-async function generateRSS(config, allWriteups, page = 'feed.xml') {
-  const publishPosts = allWriteups.filter((post) => post.draft !== true)
-  // RSS for writeups post
-  if (publishPosts.length > 0) {
-    const rss = generateRss(config, sortPosts(publishPosts))
-    writeFileSync(`./public/${page}`, rss)
-  }
+async function generateRSS(config, allWriteups, page = "feed.xml") {
+	const publishPosts = allWriteups.filter((post) => post.draft !== true);
+	// RSS for writeups post
+	if (publishPosts.length > 0) {
+		const rss = generateRss(config, sortPosts(publishPosts));
+		writeFileSync(`./public/${page}`, rss);
+	}
 
-  if (publishPosts.length > 0) {
-    for (const tag of Object.keys(tagData)) {
-      const filteredPosts = allWriteups.filter((post) =>
-        post.tags.map((t) => slug(t)).includes(tag)
-      )
-      const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`)
-      const rssPath = path.join('public', 'tags', tag)
-      mkdirSync(rssPath, { recursive: true })
-      writeFileSync(path.join(rssPath, page), rss)
-    }
-  }
+	if (publishPosts.length > 0) {
+		for (const tag of Object.keys(tagData)) {
+			const filteredPosts = allWriteups.filter((post) =>
+				post.tags.map((t) => slug(t)).includes(tag),
+			);
+			const rss = generateRss(config, filteredPosts, `tags/${tag}/${page}`);
+			const rssPath = path.join("public", "tags", tag);
+			mkdirSync(rssPath, { recursive: true });
+			writeFileSync(path.join(rssPath, page), rss);
+		}
+	}
 }
 
 const rss = () => {
-  generateRSS(siteMetadata, allWriteups)
-  console.log('RSS feed generated...')
-}
-export default rss
+	generateRSS(siteMetadata, allWriteups);
+	console.log("RSS feed generated...");
+};
+export default rss;
