@@ -45,8 +45,8 @@ export default function Latest({ posts }) {
 														</Link>
 													</h2>
 													<div className="flex flex-wrap">
-														{tags.map((tag) => (
-															<Tag key={tag} text={tag} />
+														{tags.map((tag, i) => (
+															<Tag key={tag} text={tag} index={i} />
 														))}
 													</div>
 												</div>
