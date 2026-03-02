@@ -124,7 +124,7 @@ const projects: Record<
 
 // Animation variants from different directions
 const fadeInFromLeft = {
-	hidden: { opacity: 0, x: -60 },
+	hidden: { opacity: 1, x: -200 },
 	visible: {
 		opacity: 1,
 		x: 0,
@@ -136,7 +136,7 @@ const fadeInFromLeft = {
 };
 
 const fadeInFromRight = {
-	hidden: { opacity: 0, x: 60 },
+	hidden: { opacity: 1, x: 200 },
 	visible: {
 		opacity: 1,
 		x: 0,
