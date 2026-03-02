@@ -5,7 +5,7 @@ import PortfolioSection from "@/components/PortfolioSection";
 import Tag from "@/components/Tag";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
-const MAX_DISPLAY = 2;
+const MAX_DISPLAY = 3;
 
 export default function Home({ posts, heroFontStyles }) {
 	return (

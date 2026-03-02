@@ -44,7 +44,32 @@ module.exports = {
         sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
       },
       colors: {
-        primary: colors.green,
+        primary: {
+          50:  '#fde8ee',
+          100: '#fbd1de',
+          200: '#f7a3bc',
+          300: '#f3759a',
+          400: '#ef4779',
+          500: '#e95378',
+          600: '#d32361',
+          700: '#a81a4c',
+          800: '#7e1238',
+          900: '#540b25',
+          950: '#2a0512',
+        },
+        accent: {
+          50:  '#e6faf4',
+          100: '#ccf5e9',
+          200: '#99ebd3',
+          300: '#66e0bc',
+          400: '#33d6a6',
+          500: '#28d39a',
+          600: '#1faa7b',
+          700: '#17805c',
+          800: '#0f553d',
+          900: '#082b1f',
+          950: '#041610',
+        },
         gray: colors.gray,
       },
       typography: ({ theme }) => ({
@@ -65,18 +90,18 @@ module.exports = {
               fontWeight: '600',
             },
             code: {
-              color: theme('colors.indigo.500'),
+              color: theme('colors.accent.400'),
             },
           },
         },
         invert: {
           css: {
             a: {
-              color: theme('colors.primary.500'),
+              color: theme('colors.primary.400'),
               '&:hover': {
-                color: `${theme('colors.primary.400')}`,
+                color: `${theme('colors.primary.300')}`,
               },
-              code: { color: theme('colors.primary.400') },
+              code: { color: theme('colors.primary.300') },
             },
             'h1,h2,h3,h4,h5,h6': {
               color: theme('colors.gray.100'),
