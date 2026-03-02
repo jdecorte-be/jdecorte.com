@@ -9,7 +9,7 @@ import siteMetadata from "@/data/siteMetadata.mjs";
 
 const Hero = ({ heroFontStyles }) => {
 	return (
-		<div className="relative min-h-[380px] overflow-hidden rounded-md bg-[#6D962A] p-6 md:min-h-[500px] md:p-10 lg:min-h-0">
+		<div className="relative min-h-[380px] overflow-hidden rounded-md bg-[color:var(--hero-background)] p-6 md:min-h-[500px] md:p-10 lg:min-h-0">
 			<h1
 				className={`${heroFontStyles} fade-in-down-headline text-5xl font-bold uppercase tracking-tighter text-[#DBE8A8]
            opacity-0 md:text-[114px] lg:leading-[114px] xl:text-[168px] xl:leading-[168px]`}
@@ -18,7 +18,7 @@ const Hero = ({ heroFontStyles }) => {
 			</h1>
 			<div className="flex">
 				<p
-					className={`fade-in-down pr-20 pt-10 text-[#042C0E] opacity-0 md:max-w-[300px] md:pt-24 xl:whitespace-pre`}
+					className={`fade-in-down pr-20 pt-10 text-[#DBE8A8] opacity-0 md:max-w-[300px] md:pt-24 xl:whitespace-pre`}
 				>
 					{`Software designer and engineer \nwith a passion for creating— \nfrom innovative web \nsolutions to video games, \nmusic, and impactful \nsoftware projects.`}
 					{/* {`Backend & Cybersec Engineer \nBuilding secure, real-time\nsystems for InsurTech\nand Social Media.`} */}

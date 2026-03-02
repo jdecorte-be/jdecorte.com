@@ -202,7 +202,8 @@ input:-webkit-autofill:focus {
     --dimgray-100: #666666;
     --dimgray-200: #606872;
     /* ── ShadCN / Tailwind semantic vars ───────────────────────── */
-    --background: 225 15% 5%;
+    --background: rgb(15, 16, 21);
+    --hero-background: rgb(100, 151, 144);
     --foreground: 210 7% 89%;
     --card: 225 15% 5%;
     --card-foreground: 210 7% 89%;
