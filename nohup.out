@@ -1,0 +1,169 @@
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.1.0.211:3000
+
+✓ Starting...
+✓ Ready in 1405ms
+○ Compiling / ...
+⨯ ./app/page.tsx:1:1
+Module not found: Can't resolve 'contentlayer/generated'
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { allWriteups } [36mfrom[39m [32m"contentlayer/generated"[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { [33mAntonio[39m } [36mfrom[39m [32m"next/font/google"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { allCoreContent[33m,[39m sortPosts } [36mfrom[39m [32m"pliny/utils/contentlayer"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMain[39m [36mfrom[39m [32m"./Main"[39m[33m;[39m[0m
+
+Import map: aliased to relative './.contentlayer/generated' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⚠ [next]/internal/font/google/antonio_2f762e63.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/antonio_2f762e63.module.css
+    [next]/internal/font/google/antonio_2f762e63.js
+    ./app/page.tsx
+
+
+⚠ [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+    [next]/internal/font/google/space_grotesk_3846f8dd.js
+    ./app/layout.tsx
+
+
+⚠ [next]/internal/font/google/antonio_2f762e63.module.css
+next/font: warning:
+Failed to download `Antonio` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/antonio_2f762e63.module.css
+    [next]/internal/font/google/antonio_2f762e63.js
+    ./app/page.tsx
+
+
+⚠ [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+next/font: warning:
+Failed to download `Space Grotesk` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+    [next]/internal/font/google/space_grotesk_3846f8dd.js
+    ./app/layout.tsx
+
+
+ GET / 500 in 6.0s (compile: 5.9s, render: 102ms)
+⚠ [next]/internal/font/google/antonio_2f762e63.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/antonio_2f762e63.module.css
+    [next]/internal/font/google/antonio_2f762e63.js
+    ./app/page.tsx
+
+
+⚠ [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+    [next]/internal/font/google/space_grotesk_3846f8dd.js
+    ./app/layout.tsx
+
+
+⚠ [next]/internal/font/google/antonio_2f762e63.module.css
+next/font: warning:
+Failed to download `Antonio` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/antonio_2f762e63.module.css
+    [next]/internal/font/google/antonio_2f762e63.js
+    ./app/page.tsx
+
+
+⚠ [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+next/font: warning:
+Failed to download `Space Grotesk` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+    [next]/internal/font/google/space_grotesk_3846f8dd.js
+    ./app/layout.tsx
+
+
+⨯ ./app/page.tsx:1:1
+Module not found: Can't resolve 'contentlayer/generated'
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { allWriteups } [36mfrom[39m [32m"contentlayer/generated"[39m[33m;[39m
+ [90m   |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { [33mAntonio[39m } [36mfrom[39m [32m"next/font/google"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { allCoreContent[33m,[39m sortPosts } [36mfrom[39m [32m"pliny/utils/contentlayer"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMain[39m [36mfrom[39m [32m"./Main"[39m[33m;[39m[0m
+
+Import map: aliased to relative './.contentlayer/generated' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+⚠ [next]/internal/font/google/antonio_2f762e63.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Antonio:wght@100..700&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/antonio_2f762e63.module.css
+    [next]/internal/font/google/antonio_2f762e63.js
+    ./app/page.tsx
+
+
+⚠ [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+Error while requesting resource
+There was an issue establishing a connection while requesting https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+    [next]/internal/font/google/space_grotesk_3846f8dd.js
+    ./app/layout.tsx
+
+
+⚠ [next]/internal/font/google/antonio_2f762e63.module.css
+next/font: warning:
+Failed to download `Antonio` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/antonio_2f762e63.module.css
+    [next]/internal/font/google/antonio_2f762e63.js
+    ./app/page.tsx
+
+
+⚠ [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+next/font: warning:
+Failed to download `Space Grotesk` from Google Fonts. Using fallback font instead.
+
+Import trace:
+  Server Component:
+    [next]/internal/font/google/space_grotesk_3846f8dd.module.css
+    [next]/internal/font/google/space_grotesk_3846f8dd.js
+    ./app/layout.tsx
+
+
+ GET / 500 in 15ms (compile: 6ms, render: 9ms)

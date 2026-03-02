@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "./Link";
 
 type HackerNavLinkProps = {
@@ -22,23 +22,8 @@ const HackerNavLink = ({
 	const [displayText, setDisplayText] = useState(title);
 	const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-	const spanRef = useRef<HTMLSpanElement>(null);
-	const naturalWidthRef = useRef<number | null>(null);
-	const isAnimatingRef = useRef(false);
 
 	const chars = useMemo(() => "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", []);
-
-	// Measure the span's natural width after every render, but only when the
-	// animation is not running (i.e. the text is the stable title). The
-	// isAnimatingRef guard prevents calling getBoundingClientRect during the
-	// 30ms-interval renders. This keeps naturalWidthRef accurate after pathname
-	// changes (which affect the "> " active-link prefix) and after each
-	// animation completes, without needing an explicit dependency array.
-	useLayoutEffect(() => {
-		if (spanRef.current && !isAnimatingRef.current) {
-			naturalWidthRef.current = spanRef.current.getBoundingClientRect().width;
-		}
-	});
 
 	const stop = () => {
 		if (intervalRef.current) {
@@ -49,12 +34,6 @@ const HackerNavLink = ({
 			clearTimeout(timeoutRef.current);
 			timeoutRef.current = null;
 		}
-		isAnimatingRef.current = false;
-		if (spanRef.current) {
-			spanRef.current.style.display = "";
-			spanRef.current.style.width = "";
-			spanRef.current.style.overflow = "";
-		}
 		setDisplayText(title);
 	};
 
@@ -62,15 +41,6 @@ const HackerNavLink = ({
 		stop();
 		if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) {
 			return;
-		}
-
-		// Lock element width to prevent layout shift while uppercase scramble chars
-		// temporarily render wider than the original mixed-case title.
-		isAnimatingRef.current = true;
-		if (spanRef.current && naturalWidthRef.current) {
-			spanRef.current.style.display = "inline-block";
-			spanRef.current.style.width = `${naturalWidthRef.current}px`;
-			spanRef.current.style.overflow = "hidden";
 		}
 
 		let iteration = 0;
@@ -133,9 +103,23 @@ const HackerNavLink = ({
 			onFocus={start}
 			onBlur={stop}
 		>
-			<span ref={spanRef} aria-hidden="true">
-				{pathname === href && "> "}
-				{displayText}
+			{/*
+			 * The outer span is `inline-block` so that the invisible placeholder
+			 * span always dictates the element's width using the stable title text.
+			 * The animated text is absolutely overlaid on top, so no matter which
+			 * scramble characters are rendered (uppercase chars can be wider),
+			 * the container never changes size — preventing header layout shift
+			 * both on mount animation and on hover, regardless of font loading.
+			 */}
+			<span className="relative inline-block">
+				<span aria-hidden="true" className="invisible">
+					{pathname === href && "> "}
+					{title}
+				</span>
+				<span aria-hidden="true" className="absolute inset-0">
+					{pathname === href && "> "}
+					{displayText}
+				</span>
 			</span>
 			<span className="sr-only">{title}</span>
 		</Link>
