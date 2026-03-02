@@ -201,34 +201,7 @@ input:-webkit-autofill:focus {
     /* dimgray */
     --dimgray-100: #666666;
     --dimgray-200: #606872;
-    /* ── ShadCN / Tailwind semantic vars (light) ─────────────── */
-    --background: 0 0% 100%;
-    --foreground: 225 15% 5%;
-    --card: 0 0% 100%;
-    --card-foreground: 225 15% 5%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 225 15% 5%;
-    --primary: 344 79% 62%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 7% 90%;
-    --secondary-foreground: 225 15% 5%;
-    --muted: 210 7% 90%;
-    --muted-foreground: 213 8% 41%;
-    --accent: 161 68% 49%;
-    --accent-foreground: 225 15% 5%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 210 7% 82%;
-    --input: 210 7% 82%;
-    --ring: 344 79% 62%;
-    --chart-1: 344 79% 62%;
-    --chart-2: 161 68% 49%;
-    --chart-3: 213 85% 50%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 30 80% 55%;
-    --radius: 0.5rem;
-  }
-  .dark {
+    /* ── ShadCN / Tailwind semantic vars ───────────────────────── */
     --background: 225 15% 5%;
     --foreground: 210 7% 89%;
     --card: 225 15% 5%;
@@ -253,5 +226,6 @@ input:-webkit-autofill:focus {
     --chart-3: 213 85% 60%;
     --chart-4: 280 65% 60%;
     --chart-5: 30 80% 55%;
+    --radius: 0.5rem;
   }
 }
