@@ -77,7 +77,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang={siteMetadata.language}
-			className={`${space_grotesk.variable} scroll-smooth`}
+			className={`${space_grotesk.variable} scroll-smooth dark`}
 			suppressHydrationWarning
 		>
 			<link
@@ -104,18 +104,9 @@ export default function RootLayout({
 				color="#5bbad5"
 			/>
 			<meta name="msapplication-TileColor" content="#000000" />
-			<meta
-				name="theme-color"
-				media="(prefers-color-scheme: light)"
-				content="#fff"
-			/>
-			<meta
-				name="theme-color"
-				media="(prefers-color-scheme: dark)"
-				content="#000"
-			/>
+			<meta name="theme-color" content="#000000" />
 			<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-			<body className="overflow-x-hidden bg-white text-black antialiased dark:bg-[#000E04] dark:text-white">
+			<body className="overflow-x-hidden bg-[#000E04] text-white antialiased">
 				<ThemeProviders>
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
