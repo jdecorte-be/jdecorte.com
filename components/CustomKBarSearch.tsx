@@ -22,7 +22,7 @@ function RenderResults() {
 
 	if (!results.length) {
 		return (
-			<div className="border-t border-primary-900/40 px-4 py-8 text-center text-sm text-primary-700">
+			<div className="px-4 py-10 text-center text-sm text-gray-600">
 				No results for your search…
 			</div>
 		);
@@ -33,25 +33,25 @@ function RenderResults() {
 			items={results}
 			onRender={({ item, active }) =>
 				typeof item === "string" ? (
-					<div className="border-t border-primary-900/40 px-4 pb-2 pt-4 text-[10px] font-semibold uppercase tracking-widest text-primary-600">
+					<div className="px-4 pb-1.5 pt-4 text-[10px] font-semibold uppercase tracking-widest text-gray-600">
 						{item}
 					</div>
 				) : (
 					<div
-						className={`flex cursor-pointer items-center justify-between px-4 py-2.5 transition-colors ${
+						className={`mx-2 flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 transition-all ${
 							active
-								? "bg-primary-900/30 text-primary-300"
-								: "text-gray-400 hover:bg-primary-900/10"
+								? "bg-white/[0.06] text-gray-100 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]"
+								: "text-gray-400 hover:bg-white/[0.04]"
 						}`}
 					>
 						<div className="flex min-w-0 items-center gap-3">
 							{item.icon && (
-								<span className="shrink-0 text-primary-600">{item.icon}</span>
+								<span className="shrink-0 text-gray-500">{item.icon}</span>
 							)}
 							<div className="min-w-0">
 								{item.subtitle && (
 									<p
-											className={`truncate text-xs ${active ? "text-primary-500" : "text-gray-600"}`}
+												className={`truncate text-[11px] ${active ? "text-gray-400" : "text-gray-600"}`}
 									>
 										{item.subtitle}
 									</p>
@@ -64,10 +64,10 @@ function RenderResults() {
 								{item.shortcut.map((sc) => (
 									<kbd
 										key={sc}
-										className={`flex h-5 min-w-[1.25rem] items-center justify-center rounded border px-1 text-[10px] font-medium ${
-											active
-												? "border-primary-700 text-primary-400"
-												: "border-gray-700 text-gray-500"
+											className={`flex h-5 min-w-[1.25rem] items-center justify-center rounded-md border px-1 text-[10px] font-medium ${
+												active
+												? "border-white/15 bg-white/10 text-gray-300"
+													: "border-white/10 bg-white/5 text-gray-500"
 										}`}
 									>
 										{sc}
@@ -93,13 +93,13 @@ function CustomKBarModal({
 
 	return (
 		<KBarPortal>
-			<KBarPositioner className="z-50 flex items-start justify-center bg-black/70 p-4 pt-[15vh] backdrop-blur-sm">
+			<KBarPositioner className="z-50 flex items-start justify-center bg-black/60 p-4 pt-[15vh] backdrop-blur-md">
 				<KBarAnimator className="w-full max-w-xl">
-					<div className="overflow-hidden rounded-xl border border-primary-900/50 bg-gray-950 shadow-[0_0_30px_0_rgba(233,83,120,0.08)]">
+					<div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-gray-950/40 shadow-[0_8px_60px_0_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-2xl">
 						{/* Search input row */}
-						<div className="flex items-center gap-3 px-4 py-3">
+						<div className="flex items-center gap-3 px-4 py-3.5">
 							<svg
-								className="h-4 w-4 shrink-0 text-primary-600"
+								className="h-4 w-4 shrink-0 text-gray-500"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24"
@@ -113,21 +113,21 @@ function CustomKBarModal({
 								/>
 							</svg>
 							<KBarSearch
-								className="h-8 w-full bg-transparent text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:ring-0 focus:border-primary-700"
+								className="h-8 w-full bg-transparent text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
 								defaultPlaceholder="Search writeups, pages…"
 							/>
-							<kbd className="inline-flex shrink-0 items-center rounded border border-primary-900/60 px-1.5 py-0.5 text-[10px] font-medium text-primary-700">
+							<kbd className="inline-flex shrink-0 items-center rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-medium text-gray-500">
 								ESC
 							</kbd>
 						</div>
 
 						{/* Divider */}
-						<div className="h-px bg-primary-900/40" />
+						<div className="h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
 						{/* Results */}
-						<div className="max-h-80 overflow-y-auto py-1 scrollbar-thin">
+						<div className="max-h-80 overflow-y-auto py-1.5 scrollbar-thin">
 							{isLoading ? (
-								<div className="px-4 py-8 text-center text-sm text-primary-700">
+								<div className="px-4 py-8 text-center text-sm text-gray-600">
 									Loading…
 								</div>
 							) : (
@@ -136,21 +136,19 @@ function CustomKBarModal({
 						</div>
 
 						{/* Footer hint */}
-						<div className="flex items-center gap-3 border-t border-primary-900/40 px-4 py-2 text-[10px] text-gray-700">
-							<span>
-								<kbd className="mr-1 rounded border border-gray-800 px-1">
-									↑
-								</kbd>
-								<kbd className="mr-1 rounded border border-gray-800 px-1">
-									↓
-								</kbd>
-								navigate
+						<div className="flex items-center gap-4 border-t border-white/[0.05] px-4 py-2.5 text-[10px] text-gray-600">
+							<span className="flex items-center gap-1.5">
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">↑</kbd>
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">↓</kbd>
+								<span>navigate</span>
 							</span>
-							<span>
-								<kbd className="mr-1 rounded border border-gray-800 px-1">
-									↵
-								</kbd>
-								open
+							<span className="flex items-center gap-1.5">
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">↵</kbd>
+								<span>open</span>
+							</span>
+							<span className="flex items-center gap-1.5 ml-auto">
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">esc</kbd>
+								<span>close</span>
 							</span>
 						</div>
 					</div>
