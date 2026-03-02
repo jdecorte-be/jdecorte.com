@@ -45,7 +45,13 @@ export default function PortfolioSection() {
 
 					{/* Category Tabs */}
 					<Tabs defaultValue="Network" className="w-full">
-						<div className="mb-8 flex justify-center">
+						<m.div
+							className="mb-8 flex justify-center"
+							initial="hidden"
+							whileInView="visible"
+							viewport={{ once: true, amount: 0.5 }}
+							variants={fadeInFromTop}
+						>
 							<TabsList className="h-auto flex-wrap gap-1 py-1.5 px-1.5">
 								{CATEGORIES.map((category) => (
 									<TabsTrigger
@@ -57,7 +63,7 @@ export default function PortfolioSection() {
 									</TabsTrigger>
 								))}
 							</TabsList>
-						</div>
+						</m.div>
 
 						<TabsContents>
 							{/* Network Layout: Large left, Small cards stacked right */}
