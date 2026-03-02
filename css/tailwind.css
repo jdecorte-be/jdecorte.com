@@ -96,105 +96,162 @@ input:-webkit-autofill:focus {
 
 @layer base {
   :root {
-    --background:
-    0 0% 100%;
-    --foreground:
-    240 10% 3.9%;
-    --card:
-    0 0% 100%;
-    --card-foreground:
-    240 10% 3.9%;
-    --popover:
-    0 0% 100%;
-    --popover-foreground:
-    240 10% 3.9%;
-    --primary:
-    240 5.9% 10%;
-    --primary-foreground:
-    0 0% 98%;
-    --secondary:
-    240 4.8% 95.9%;
-    --secondary-foreground:
-    240 5.9% 10%;
-    --muted:
-    240 4.8% 95.9%;
-    --muted-foreground:
-    240 3.8% 46.1%;
-    --accent:
-    240 4.8% 95.9%;
-    --accent-foreground:
-    240 5.9% 10%;
-    --destructive:
-    0 84.2% 60.2%;
-    --destructive-foreground:
-    0 0% 98%;
-    --border:
-    240 5.9% 90%;
-    --input:
-    240 5.9% 90%;
-    --ring:
-    240 10% 3.9%;
-    --chart-1:
-    12 76% 61%;
-    --chart-2:
-    173 58% 39%;
-    --chart-3:
-    197 37% 24%;
-    --chart-4:
-    43 74% 66%;
-    --chart-5:
-    27 87% 67%;
-    --radius:
-    0.5rem;
+    /* ── Palette ─────────────────────────────────────────────── */
+    /* gainsboro */
+    --gainsboro-100: #e2e4e6;
+    --gainsboro-200: #d5d8da;
+    --gainsboro-300: #dddddd;
+    --gainsboro-400: rgba(226,228,230,0.72);
+    --gainsboro-500: rgba(226,228,230,0.45);
+    --gainsboro-600: rgba(226,228,230,0.28);
+    --gainsboro-700: #e8e8e8;
+    /* palevioletred */
+    --palevioletred-100: #e95378;
+    --palevioletred-200: #f06a8d;
+    --palevioletred-300: rgba(233,83,120,0.15);
+    --palevioletred-400: rgba(233,83,120,.25);
+    /* crimson */
+    --crimson-100: #d32828;
+    --crimson-200: #f43e5c;
+    /* blueviolet */
+    --blueviolet-100: #7d28d3;
+    /* darkgoldenrod */
+    --darkgoldenrod-100: #d38c28;
+    /* mediumseagreen */
+    --mediumseagreen-100: #28d39a;
+    --mediumseagreen-200: #25d9a0;
+    --mediumseagreen-300: #29d398;
+    /* deepskyblue */
+    --deepskyblue-100: #28a8d3;
+    /* mediumvioletred */
+    --mediumvioletred-100: #d3289a;
+    /* mediumslateblue */
+    --mediumslateblue-100: #636bf5;
+    /* yellowgreen */
+    --yellowgreen-100: #7ab828;
+    /* darksalmon */
+    --darksalmon-100: #f09483;
+    --darksalmon-200: #fab795;
+    /* mediumpurple */
+    --mediumpurple-100: #b877db;
+    /* lightseagreen */
+    --lightseagreen-100: #25b0bc;
+    /* burlywood */
+    --burlywood-100: #fac29a;
+    /* darkslateblue */
+    --darkslateblue-100: #3b5998;
+    /* black */
+    --black-100: #000;
+    --black-200: #0b0c0f;
+    --black-300: rgba(0,0,0,0.15);
+    --black-400: rgba(0,0,0,0.2);
+    --black-500: rgba(0,0,0,0.25);
+    --black-600: rgba(0,0,0,0.35);
+    --black-700: rgba(0,0,0,.012);
+    --black-800: rgba(18,18,22,.85);
+    --black-900: rgba(0,0,0,.7);
+    --black-1000: rgba(0,0,0,.2);
+    /* steelblue */
+    --steelblue-100: #0077b5;
+    --steelblue-200: #005a8c;
+    /* firebrick */
+    --firebrick-100: #bd081c;
+    /* darkslategray */
+    --darkslategray-100: #35465c;
+    --darkslategray-200: #393939;
+    --darkslategray-300: #333333;
+    /* white */
+    --white-100: #fff;
+    --white-200: #ffffff;
+    --white-300: rgba(255,255,255,0.08);
+    --white-400: rgba(255,255,255,0.13);
+    --white-500: rgba(255,255,255,0.2);
+    /* indianred */
+    --indianred-100: #e95678;
+    /* silver */
+    --silver-100: #bbb;
+    /* whitesmoke */
+    --whitesmoke-100: #eeeeee;
+    --whitesmoke-200: #f0f0f0;
+    /* lightskyblue */
+    --lightskyblue-100: #7dd3fc;
+    /* plum */
+    --plum-100: #c4b5fd;
+    --plum-200: #f9a8d4;
+    /* lightslategray */
+    --lightslategray-100: #94a3b8;
+    /* lightgreen */
+    --lightgreen-100: #86efac;
+    /* sandybrown */
+    --sandybrown-100: #fdba74;
+    /* slategray */
+    --slategray-100: #64748b;
+    /* orange */
+    --orange-100: rgba(255,180,50,.2);
+    /* goldenrod */
+    --goldenrod-100: rgba(255,200,100,.9);
+    /* gray */
+    --gray-100: #808080;
+    /* darkgray */
+    --darkgray-100: #aaa;
+    /* lightgray */
+    --lightgray-100: #ccc;
+    --lightgray-200: #cccccc;
+    --lightgray-300: #d3d3d3;
+    /* dimgray */
+    --dimgray-100: #666666;
+    --dimgray-200: #606872;
+    /* ── ShadCN / Tailwind semantic vars (light) ─────────────── */
+    --background: 0 0% 100%;
+    --foreground: 225 15% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 225 15% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 225 15% 5%;
+    --primary: 344 79% 62%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 7% 90%;
+    --secondary-foreground: 225 15% 5%;
+    --muted: 210 7% 90%;
+    --muted-foreground: 213 8% 41%;
+    --accent: 161 68% 49%;
+    --accent-foreground: 225 15% 5%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 7% 82%;
+    --input: 210 7% 82%;
+    --ring: 344 79% 62%;
+    --chart-1: 344 79% 62%;
+    --chart-2: 161 68% 49%;
+    --chart-3: 213 85% 50%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 30 80% 55%;
+    --radius: 0.5rem;
   }
   .dark {
-    --background:
-    240 10% 3.9%;
-    --foreground:
-    0 0% 98%;
-    --card:
-    240 10% 3.9%;
-    --card-foreground:
-    0 0% 98%;
-    --popover:
-    240 10% 3.9%;
-    --popover-foreground:
-    0 0% 98%;
-    --primary:
-    0 0% 98%;
-    --primary-foreground:
-    240 5.9% 10%;
-    --secondary:
-    240 3.7% 15.9%;
-    --secondary-foreground:
-    0 0% 98%;
-    --muted:
-    240 3.7% 15.9%;
-    --muted-foreground:
-    240 5% 64.9%;
-    --accent:
-    240 3.7% 15.9%;
-    --accent-foreground:
-    0 0% 98%;
-    --destructive:
-    0 62.8% 30.6%;
-    --destructive-foreground:
-    0 0% 98%;
-    --border:
-    240 3.7% 15.9%;
-    --input:
-    240 3.7% 15.9%;
-    --ring:
-    240 4.9% 83.9%;
-    --chart-1:
-    220 70% 50%;
-    --chart-2:
-    160 60% 45%;
-    --chart-3:
-    30 80% 55%;
-    --chart-4:
-    280 65% 60%;
-    --chart-5:
-    340 75% 55%;
+    --background: 225 15% 5%;
+    --foreground: 210 7% 89%;
+    --card: 225 15% 5%;
+    --card-foreground: 210 7% 89%;
+    --popover: 225 15% 5%;
+    --popover-foreground: 210 7% 89%;
+    --primary: 344 79% 62%;
+    --primary-foreground: 225 15% 5%;
+    --secondary: 0 0% 22%;
+    --secondary-foreground: 210 7% 89%;
+    --muted: 0 0% 22%;
+    --muted-foreground: 213 8% 41%;
+    --accent: 161 68% 49%;
+    --accent-foreground: 225 15% 5%;
+    --destructive: 0 62.8% 35%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 22%;
+    --input: 0 0% 22%;
+    --ring: 344 79% 62%;
+    --chart-1: 344 79% 62%;
+    --chart-2: 161 68% 49%;
+    --chart-3: 213 85% 60%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 30 80% 55%;
   }
 }

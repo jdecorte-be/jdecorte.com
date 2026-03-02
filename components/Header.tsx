@@ -1,5 +1,3 @@
-"use client";
-
 import headerNavLinks from "@/data/headerNavLinks";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import HackerNavLink from "./HackerNavLink";
@@ -19,7 +17,7 @@ const Header = () => {
 			<div>
 				<Link href="/" aria-label={siteMetadata.headerTitle}>
 					<div className="flex items-center justify-between">
-						<div className="mr-3 flex h-6 items-center justify-center">
+						<div className="mr-3 flex h-6">
 							<Logo />
 						</div>
 						{typeof siteMetadata.headerTitle === "string" ? (
