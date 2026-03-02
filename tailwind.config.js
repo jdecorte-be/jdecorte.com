@@ -92,6 +92,9 @@ module.exports = {
             code: {
               color: theme('colors.accent.400'),
             },
+            pre: {
+              background: '#282a36',
+            },
           },
         },
         invert: {

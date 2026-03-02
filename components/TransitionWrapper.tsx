@@ -1,7 +1,7 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const TRANSITION_DELAY = 200; // ms
 
@@ -11,61 +11,48 @@ export default function TransitionWrapper({
 	children: React.ReactNode;
 }) {
 	const pathname = usePathname();
-	const router = useRouter();
-	const [isTransitioning, setIsTransitioning] = useState(false);
 	const [displayChildren, setDisplayChildren] = useState(children);
 	const [opacity, setOpacity] = useState(1);
+	const prevPathname = useRef(pathname);
+	const latestChildren = useRef(children);
+	const swapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-	// Handle route changes
+	latestChildren.current = children;
+
+	// Sync children immediately when no route change (e.g. RSC streaming updates)
 	useEffect(() => {
-		const handleRouteChange = (url: string) => {
-			// Start fade out
-			setOpacity(0);
-			setIsTransitioning(true);
+		if (prevPathname.current === pathname && !swapTimerRef.current) {
+			setDisplayChildren(children);
+		}
+	}, [children, pathname]);
 
-			// After fade out, update children and fade in
-			setTimeout(() => {
-				setDisplayChildren(children);
-				router.push(url);
-				setOpacity(1);
+	// Handle route transitions
+	useEffect(() => {
+		if (prevPathname.current === pathname) return;
+		prevPathname.current = pathname;
 
-				// End transition after fade in
-				setTimeout(() => {
-					setIsTransitioning(false);
-				}, TRANSITION_DELAY);
-			}, TRANSITION_DELAY);
-		};
+		// Cancel any pending swap from a previous navigation
+		if (swapTimerRef.current) {
+			clearTimeout(swapTimerRef.current);
+		}
 
-		// Add click handlers to all internal links
-		const links = document.querySelectorAll('a[href^="/"]');
+		// Fade out old content
+		setOpacity(0);
 
-		const handleClick = (e: MouseEvent) => {
-			const target = e.currentTarget as HTMLAnchorElement;
-			if (target.href.startsWith(window.location.origin)) {
-				e.preventDefault();
-				handleRouteChange(target.href.replace(window.location.origin, ""));
+		// After fade-out completes, swap content and fade in
+		swapTimerRef.current = setTimeout(() => {
+			setDisplayChildren(latestChildren.current);
+			setOpacity(1);
+			swapTimerRef.current = null;
+		}, TRANSITION_DELAY);
+
+		return () => {
+			if (swapTimerRef.current) {
+				clearTimeout(swapTimerRef.current);
+				swapTimerRef.current = null;
 			}
 		};
-
-		links.forEach((link) => {
-			link.addEventListener("click", handleClick);
-		});
-
-		// Cleanup
-		return () => {
-			links.forEach((link) => {
-				link.removeEventListener("click", handleClick);
-			});
-		};
-	}, [children, router]);
-
-	// Handle initial load and pathname changes
-	useEffect(() => {
-		if (!isTransitioning) {
-			setDisplayChildren(children);
-			setOpacity(1);
-		}
-	}, [children, isTransitioning]);
+	}, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return (
 		<div
