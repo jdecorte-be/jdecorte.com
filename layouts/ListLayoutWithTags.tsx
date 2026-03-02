@@ -4,6 +4,7 @@
 import tagData from "app/tag-data.json" with { type: "json" };
 import type { Writeups } from "contentlayer/generated";
 import { slug } from "github-slugger";
+import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import { formatDate } from "pliny/utils/formatDate";
@@ -138,7 +139,12 @@ export default function ListLayoutWithTags({
 						{displayPosts.map((post) => {
 							const { path, date, title, summary, tags } = post;
 							return (
-								<li key={path} className="py-5">
+								<motion.li
+									key={path}
+									className="group -mx-3 rounded-lg px-3 py-5 transition-colors duration-300 "
+									whileHover={{ x: 4 }}
+									transition={{ type: "spring", stiffness: 300, damping: 20 }}
+								>
 									<article className="flex flex-col space-y-2 xl:space-y-0">
 										<dl>
 											<dt className="sr-only">Published on</dt>
@@ -156,7 +162,7 @@ export default function ListLayoutWithTags({
 												<h2 className="text-2xl font-bold leading-8 tracking-tight">
 													<Link
 														href={`/${path}`}
-														className="text-gray-900 dark:text-gray-100"
+														className="text-gray-900 transition-colors duration-300 group-hover:text-primary-500 dark:text-gray-100 dark:group-hover:text-primary-400"
 													>
 														{title}
 													</Link>
@@ -172,7 +178,7 @@ export default function ListLayoutWithTags({
 											</div>
 										</div>
 									</article>
-								</li>
+								</motion.li>
 							);
 						})}
 					</ul>
