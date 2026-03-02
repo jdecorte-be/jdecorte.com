@@ -1,10 +1,94 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ReactNode, useRef, useState } from "react";
+import { ComponentPropsWithoutRef, ReactNode, useRef, useState } from "react";
+import type { IconType } from "react-icons";
+import {
+  SiC,
+  SiCplusplus,
+  SiDotnet,
+  SiCss3,
+  SiDocker,
+  SiGnubash,
+  SiGo,
+  SiGraphql,
+  SiHtml5,
+  SiJavascript,
+  SiJson,
+  SiKotlin,
+  SiLua,
+  SiMarkdown,
+  SiPhp,
+  SiPython,
+  SiR,
+  SiRuby,
+  SiRust,
+  SiSass,
+  SiSwift,
+  SiToml,
+  SiTypescript,
+  SiYaml,
+} from "react-icons/si";
+import { FaJava, FaTerminal, FaDatabase, FaCode, FaFileCode } from "react-icons/fa";
+import { VscDiff } from "react-icons/vsc";
 
-interface PreProps {
-  children: ReactNode;
+type PreProps = ComponentPropsWithoutRef<"pre">;
+
+const LANGUAGE_ICONS: Record<string, IconType> = {
+  js: SiJavascript,
+  javascript: SiJavascript,
+  ts: SiTypescript,
+  typescript: SiTypescript,
+  jsx: SiJavascript,
+  tsx: SiTypescript,
+  py: SiPython,
+  python: SiPython,
+  c: SiC,
+  cpp: SiCplusplus,
+  "c++": SiCplusplus,
+  cs: SiDotnet,
+  java: FaJava,
+  go: SiGo,
+  rs: SiRust,
+  rust: SiRust,
+  sh: FaTerminal,
+  bash: SiGnubash,
+  zsh: FaTerminal,
+  fish: FaTerminal,
+  html: SiHtml5,
+  css: SiCss3,
+  scss: SiSass,
+  sass: SiSass,
+  json: SiJson,
+  yaml: SiYaml,
+  yml: SiYaml,
+  toml: SiToml,
+  md: SiMarkdown,
+  mdx: SiMarkdown,
+  sql: FaDatabase,
+  graphql: SiGraphql,
+  gql: SiGraphql,
+  dockerfile: SiDocker,
+  docker: SiDocker,
+  diff: VscDiff,
+  xml: FaFileCode,
+  swift: SiSwift,
+  kotlin: SiKotlin,
+  ruby: SiRuby,
+  rb: SiRuby,
+  php: SiPhp,
+  r: SiR,
+  lua: SiLua,
+  asm: FaCode,
+  nasm: FaCode,
+};
+
+function getLanguageIcon(className?: string): IconType | null {
+  if (!className) return null;
+  const match = className.split(" ").find((c) => c.startsWith("language-"));
+  if (!match) return null;
+  const lang = match.replace("language-", "").toLowerCase();
+  return LANGUAGE_ICONS[lang] ?? null;
 }
 
 const execCopy = (text: string) => {
@@ -17,11 +101,12 @@ const execCopy = (text: string) => {
   document.body.removeChild(el);
 };
 
-const Pre = ({ children }: PreProps) => {
+const Pre = ({ children, className, ...rest }: PreProps) => {
   const textInput = useRef<HTMLPreElement>(null);
   const [hovered, setHovered] = useState(false);
   const [copied, setCopied] = useState(false);
   const [copyCount, setCopyCount] = useState(0);
+  const LanguageIcon = getLanguageIcon(className);
 
   const onEnter = () => setHovered(true);
 
@@ -59,7 +144,7 @@ const Pre = ({ children }: PreProps) => {
             whileTap={{ scale: 0.92 }}
             className={`absolute right-2 top-2 h-8 w-8 rounded border-2 bg-gray-700 p-1 dark:bg-gray-800 ${
               copied
-                ? "border-green-400 focus:border-green-400 focus:outline-none"
+                ? "border-primary-400 focus:border-primary-400 focus:outline-none"
                 : "border-gray-300 hover:border-primary-400"
             } transition-colors duration-200`}
             onClick={onCopy}
@@ -72,7 +157,7 @@ const Pre = ({ children }: PreProps) => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   fill="none"
-                  className="text-green-400"
+                  className="text-primary-400"
                   initial={{ opacity: 0, rotate: -15 }}
                   animate={{ opacity: 1, rotate: 0 }}
                   exit={{ opacity: 0 }}
@@ -111,7 +196,14 @@ const Pre = ({ children }: PreProps) => {
         )}
       </AnimatePresence>
 
-      <pre ref={textInput}>{children}</pre>
+      <pre ref={textInput} className={className} {...rest}>
+        {children}
+      </pre>
+      {LanguageIcon && (
+        <span className="pointer-events-none absolute bottom-2 right-2 select-none text-gray-400">
+          <LanguageIcon size={16} />
+        </span>
+      )}
     </div>
   );
 };
