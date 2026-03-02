@@ -24,12 +24,13 @@ const Hero = ({ heroFontStyles }) => {
 					{/* {`Backend & Cybersec Engineer \nBuilding secure, real-time\nsystems for InsurTech\nand Social Media.`} */}
 				</p>
 				<Image
-					src="/static/images/jdecorte_fullbody.png"
+					src="/static/images/jdecorte_fullbody.webp"
 					alt="John Decorte"
 					width={305}
 					height={606}
 					className={`image-animate-on-load absolute -bottom-10 right-0 w-[160px] opacity-0 drop-shadow-2xl md:right-48 md:top-24 md:w-[305px] xl:left-60`}
 					priority
+					blurDataURL="data:image/webp;base64,UklGRq4AAABXRUJQVlA4WAoAAAAQAAAABwAACgAAQUxQSFIAAAANcFrbtuKcYXQ8oyAKK0gxkWkifvpJHcwMmh1TGxERQFJbtv/g5MY2f4AesxeA8MIYcBpQXH2kJlC/tvwqYBcG4RvAPzh3gPB8k1VA+C/kAnABVlA4IDYAAACQAQCdASoIAAsAA4BaJQAAS0t1JwAA/vDhGkK0hbk51VqofGbblt/5LiS0AMeQ6XSF5FjnwAA="
 				/>
 			</div>
 			<div className="absolute bottom-4 left-4 md:bottom-6 md:left-auto md:right-6">
