@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import SectionContainer from "@/components/SectionContainer";
 import TransitionWrapper from "@/components/TransitionWrapper";
 import siteMetadata from "@/data/siteMetadata.mjs";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import MaintenancePage from "./maintenance";
 import { ThemeProviders } from "./theme-providers";
@@ -110,6 +111,7 @@ export default function RootLayout({
 			<body className="overflow-x-hidden bg-[color:var(--background)] text-white antialiased">
 				<ThemeProviders>
 					<SpeedInsights />
+					<VercelAnalytics />
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
