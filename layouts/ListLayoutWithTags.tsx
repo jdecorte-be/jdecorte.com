@@ -90,14 +90,17 @@ export default function ListLayoutWithTags({
 		initialDisplayPosts.length > 0 ? initialDisplayPosts : posts;
 
 	return (
-		<div>
+		<div className="chronicle min-h-screen">
+			{/* Header */}
 			<div className="pb-6 pt-6 sm:hidden">
 				<h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
 					{title}
 				</h1>
 			</div>
-			<div className="flex sm:space-x-24">
-				<div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-gray-50 pt-5 shadow-md dark:bg-[rgb(28,29,34)] dark:shadow-gray-800/40 sm:flex">
+
+			<div className="flex sm:space-x-10">
+				{/* Sidebar tags */}
+				<div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-[hsl(230_15%_10%)] pt-5 shadow-md dark:bg-[hsl(230_15%_10%)] dark:shadow-gray-800/40 sm:flex">
 					<div className="px-6 py-4">
 						{pathname.startsWith("/writeups") ? (
 							<h3 className="font-bold uppercase text-primary-500">
@@ -134,54 +137,81 @@ export default function ListLayoutWithTags({
 						</ul>
 					</div>
 				</div>
-				<div>
-					<ul>
-						{displayPosts.map((post) => {
-							const { path, date, title, summary, tags } = post;
-							return (
-								<motion.li
-									key={path}
-									className="group -mx-3 rounded-lg px-3 py-5 transition-colors duration-300 "
-									whileHover={{ x: 4 }}
-									transition={{ type: "spring", stiffness: 300, damping: 20 }}
-								>
-									<article className="flex flex-col space-y-2 xl:space-y-0">
-										<dl>
-											<dt className="sr-only">Published on</dt>
-											<dd className="flex justify-between text-base font-medium leading-6 text-gray-500">
-												<time dateTime={date}>
-													{formatDate(date, siteMetadata.locale)}
-												</time>
-												{post.draft && (
-													<div className="text-red-400">Draft</div>
-												)}
-											</dd>
-										</dl>
-										<div className="space-y-3">
-											<div>
-												<h2 className="text-2xl font-bold leading-8 tracking-tight">
-													<Link
-														href={`/${path}`}
-														className="text-gray-900 transition-colors duration-300 group-hover:text-primary-500 dark:text-gray-100 dark:group-hover:text-primary-400"
-													>
-														{title}
-													</Link>
-												</h2>
-												<div className="flex flex-wrap">
-													{tags?.map((tag) => (
-														<Tag key={tag} text={tag} />
-													))}
-												</div>
+
+				{/* Timeline */}
+				<div className="chronicle-timeline relative mx-auto w-full max-w-4xl">
+					{/* Continuous vertical line */}
+					<div className="absolute right-[40px] top-0 bottom-0 w-px bg-gray-800 md:right-[52px]" />
+					{displayPosts.map((post, idx) => {
+						const { path, date, title, summary, tags } = post;
+						return (
+							<motion.article
+								key={path}
+								className="timeline-entry group relative grid grid-cols-[1fr_80px] gap-x-4 gap-y-0 pb-3 md:gap-x-6"
+								initial={{ opacity: 0, y: 16 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{
+									duration: 0.4,
+									ease: "easeOut",
+									delay: idx * 0.06,
+								}}
+							>
+								{/* Card */}
+								<div className="timeline-content min-w-0">
+									<Link href={`/${path}`} className="block">
+										<div className="rounded-l-lg border-r-2 border-primary-500/50 bg-[hsl(230_15%_10%)] px-5 py-5 transition-all duration-300 group-hover:-translate-x-1 group-hover:border-accent-400 group-hover:bg-[hsl(230_15%_16%)] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] md:px-7 md:py-6">
+											{/* Title */}
+											<h2 className="text-xl font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 md:text-2xl">
+												{title}
+											</h2>
+
+											{/* Badges */}
+											<div className="mt-2 flex flex-wrap gap-1.5">
+												{tags?.map((tag, i) => (
+													<Tag key={tag} text={tag} index={i} asSpan />
+												))}
 											</div>
-											<div className="prose max-w-none text-gray-500 dark:text-gray-400">
-												{summary}
-											</div>
+
+											{/* Draft badge */}
+											{post.draft && (
+												<span className="ml-2 inline-block rounded bg-red-500/20 px-2 py-0.5 font-mono text-[0.65rem] font-semibold uppercase tracking-wider text-red-400">
+													Draft
+												</span>
+											)}
+
+											{/* Summary */}
+											{summary && (
+												<p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-400">
+													{summary}
+												</p>
+											)}
 										</div>
-									</article>
-								</motion.li>
-							);
-						})}
-					</ul>
+									</Link>
+								</div>
+
+								{/* Date column */}
+								<div className="relative flex items-start gap-3 pt-2">
+									{/* Timeline dot */}
+									<div className="relative z-10 mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full border-2 border-primary-500 bg-gray-950 transition-colors group-hover:border-accent-400 group-hover:bg-accent-400" />
+									<time
+										dateTime={date}
+										className="flex flex-col items-start font-mono text-xs leading-tight tracking-wider text-gray-500 dark:text-gray-400"
+									>
+										<span className="text-[0.65rem] uppercase text-gray-500">
+											{new Date(date).toLocaleString(siteMetadata.locale, { month: "short" })}
+										</span>
+										<span className="text-lg font-bold text-gray-300">
+											{new Date(date).getDate().toString().padStart(2, "0")}
+										</span>
+										<span className="text-[0.6rem] text-gray-600">
+											{new Date(date).getFullYear()}
+										</span>
+									</time>
+								</div>
+							</motion.article>
+						);
+					})}
+
 					{pagination && pagination.totalPages > 1 && (
 						<Pagination
 							currentPage={pagination.currentPage}

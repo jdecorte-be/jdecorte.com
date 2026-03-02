@@ -1,4 +1,4 @@
-export type Category = "Network" | "Low level" | "Web Development";
+export type Category = "Network" | "Low level" | "Web Dev";
 
 export type Project = {
 	title: string;
@@ -75,7 +75,7 @@ export const projects: Record<Category, Project[]> = {
 			index: 2,
 		},
 	],
-	"Web Development": [
+	"Web Dev": [
 		{
 			title: "Tweetz",
 			size: "large",
@@ -109,4 +109,4 @@ export const projects: Record<Category, Project[]> = {
 	],
 };
 
-export const CATEGORIES: Category[] = ["Network", "Low level", "Web Development"];
+export const CATEGORIES: Category[] = ["Network", "Low level", "Web Dev"];

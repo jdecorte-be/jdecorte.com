@@ -151,8 +151,8 @@ export default function ListLayout({
 												</Link>
 											</h3>
 											<div className="flex flex-wrap">
-												{tags?.map((tag) => (
-													<Tag key={tag} text={tag} />
+												{tags?.map((tag, i) => (
+													<Tag key={tag} text={tag} index={i} />
 												))}
 											</div>
 										</div>
