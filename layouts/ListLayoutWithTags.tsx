@@ -4,8 +4,9 @@
 import tagData from "app/tag-data.json" with { type: "json" };
 import type { Writeups } from "contentlayer/generated";
 import { slug } from "github-slugger";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import { formatDate } from "pliny/utils/formatDate";
 import Link from "@/components/Link";
@@ -89,17 +90,100 @@ export default function ListLayoutWithTags({
 	const displayPosts =
 		initialDisplayPosts.length > 0 ? initialDisplayPosts : posts;
 
+	const [mobileTagsOpen, setMobileTagsOpen] = useState(false);
+
 	return (
 		<div className="chronicle min-h-screen">
-			{/* Header */}
-			<div className="pb-6 pt-6 sm:hidden">
-				<h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-					{title}
-				</h1>
+			{/* Mobile Header + Tag Toggle */}
+			<div className="pb-4 pt-6 sm:hidden">
+				<div className="flex items-center justify-between">
+					<h1 className="text-2xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100">
+						{title}
+					</h1>
+					<button
+						type="button"
+						onClick={() => setMobileTagsOpen((v) => !v)}
+						className="inline-flex items-center gap-1.5 rounded-md border border-gray-700 bg-[hsl(230_15%_12%)] px-3 py-1.5 text-xs font-medium uppercase tracking-wider text-gray-300 transition-colors hover:border-primary-500 hover:text-primary-400"
+						aria-expanded={mobileTagsOpen}
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20"
+							fill="currentColor"
+							className="h-3.5 w-3.5"
+						>
+							<path
+								fillRule="evenodd"
+								d="M5.5 3A2.5 2.5 0 003 5.5v2.879a2.5 2.5 0 00.732 1.767l6.5 6.5a2.5 2.5 0 003.536 0l2.878-2.878a2.5 2.5 0 000-3.536l-6.5-6.5A2.5 2.5 0 008.38 3H5.5zM6 7a1 1 0 100-2 1 1 0 000 2z"
+								clipRule="evenodd"
+							/>
+						</svg>
+						Tags
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 20 20"
+							fill="currentColor"
+							className={`h-3.5 w-3.5 transition-transform ${mobileTagsOpen ? "rotate-180" : ""}`}
+						>
+							<path
+								fillRule="evenodd"
+								d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+								clipRule="evenodd"
+							/>
+						</svg>
+					</button>
+				</div>
+
+				{/* Mobile tags panel */}
+				<AnimatePresence>
+					{mobileTagsOpen && (
+						<motion.div
+							initial={{ height: 0, opacity: 0 }}
+							animate={{ height: "auto", opacity: 1 }}
+							exit={{ height: 0, opacity: 0 }}
+							transition={{ duration: 0.25, ease: "easeInOut" }}
+							className="overflow-hidden"
+						>
+							<div className="mt-3 flex flex-wrap gap-2 rounded-md border border-gray-800 bg-[hsl(230_15%_10%)] p-3">
+								{pathname.startsWith("/writeups") && !pathname.includes("/tags/") ? (
+									<span className="rounded-full border border-primary-500/40 bg-primary-500/10 px-3 py-1 text-xs font-bold uppercase text-primary-400">
+										All Posts
+									</span>
+								) : (
+									<Link
+										href="/writeups"
+										className="rounded-full border border-gray-700 px-3 py-1 text-xs font-medium uppercase text-gray-400 transition-colors hover:border-primary-500 hover:text-primary-400"
+									>
+										All Posts
+									</Link>
+								)}
+								{sortedTags.map((t) => {
+									const isActive = pathname.split("/tags/")[1] === slug(t);
+									return isActive ? (
+										<span
+											key={t}
+											className="rounded-full border border-primary-500/40 bg-primary-500/10 px-3 py-1 text-xs font-bold uppercase text-primary-400"
+										>
+											{t} ({tagCounts[t]})
+										</span>
+									) : (
+										<Link
+											key={t}
+											href={`/writeups/tags/${slug(t)}`}
+											className="rounded-full border border-gray-700 px-3 py-1 text-xs font-medium uppercase text-gray-400 transition-colors hover:border-primary-500 hover:text-primary-400"
+										>
+											{t} ({tagCounts[t]})
+										</Link>
+									);
+								})}
+							</div>
+						</motion.div>
+					)}
+				</AnimatePresence>
 			</div>
 
 			<div className="flex sm:space-x-10">
-				{/* Sidebar tags */}
+				{/* Sidebar tags — desktop only */}
 				<div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-[hsl(230_15%_10%)] pt-5 shadow-md dark:bg-[hsl(230_15%_10%)] dark:shadow-gray-800/40 sm:flex">
 					<div className="px-6 py-4">
 						{pathname.startsWith("/writeups") ? (
@@ -141,13 +225,13 @@ export default function ListLayoutWithTags({
 				{/* Timeline */}
 				<div className="chronicle-timeline relative mx-auto w-full max-w-4xl">
 					{/* Continuous vertical line */}
-					<div className="absolute right-[40px] top-0 bottom-0 w-px bg-gray-800 md:right-[52px]" />
+					<div className="absolute right-[28px] top-0 bottom-0 w-px bg-gray-800 sm:right-[40px] md:right-[52px]" />
 					{displayPosts.map((post, idx) => {
 						const { path, date, title, summary, tags } = post;
 						return (
 							<motion.article
 								key={path}
-								className="timeline-entry group relative grid grid-cols-[1fr_80px] gap-x-4 gap-y-0 pb-3 md:gap-x-6"
+								className="timeline-entry group relative grid grid-cols-[1fr_56px] gap-x-2 gap-y-0 pb-3 sm:grid-cols-[1fr_80px] sm:gap-x-4 md:gap-x-6"
 								initial={{ opacity: 0, y: 16 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{
@@ -159,9 +243,9 @@ export default function ListLayoutWithTags({
 								{/* Card */}
 								<div className="timeline-content min-w-0">
 									<Link href={`/${path}`} className="block">
-										<div className="rounded-l-lg border-r-2 border-primary-500/50 bg-[hsl(230_15%_10%)] px-5 py-5 transition-all duration-300 group-hover:-translate-x-1 group-hover:border-accent-400 group-hover:bg-[hsl(230_15%_16%)] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] md:px-7 md:py-6">
+										<div className="rounded-l-lg border-r-2 border-primary-500/50 bg-[hsl(230_15%_10%)] px-3 py-4 transition-all duration-300 group-hover:-translate-x-1 group-hover:border-accent-400 group-hover:bg-[hsl(230_15%_16%)] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] sm:px-5 sm:py-5 md:px-7 md:py-6">
 											{/* Title */}
-											<h2 className="text-xl font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 md:text-2xl">
+											<h2 className="text-base font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 sm:text-xl md:text-2xl">
 												{title}
 											</h2>
 
