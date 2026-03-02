@@ -224,8 +224,6 @@ export default function ListLayoutWithTags({
 
 				{/* Timeline */}
 				<div className="chronicle-timeline relative mx-auto w-full max-w-4xl">
-					{/* Continuous vertical line */}
-					<div className="absolute right-[28px] top-0 bottom-0 w-px bg-gray-800 sm:right-[40px] md:right-[52px]" />
 					{displayPosts.map((post, idx) => {
 						const { path, date, title, summary, tags } = post;
 						return (
@@ -275,6 +273,11 @@ export default function ListLayoutWithTags({
 
 								{/* Date column */}
 								<div className="relative flex items-start gap-3 pt-2">
+									{/* Vertical line segment (anchored to dot center) */}
+									<div
+										className="absolute left-[4.5px] top-0 w-px bg-gray-800"
+										style={{ bottom: idx < displayPosts.length - 1 ? '-0.75rem' : '0' }}
+									/>
 									{/* Timeline dot */}
 									<div className="relative z-10 mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full border-2 border-primary-500 bg-gray-950 transition-colors group-hover:border-accent-400 group-hover:bg-accent-400" />
 									<time
