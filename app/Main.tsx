@@ -13,13 +13,13 @@ export default function Home({ posts, heroFontStyles }) {
 			{/* NOTE: Animations might be a little much, also animate-blob is on a second line to get around prettier ordering error */}
 			<div
 				className={
-					"absolute -left-60 top-20 h-[380px] w-[380px] rounded-full bg-[#E2EFB0] opacity-5 blur-3xl filter" +
+					"absolute -left-60 top-20 h-[380px] w-[380px] rounded-full bg-white opacity-5 blur-3xl filter" +
 					"animate-blob"
 				}
 			/>
 			<div
 				className={
-					"absolute -right-20 top-60 h-[380px] w-[380px] rounded-full bg-[#B9FF46] opacity-5 blur-3xl filter" +
+					"absolute -right-20 top-60 h-[380px] w-[380px] rounded-full bg-white opacity-5 blur-3xl filter" +
 					"animate-blob"
 				}
 			/>

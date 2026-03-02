@@ -16,7 +16,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "42 Network",
 			size: "large",
 			buttonText: "View Writeup",
-			imgSrc: "/static/images/projects/42.png",
+			imgSrc: "",
 			href: "/writeups/42",
 			description:
 				"A comprehensive network infrastructure project for distributed computing and real-time communication.",
@@ -26,7 +26,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "TCP/IP Stack",
 			size: "small",
 			buttonText: "View Project",
-			imgSrc: "/static/images/projects/42.png",
+			imgSrc: "",
 			href: "#",
 			description:
 				"Custom implementation of TCP/IP networking protocols from scratch.",
@@ -36,7 +36,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "VPN Gateway",
 			size: "small",
 			buttonText: "View Project",
-			imgSrc: "/static/images/projects/42.png",
+			imgSrc: "",
 			href: "#",
 			description:
 				"Secure VPN gateway with encryption and authentication mechanisms.",
@@ -48,7 +48,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "MachO Injection",
 			size: "large",
 			buttonText: "View Writeup",
-			imgSrc: "/static/images/projects/tweetz.png",
+			imgSrc: "",
 			href: "/writeups/macho-injection",
 			description:
 				"Advanced binary manipulation techniques for macOS executable injection and dynamic analysis.",
@@ -58,7 +58,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "Custom Allocator",
 			size: "small",
 			buttonText: "View Project",
-			imgSrc: "/static/images/projects/tweetz.png",
+			imgSrc: "",
 			href: "#",
 			description:
 				"High-performance memory allocator with custom heap management strategies.",
@@ -68,7 +68,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "Kernel Module",
 			size: "small",
 			buttonText: "View Project",
-			imgSrc: "/static/images/projects/tweetz.png",
+			imgSrc: "",
 			href: "#",
 			description:
 				"Linux kernel module for system call interception and monitoring.",
@@ -80,7 +80,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "Tweetz",
 			size: "large",
 			buttonText: "View Writeup",
-			imgSrc: "/static/images/projects/tweetz.png",
+			imgSrc: "",
 			href: "/writeups/tweetz",
 			description:
 				"Real-time social media platform with scalable microservices architecture and WebSocket integration.",
@@ -90,7 +90,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "Wili Logs",
 			size: "small",
 			buttonText: "View Writeup",
-			imgSrc: "/static/images/projects/wilink.png",
+			imgSrc: "",
 			href: "/writeups/wilink",
 			description:
 				"Advanced logging and monitoring dashboard with analytics and visualization.",
@@ -100,7 +100,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "E-Commerce Platform",
 			size: "small",
 			buttonText: "View Project",
-			imgSrc: "/static/images/projects/wilink.png",
+			imgSrc: "",
 			href: "#",
 			description:
 				"Full-stack e-commerce solution with payment integration and inventory management.",

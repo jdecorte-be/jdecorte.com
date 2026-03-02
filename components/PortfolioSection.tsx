@@ -30,13 +30,13 @@ export default function PortfolioSection() {
 						whileInView="visible"
 						variants={fadeInFromTop}
 					>
-						<p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary-500 dark:text-primary-400">
+						<p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary-500">
 							PORTFOLIO
 						</p>
-						<h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100 md:text-5xl">
+						<h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-100 md:text-5xl">
 							Discover what I've created
 						</h2>
-						<p className="mx-auto max-w-3xl text-base text-gray-600 dark:text-gray-400 md:text-lg">
+							<p className="mx-auto max-w-3xl text-base text-gray-400 md:text-lg">
 							Each piece reflects my passion for innovation and commitment to
 							delivering high-quality results. Feel free to explore and get
 							inspired!

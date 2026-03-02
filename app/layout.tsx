@@ -106,29 +106,29 @@ export default function RootLayout({
 			<meta name="msapplication-TileColor" content="#000000" />
 			<meta name="theme-color" content="#000000" />
 			<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-			<body className="overflow-x-hidden bg-[#000E04] text-white antialiased">
+			<body className="overflow-x-hidden bg-[color:var(--background)] text-white antialiased">
 				<ThemeProviders>
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
-					<SectionContainer>
-						<div className="flex h-screen flex-col justify-between font-sans">
-							<CustomKBarSearchProvider
-								searchConfig={
-									siteMetadata.search as {
-										provider: "kbar";
-										kbarConfig: { searchDocumentsPath: string };
-									}
+					<div className="flex h-screen flex-col justify-between font-sans">
+						<CustomKBarSearchProvider
+							searchConfig={
+								siteMetadata.search as {
+									provider: "kbar";
+									kbarConfig: { searchDocumentsPath: string };
 								}
-							>
-								<Header />
+							}
+						>
+							<Header />
+							<SectionContainer>
 								<main className="mb-auto">
 									<TransitionWrapper>{children}</TransitionWrapper>
 								</main>
-							</CustomKBarSearchProvider>
-							<Footer />
-						</div>
-					</SectionContainer>
+								<Footer />
+							</SectionContainer>
+						</CustomKBarSearchProvider>
+					</div>
 				</ThemeProviders>
 			</body>
 		</html>

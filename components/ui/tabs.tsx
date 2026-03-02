@@ -15,7 +15,7 @@ const TabsList = React.forwardRef<
 	<TabsPrimitive.List
 		ref={ref}
 		className={cn(
-			"relative inline-flex h-10 items-center justify-center rounded-xl bg-gray-100 p-1 text-gray-600 dark:bg-gray-900/50 dark:text-gray-400 border border-gray-200 dark:border-green-900/30",
+			"relative inline-flex h-10 items-center justify-center rounded-xl bg-gray-100 p-1 text-gray-600 dark:bg-gray-900/50 dark:text-gray-400 border border-gray-200 dark:border-primary-900/30",
 			className,
 		)}
 		{...props}
@@ -55,7 +55,7 @@ const TabsTrigger = React.forwardRef<
 		<TabsPrimitive.Trigger
 			ref={internalRef}
 			className={cn(
-				"relative inline-flex items-center justify-center whitespace-nowrap rounded-lg px-6 py-2 text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+				"relative inline-flex items-center justify-center whitespace-nowrap rounded-lg px-6 py-2 text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
 				"data-[state=active]:text-gray-900 dark:data-[state=active]:text-white",
 				"hover:text-gray-900 dark:hover:text-gray-200",
 				className,
@@ -66,7 +66,7 @@ const TabsTrigger = React.forwardRef<
 			{isActive && (
 				<motion.div
 					layoutId="activeTab"
-					className="absolute inset-0 rounded-lg bg-white dark:bg-green-600 shadow-md dark:shadow-green-500/20"
+					className="absolute inset-0 rounded-lg bg-white dark:bg-primary-600 shadow-md dark:shadow-primary-500/20"
 					transition={{
 						type: "spring",
 						stiffness: 500,

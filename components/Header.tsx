@@ -9,11 +9,14 @@ import SearchButton from "./SearchButton";
 const Header = () => {
 	return (
 		<header
-			className="sticky top-0 z-40 flex items-center justify-between py-8 backdrop-blur-sm"
+			className="sticky top-0 z-40 w-full backdrop-blur-sm"
 			style={{
-				background: `rgba(0, 14, 4, 0.6)`,
+				background: "rgba(15, 16, 21, 0.43)",
+				boxShadow: `0 1px 2px rgba(0, 14, 4, 0.1)`,
+				borderBottom: `1px solid rgba(0, 14, 4, 0.1)`,
 			}}
 		>
+			<div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-8 sm:px-6 xl:max-w-5xl xl:px-0">
 			<div>
 				<Link href="/" aria-label={siteMetadata.headerTitle}>
 					<div className="flex items-center justify-between">
@@ -45,6 +48,7 @@ const Header = () => {
 				{/* <ThemeSwitch /> */}
 				<MobileNav />
 			</div>
+		</div>
 		</header>
 	);
 };
