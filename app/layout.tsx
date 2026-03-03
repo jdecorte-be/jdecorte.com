@@ -79,7 +79,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang={siteMetadata.language}
-			className={`${space_grotesk.variable} scroll-smooth dark`}
+			className={`${space_grotesk.variable} scroll-smooth dark overflow-x-hidden`}
 			suppressHydrationWarning
 		>
 			<link
