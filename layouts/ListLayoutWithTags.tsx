@@ -187,9 +187,9 @@ export default function ListLayoutWithTags({
 				<div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-[hsl(230_15%_10%)] pt-5 shadow-md dark:bg-[hsl(230_15%_10%)] dark:shadow-gray-800/40 sm:flex">
 					<div className="px-6 py-4">
 						{pathname.startsWith("/writeups") ? (
-							<h3 className="font-bold uppercase text-primary-500">
+							<span className="font-bold uppercase text-primary-500">
 								All Posts
-							</h3>
+							</span>
 						) : (
 							<Link
 								href="/writeups"
@@ -203,9 +203,9 @@ export default function ListLayoutWithTags({
 								return (
 									<li key={t} className="my-3">
 										{pathname.split("/tags/")[1] === slug(t) ? (
-											<h3 className="inline px-3 py-2 text-sm font-bold uppercase text-primary-500">
-												{`${t} (${tagCounts[t]})`}
-											</h3>
+										<span className="inline px-3 py-2 text-sm font-bold uppercase text-primary-500">
+											{`${t} (${tagCounts[t]})`}
+										</span>
 										) : (
 											<Link
 												href={`/writeups/tags/${slug(t)}`}
