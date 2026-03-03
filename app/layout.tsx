@@ -1,7 +1,7 @@
 import "css/tailwind.css";
 
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Roboto_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics, type AnalyticsConfig } from "pliny/analytics";
 import { CustomKBarSearchProvider } from "@/components/CustomKBarSearch";
 import Footer from "@/components/Footer";
@@ -18,6 +18,12 @@ const space_grotesk = Space_Grotesk({
 	subsets: ["latin"],
 	display: "swap",
 	variable: "--font-space-grotesk",
+});
+
+const roboto_mono = Roboto_Mono({
+	subsets: ["latin"],
+	display: "swap",
+	variable: "--font-roboto-mono",
 });
 
 export const metadata: Metadata = {
@@ -77,7 +83,7 @@ export default function RootLayout({
 	return (
 		<html
 			lang={siteMetadata.language}
-			className={`${space_grotesk.variable} scroll-smooth dark overflow-x-hidden`}
+			className={`${space_grotesk.variable} ${roboto_mono.variable} scroll-smooth dark overflow-x-hidden`}
 			suppressHydrationWarning
 		>
 			<link

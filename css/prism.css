@@ -7,19 +7,19 @@
 
 code[class*="language-"],
 pre[class*="language-"] {
-	color: #f8f8f2;
+	color: rgb(213, 216, 218);
 	background: none;
-	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-shadow: none;
+	font-family: var(--font-roboto-mono), Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 	text-align: left;
 	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
 	word-wrap: normal;
-	line-height: 1.5;
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	tab-size: 4;
+	line-height: 1.6;
+	-moz-tab-size: 3;
+	-o-tab-size: 3;
+	tab-size: 3;
 	-webkit-hyphens: none;
 	-moz-hyphens: none;
 	-ms-hyphens: none;
@@ -28,15 +28,17 @@ pre[class*="language-"] {
 
 /* Code blocks */
 pre[class*="language-"] {
-	padding: 1em;
-	margin: .5em 0;
-	overflow: auto;
-	border-radius: 0.3em;
+	padding: 1rem 1.25rem;
+	margin: 1.5rem 0;
+	overflow-x: auto;
+	border-radius: 6px;
+	font-size: 0.875rem;
+	border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-	background: #282a36;
+	background-color: rgb(11, 12, 15);
 }
 
 /* Inline code */
@@ -46,69 +48,103 @@ pre[class*="language-"] {
 	white-space: normal;
 }
 
+/* Inline code in post content (backtick code like `read_file`) */
+:not(pre) > code {
+	font-family: var(--font-roboto-mono), Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-size: 0.875em;
+	background: var(--code-inline-bg);
+	padding: 0.2em 0.4em;
+	border-radius: 4px;
+	color: var(--code-text);
+}
+
 .token.comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-	color: #6272a4;
+	color: #bbbbbb4d;
+	font-style: italic;
 }
 
 .token.punctuation {
-	color: #f8f8f2;
+	color: #bbb;
 }
 
 .namespace {
-	opacity: .7;
+	color: #fac29a;
 }
 
 .token.property,
 .token.tag,
+.token.symbol {
+	color: #e95678;
+}
+
 .token.constant,
-.token.symbol,
 .token.deleted {
-	color: #ff79c6;
+	color: #f09483;
 }
 
 .token.boolean,
 .token.number {
-	color: #bd93f9;
+	color: #f09483;
 }
 
 .token.selector,
-.token.attr-name,
 .token.string,
 .token.char,
-.token.builtin,
 .token.inserted {
-	color: #50fa7b;
+	color: #fab795;
+}
+
+.token.attr-name {
+	color: #f09483;
+	font-style: italic;
+}
+
+.token.builtin {
+	color: #25b0bc;
 }
 
 .token.operator,
 .token.entity,
 .token.url,
 .language-css .token.string,
-.style .token.string,
+.style .token.string {
+	color: #bbb;
+}
+
 .token.variable {
-	color: #f8f8f2;
+	color: #e95678;
 }
 
 .token.atrule,
-.token.attr-value,
-.token.function,
+.token.attr-value {
+	color: #fab795;
+}
+
+.token.function {
+	color: #25b0bc;
+}
+
 .token.class-name {
-	color: #f1fa8c;
+	color: #fac29a;
 }
 
 .token.keyword {
-	color: #8be9fd;
+	color: #b877db;
+	font-style: italic;
 }
 
-.token.regex,
+.token.regex {
+	color: #f09483;
+}
+
 .token.important {
-	color: #ffb86c;
+	color: #f09483;
+	font-weight: bold;
 }
 
-.token.important,
 .token.bold {
 	font-weight: bold;
 }
@@ -119,4 +155,35 @@ pre[class*="language-"] {
 
 .token.entity {
 	cursor: help;
+}
+
+/* Line numbers */
+.code-highlight {
+	counter-reset: line;
+}
+
+.code-line {
+	display: block;
+	padding-left: 3.5em;
+	position: relative;
+	border-left: 2px solid transparent;
+}
+
+.code-line::before {
+	counter-increment: line;
+	content: counter(line);
+	position: absolute;
+	left: 0;
+	display: inline-block;
+	width: 2.5em;
+	padding-right: 0.5em;
+	text-align: right;
+	color: rgba(115, 125, 140, 0.5);
+	user-select: none;
+	pointer-events: none;
+}
+
+.code-line.highlight-line {
+	background-color: rgba(255, 255, 255, 0.06);
+	border-left-color: #8be9fd;
 }
