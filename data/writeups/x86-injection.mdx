@@ -1,0 +1,498 @@
+---
+title: 'x86-64 ELF Binary Packer'
+date: '2025-01-10'
+tags: ['x86-64', 'malware-dev', 'linux', 'binary-injection']
+draft: false
+summary: "Build your own ELF packer for x86-64 Linux. Learn binary manipulation, shellcode injection, and executable file structure through hands-on implementation."
+---
+
+# x86-64 Code Injection Explained
+
+<GithubCard repo="jdecorte-be/42-WoodyWoodpacker" />
+
+<Callout type="caution">
+The information you gather from this blog, all the techniques, proofs-of-concept code, or whatever else you may possibly find here, are _strictly_ for educational purposes. I do not condone the usage of anything you might gather from this blog for malicious purposes. I've made this blog therein, to consolidate my learning by teaching it to the world.
+</Callout> 
+
+---
+
+## The Core Challenge
+
+You have a binary file on disk. You want to:
+1. **Insert your own code** (shellcode) into it
+2. **Make it execute** before the original program
+3. **Return control** to the original program seamlessly
+
+Think of it like hijacking a train: you board it at the station, do your thing during the ride, then let the original passengers continue to their destination.
+
+---
+
+## Understanding the Landscape
+
+### What You're Working With
+
+When you open an ELF binary, you see:
+
+```
+┌─────────────────────────────────────┐
+│  ELF Header (64 bytes)              │  ← Metadata about the file
+├─────────────────────────────────────┤
+│  Program Headers (56 bytes × N)     │  ← How to load into memory
+├─────────────────────────────────────┤
+│  .text section (CODE)               │  ← The actual program
+│  .rodata section (constants)        │
+│  .data section (variables)          │
+├─────────────────────────────────────┤
+│  Padding/Alignment (0x00 bytes)     │  ← **GOLD MINE FOR INJECTION**
+├─────────────────────────────────────┤
+│  .got/.plt (dynamic linking)        │
+│  .bss (uninitialized data)          │
+├─────────────────────────────────────┤
+│  Section Headers (64 bytes × N)     │  ← Debug/link info
+└─────────────────────────────────────┘
+```
+
+<Image src="/static/images/writeups/x86-injection/header.jpg" alt="description" width={800} height={400} />
+
+The **padding** exists because segments must align to page boundaries (4096 bytes). This creates "code caves" - empty spaces where we can hide our shellcode.
+
+---
+
+## Step-by-Step Injection Process
+
+### Step 1: Find the Code Cave
+
+```c
+// Parse the ELF file
+Elf64_Ehdr *elf_header = (Elf64_Ehdr *)mapped_file;
+Elf64_Phdr *program_headers = (Elf64_Phdr *)(mapped_file + elf_header->e_phoff);
+
+// Find the first executable LOAD segment
+for (int i = 0; i < elf_header->e_phnum; i++) {
+    if (program_headers[i].p_type == PT_LOAD && 
+        (program_headers[i].p_flags & PF_X)) {
+        
+        // Calculate where this segment ends in the file
+        uint64_t segment_end = program_headers[i].p_offset + 
+                               program_headers[i].p_filesz;
+        
+        // Where does the NEXT segment start?
+        uint64_t next_segment_start = program_headers[i + 1].p_offset;
+        
+        // The gap is our code cave!
+        uint64_t cave_size = next_segment_start - segment_end;
+        
+        printf("Found %lu bytes of space!\n", cave_size);
+        return segment_end; // This is where we inject
+    }
+}
+```
+
+**Why the executable segment?** Because our shellcode needs **execute permission**. If we inject into a data segment, the CPU will refuse to run it (NX protection).
+
+---
+
+### Step 2: Craft the Shellcode
+
+Your shellcode must be **position-independent** (work at any memory address) and **self-contained** (no library calls).
+
+#### The Anatomy of x86-64 Shellcode
+
+```nasm
+BITS 64
+default rel                    ; Use RIP-relative addressing
+
+global _start
+_start:
+    ; ─────────────────────────────────────────────────────────
+    ; PART 1: Print "....WOODY...."
+    ; ─────────────────────────────────────────────────────────
+    xor     rax, rax           ; Clear rax (zero it out)
+    mov     al, 1              ; syscall number: write (1)
+    mov     rdi, 1             ; arg1: file descriptor (stdout = 1)
+    lea     rsi, [rel msg]     ; arg2: pointer to message (RIP-relative!)
+    mov     rdx, 14            ; arg3: message length
+    syscall                    ; Invoke kernel
+    
+    ; ─────────────────────────────────────────────────────────
+    ; PART 2: Decrypt the .text section
+    ; ─────────────────────────────────────────────────────────
+    mov     rsi, [rel text_addr]   ; Load encrypted text address
+    mov     rcx, [rel text_size]   ; Load text section size
+    lea     rdi, [rel key]         ; Load encryption key address
+    
+.decrypt_loop:
+    lodsb                      ; Load byte from [rsi] into AL, increment rsi
+    xor     al, [rdi]          ; XOR with current key byte
+    mov     [rsi-1], al        ; Write decrypted byte back
+    inc     rdi                ; Move to next key byte
+    lea     r8, [rel key]      ; Get key start address
+    add     r8, 8              ; Key is 8 bytes long
+    cmp     rdi, r8            ; Reached end of key?
+    jne     .no_wrap
+    lea     rdi, [rel key]     ; Wrap around to key start
+.no_wrap:
+    loop    .decrypt_loop      ; Decrement rcx, loop if not zero
+    
+    ; ─────────────────────────────────────────────────────────
+    ; PART 3: Jump to original program
+    ; ─────────────────────────────────────────────────────────
+    mov     rax, [rel original_entry]  ; Load original entry point
+    jmp     rax                        ; Jump there (no return!)
+
+; ─────────────────────────────────────────────────────────────
+; DATA SECTION (patched by packer at injection time)
+; ─────────────────────────────────────────────────────────────
+msg:            db "....WOODY....", 10
+key:            dq 0x0000000000000000  ; Placeholder for XOR key
+text_addr:      dq 0x0000000000000000  ; Placeholder for .text vaddr
+text_size:      dq 0x0000000000000000  ; Placeholder for .text size
+original_entry: dq 0x0000000000000000  ; Placeholder for real entry
+```
+
+#### Why `lea rsi, [rel msg]`?
+
+**Problem**: If you use `mov rsi, msg`, the assembler generates an absolute address like `0x401000`. But when your shellcode is injected, it might load at `0x500000`, making the address wrong.
+
+**Solution**: `[rel msg]` means "calculate offset from current instruction pointer (RIP)". This works anywhere:
+```
+At address 0x401000:  lea rsi, [rip + 50]  → rsi = 0x401032
+At address 0x500000:  lea rsi, [rip + 50]  → rsi = 0x500032
+```
+The **relative offset** (50 bytes) stays the same!
+
+---
+
+### Step 3: Compile to Raw Bytes
+
+```bash
+# Assemble to object file
+nasm -f elf64 -o shellcode.o shellcode.asm
+
+# Link (if testing standalone)
+ld -o shellcode shellcode.o
+
+# Extract ONLY the machine code
+objcopy -O binary -j .text shellcode shellcode.bin
+
+# View the raw bytes
+xxd shellcode.bin
+```
+
+**Result**: You get pure machine code like:
+```
+48 31 c0 b0 01 bf 01 00 00 00 48 8d 35 0a 00 00
+00 ba 0e 00 00 00 0f 05 48 8b 35 00 00 00 00 ...
+```
+
+---
+
+### Step 4: Inject into the Binary
+
+```c
+// Open the target binary
+int fd = open("target_binary", O_RDWR);
+struct stat st;
+fstat(fd, &st);
+
+// Map it to memory for easy manipulation
+uint8_t *file = mmap(NULL, st.st_size, PROT_READ | PROT_WRITE, 
+                     MAP_SHARED, fd, 0);
+
+// Load your shellcode
+FILE *sc_file = fopen("shellcode.bin", "rb");
+uint8_t shellcode[1024];
+size_t sc_size = fread(shellcode, 1, 1024, sc_file);
+
+// Find the code cave (from Step 1)
+uint64_t cave_offset = find_code_cave(file);
+
+// Calculate where shellcode will be in MEMORY (not file!)
+Elf64_Ehdr *ehdr = (Elf64_Ehdr *)file;
+Elf64_Phdr *phdr = find_executable_segment(file);
+
+// Virtual address = segment's vaddr + offset within segment
+uint64_t shellcode_vaddr = phdr->p_vaddr + 
+                          (cave_offset - phdr->p_offset);
+
+printf("Shellcode will execute at: 0x%lx\n", shellcode_vaddr);
+
+// Copy shellcode into the cave
+memcpy(file + cave_offset, shellcode, sc_size);
+```
+
+---
+
+### Step 5: Patch the Shellcode Placeholders
+
+Remember those `dq 0x0000000000000000` placeholders? Now we fill them:
+
+```c
+// Find where each placeholder is in the shellcode
+#define KEY_OFFSET         14   // Offset of 'key:' label
+#define TEXT_ADDR_OFFSET   22   // Offset of 'text_addr:' label
+#define TEXT_SIZE_OFFSET   30   // Offset of 'text_size:' label
+#define ENTRY_OFFSET       38   // Offset of 'original_entry:' label
+
+// Generate random encryption key
+uint64_t key;
+FILE *urandom = fopen("/dev/urandom", "rb");
+fread(&key, sizeof(key), 1, urandom);
+fclose(urandom);
+
+// Find .text section details
+Elf64_Shdr *text_section = find_section(file, ".text");
+uint64_t text_vaddr = text_section->sh_addr;
+uint64_t text_size = text_section->sh_size;
+
+// Save original entry point
+uint64_t original_entry = ehdr->e_entry;
+
+// Patch the shellcode in memory
+memcpy(file + cave_offset + KEY_OFFSET, &key, 8);
+memcpy(file + cave_offset + TEXT_ADDR_OFFSET, &text_vaddr, 8);
+memcpy(file + cave_offset + TEXT_SIZE_OFFSET, &text_size, 8);
+memcpy(file + cave_offset + ENTRY_OFFSET, &original_entry, 8);
+```
+
+---
+
+### Step 6: Encrypt the .text Section
+
+```c
+uint8_t *text_start = file + text_section->sh_offset;
+for (size_t i = 0; i < text_size; i++) {
+    text_start[i] ^= ((uint8_t *)&key)[i % 8];  // XOR with rotating key
+}
+```
+
+**Now the program is broken!** If you run it, it will crash because the code is encrypted garbage. That's why we need...
+
+---
+
+### Step 7: Hijack the Entry Point
+
+```c
+// Change where the program starts executing
+ehdr->e_entry = shellcode_vaddr;  // Point to OUR code instead!
+
+// Save the modified binary
+munmap(file, st.st_size);
+close(fd);
+```
+
+**What happens now when someone runs the binary?**
+
+```
+1. OS loads the ELF into memory
+2. OS jumps to e_entry (our shellcode!)
+3. Shellcode prints "....WOODY...."
+4. Shellcode decrypts .text section
+5. Shellcode jumps to original_entry
+6. Original program runs normally
+```
+
+---
+
+## Visual Flow Diagram
+
+### Before Injection
+```
+File:                          Memory:
+┌──────────────┐              ┌──────────────┐
+│ ELF Header   │              │ ELF Header   │
+│ e_entry:     │──────┐       │              │
+│  0x401000    │      │       ├──────────────┤
+├──────────────┤      │       │              │
+│ Segments     │      │       │              │
+├──────────────┤      │       ├──────────────┤
+│ .text        │◄─────┘       │ .text        │◄── Execution starts here
+│ (original    │              │ (original)   │
+│  code)       │              │ mov rdi, ... │
+├──────────────┤              │ call printf  │
+│ [PADDING]    │              │ ...          │
+│ 0x00 0x00    │              ├──────────────┤
+└──────────────┘              │ .data        │
+                              └──────────────┘
+```
+
+### After Injection
+```
+File:                          Memory:
+┌──────────────┐              ┌──────────────┐
+│ ELF Header   │              │ ELF Header   │
+│ e_entry:     │──────┐       │              │
+│  0x402000    │      │       ├──────────────┤
+├──────────────┤      │       │              │
+│ Segments     │      │       │              │
+├──────────────┤      │       ├──────────────┤
+│ .text        │      │       │ .text        │
+│ (ENCRYPTED!) │      │       │ (ENCRYPTED!) │
+│ 0x9f 0x3a... │      │       │ 0x9f 0x3a... │
+├──────────────┤      │       ├──────────────┤
+│ [SHELLCODE]  │◄─────┘       │ [SHELLCODE]  │◄── Execution starts here!
+│ xor rax,rax  │              │ 1. Print msg │
+│ syscall...   │              │ 2. Decrypt   │
+│ jmp 0x401000 │──────┐       │ 3. Jump orig │
+├──────────────┤      │       ├──────────────┤
+│ .data        │      │       │ .text        │◄── Then jump here
+└──────────────┘      │       │ (DECRYPTED!) │
+                      └──────►│ mov rdi, ... │
+                              │ call printf  │
+                              └──────────────┘
+```
+
+---
+
+## Key Concepts Explained
+
+### 1. File Offset vs Virtual Address
+
+**File offset**: Where bytes are in the binary file on disk
+```bash
+$ xxd -s 0x1000 -l 16 binary
+00001000: 48 89 e5 48 83 ec 10 89 ...
+          ↑
+    This is at file offset 0x1000
+```
+
+**Virtual address**: Where bytes will be in memory when loaded
+```c
+// The ELF segment says:
+p_offset = 0x1000   // Load from file position 0x1000
+p_vaddr  = 0x401000 // Place at memory address 0x401000
+```
+
+**Conversion**:
+```c
+uint64_t offset_to_vaddr(uint64_t file_offset, Elf64_Phdr *segment) {
+    return segment->p_vaddr + (file_offset - segment->p_offset);
+}
+
+uint64_t vaddr_to_offset(uint64_t vaddr, Elf64_Phdr *segment) {
+    return segment->p_offset + (vaddr - segment->p_vaddr);
+}
+```
+
+### 2. Why XOR for Encryption?
+
+**Properties**:
+- `A ⊕ B ⊕ B = A` (self-inverse: encrypt and decrypt are the same operation)
+- Fast (single CPU instruction)
+- Simple to implement in assembly
+
+**In the shellcode**:
+```nasm
+; Encryption (by packer, in C):
+for (i = 0; i < size; i++)
+    text[i] ^= key[i % 8];
+
+; Decryption (by shellcode, in assembly):
+.loop:
+    lodsb              ; al = text[i]
+    xor al, [rdi]      ; al = text[i] ^ key[j]
+    mov [rsi-1], al    ; text[i] = decrypted_byte
+```
+
+### 3. Register Conventions (x86-64 System V ABI)
+
+For **syscalls**:
+| Register | Purpose |
+|----------|---------|
+| `rax` | Syscall number (1=write, 60=exit) |
+| `rdi` | Argument 1 |
+| `rsi` | Argument 2 |
+| `rdx` | Argument 3 |
+| `r10` | Argument 4 |
+| `r8`  | Argument 5 |
+| `r9`  | Argument 6 |
+
+Example:
+```nasm
+; write(1, "hello", 5)
+mov rax, 1        ; syscall number
+mov rdi, 1        ; fd = stdout
+lea rsi, [msg]    ; buf = "hello"
+mov rdx, 5        ; count = 5
+syscall
+```
+
+For **function calls** (if you needed libc):
+| Register | Purpose |
+|----------|---------|
+| `rdi` | Arg 1 |
+| `rsi` | Arg 2 |
+| `rdx` | Arg 3 |
+| `rcx` | Arg 4 |
+| `r8`  | Arg 5 |
+| `r9`  | Arg 6 |
+
+---
+
+## Common Pitfalls
+
+### ❌ Using Absolute Addresses
+```nasm
+; BAD - hardcoded address
+mov rax, 0x401000
+jmp rax
+
+; GOOD - relative
+lea rax, [rel target]
+jmp rax
+```
+
+### ❌ Forgetting to Update p_filesz
+```c
+// If you inject shellcode, update the segment size!
+phdr[0].p_filesz += shellcode_size;
+phdr[0].p_memsz  += shellcode_size;
+```
+
+### ❌ Wrong Offset Calculation
+```c
+// WRONG
+shellcode_vaddr = cave_offset;
+
+// RIGHT
+shellcode_vaddr = segment->p_vaddr + (cave_offset - segment->p_offset);
+```
+
+### ❌ Not Preserving Registers
+```nasm
+; If you care about original program state:
+_start:
+    push rax
+    push rbx
+    ; ... your code ...
+    pop rbx
+    pop rax
+    jmp [original_entry]
+```
+
+---
+
+## Testing Your Injection
+
+```bash
+# 1. Verify shellcode runs standalone
+nasm -f elf64 shellcode.asm -o shellcode.o
+ld -o shellcode shellcode.o
+./shellcode  # Should print "....WOODY...."
+
+# 2. Pack a simple binary
+echo 'int main() { return 42; }' > test.c
+gcc -o test test.c
+./woody_woodpacker test
+
+# 3. Test packed binary
+./woody
+echo $?  # Should print "42"
+
+# 4. Check it actually decrypted
+objdump -d test > orig.asm
+objdump -d woody > packed.asm
+diff orig.asm packed.asm  # .text should differ
+```
+
+<Image src="/static/images/writeups/x86-injection/vimdiff.jpg" alt="description" width={800} height={400} />

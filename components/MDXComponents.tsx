@@ -1,5 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import TOCInline from "pliny/ui/TOCInline";
+import Callout from "./Callout";
+import GithubCard from "./GithubCard";
 import Image from "./Image";
 import CustomLink from "./Link";
 import Pre from "./Pre";
@@ -9,6 +11,8 @@ import TableWrapper from "./TableWrapper";
 export const components: MDXComponents = {
 	Image,
 	TOCInline,
+	Callout,
+	GithubCard,
 	a: CustomLink,
 	pre: Pre,
 	table: TableWrapper,
