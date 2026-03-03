@@ -6,9 +6,13 @@ import siteMetadata from "@/data/siteMetadata.mjs";
 
 export default function Comments({ slug }: { slug: string }) {
 	const { theme: nextTheme, resolvedTheme } = useTheme();
-	const giscusConfig = siteMetadata.comment?.giscusConfig;
 
-	if (!giscusConfig) return null;
+
+	const commentsConfig = siteMetadata.comments;
+
+	if (!commentsConfig || commentsConfig.provider !== "giscus") return null;
+
+	const giscusConfig = commentsConfig.giscusConfig;
 
 	const commentsTheme =
 		giscusConfig.themeURL === ""
@@ -20,7 +24,7 @@ export default function Comments({ slug }: { slug: string }) {
 	return (
 		<GiscusComponent
 			id="comments-container"
-			repo={giscusConfig.repo}
+			repo={giscusConfig.repo as `${string}/${string}`}
 			repoId={giscusConfig.repositoryId}
 			category={giscusConfig.category}
 			categoryId={giscusConfig.categoryId}
