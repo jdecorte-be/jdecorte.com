@@ -107,6 +107,8 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
   const [copied, setCopied] = useState(false);
   const [copyCount, setCopyCount] = useState(0);
   const LanguageIcon = getLanguageIcon(className);
+  const langMatch = className?.split(" ").find((c) => c.startsWith("language-"));
+  const langName = langMatch?.replace("language-", "") ?? "code";
 
   const onEnter = () => setHovered(true);
 
@@ -129,7 +131,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
   };
 
   return (
-    <div onMouseEnter={onEnter} onMouseLeave={onExit} className="relative">
+    <div onMouseEnter={onEnter} onMouseLeave={onExit} className="relative" role="region" aria-label={`${langName} code block`}>
       {/* copy button */}
       <AnimatePresence>
         {hovered && (
@@ -200,7 +202,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
         {children}
       </pre>
       {LanguageIcon && (
-        <span className="pointer-events-none absolute bottom-2 right-2 select-none text-gray-400">
+        <span className="pointer-events-none absolute bottom-2 right-2 select-none text-gray-400" aria-hidden="true">
           <LanguageIcon size={16} />
         </span>
       )}
