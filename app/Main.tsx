@@ -26,7 +26,7 @@ export default function Home({ posts, heroFontStyles }) {
 
 			<Hero heroFontStyles={heroFontStyles} />
 
-			{/* <PortfolioSection /> */}
+			<PortfolioSection />
 
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
 				<div className="space-y-2 pb-8 pt-6 md:space-y-5">
