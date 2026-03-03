@@ -39,7 +39,7 @@ const Hero = ({ heroFontStyles }) => {
 						href={`mailto:${siteMetadata.email}`}
 						className="block transition-transform hover:scale-110"
 					>
-						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">
+						<Avatar className="border-2 border-[#DBE8A8] bg-[#DBE8A8]">
 							<AvatarFallback className="bg-[#042C0E]">
 								<Mail className="h-6 w-6 fill-[#DBE8A8]" />
 							</AvatarFallback>
@@ -52,7 +52,7 @@ const Hero = ({ heroFontStyles }) => {
 						rel="noopener noreferrer"
 						className="block transition-transform hover:scale-110"
 					>
-						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">
+						<Avatar className="border-2 border-[#DBE8A8] bg-[#DBE8A8]">
 							<AvatarFallback className="bg-[#042C0E]">
 								<Github className="h-6 w-6 fill-[#DBE8A8]" />
 							</AvatarFallback>
@@ -65,7 +65,7 @@ const Hero = ({ heroFontStyles }) => {
 						rel="noopener noreferrer"
 						className="block transition-transform hover:scale-110"
 					>
-						<Avatar className="border-2 border-[#DBE8A8] bg-[#042C0E]">
+						<Avatar className="border-2 border-[#DBE8A8] bg-[#DBE8A8]">
 							<AvatarFallback className="bg-[#042C0E]">
 								<Linkedin className="h-6 w-6 fill-[#DBE8A8]" />
 							</AvatarFallback>

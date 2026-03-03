@@ -30,9 +30,9 @@ const ProjectCard = ({
 
 	return (
 		<Link href={href} className="group block h-full">
-			<div className="relative flex h-full flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-primary-500 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-primary-500">
+			<div className="relative flex h-full flex-col overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:border-primary-500 dark:border-white/[0.08] dark:bg-white/[0.02] dark:hover:border-primary-500/60">
 				{/* Top bar — index + tags */}
-				<div className="flex items-center justify-between border-b border-gray-200 px-5 py-3 dark:border-gray-800">
+				<div className="flex items-center justify-between border-b border-gray-200 px-5 py-3 dark:border-white/[0.06]">
 					<span className="font-mono text-xs font-bold tracking-widest text-gray-400 dark:text-gray-600">
 						/{indexLabel}
 					</span>
@@ -41,7 +41,7 @@ const ProjectCard = ({
 							{tags.map((tag) => (
 								<span
 									key={tag}
-									className="rounded-sm border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-gray-500 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-500"
+									className="rounded-sm border border-gray-200 bg-gray-50 px-2 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-widest text-gray-500 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-gray-400"
 								>
 									{tag}
 								</span>
@@ -66,7 +66,7 @@ const ProjectCard = ({
 							className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100"
 						/>
 					) : (
-						<div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-gray-900">
+						<div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-white/[0.03]">
 							<svg
 								className="h-16 w-16 text-gray-300 dark:text-gray-700"
 								fill="none"
@@ -102,12 +102,12 @@ const ProjectCard = ({
 					</div>
 
 					{/* Footer row */}
-					<div className="flex items-center justify-between border-t border-gray-100 pt-4 dark:border-gray-800">
-						<span className="text-xs font-semibold uppercase tracking-widest text-gray-400 transition-colors group-hover:text-primary-500 dark:text-gray-600 dark:group-hover:text-primary-400">
+					<div className="flex items-center justify-between border-t border-gray-100 pt-4 dark:border-white/[0.06]">
+						<span className="text-xs font-semibold uppercase tracking-widest text-gray-400 transition-colors group-hover:text-primary-500 dark:text-gray-500 dark:group-hover:text-primary-400">
 							{buttonText}
 						</span>
 						{/* Animated arrow */}
-						<div className="flex h-8 w-8 items-center justify-center border border-gray-200 transition-all duration-300 group-hover:border-primary-500 group-hover:bg-primary-500 dark:border-gray-800 dark:group-hover:border-primary-500">
+						<div className="flex h-8 w-8 items-center justify-center border border-gray-200 transition-all duration-300 group-hover:border-primary-500 group-hover:bg-primary-500 dark:border-white/[0.1] dark:group-hover:border-primary-500">
 							<svg
 								className="h-3.5 w-3.5 text-gray-600 transition-all duration-300 group-hover:-rotate-45 group-hover:text-white dark:text-gray-400"
 								fill="none"
