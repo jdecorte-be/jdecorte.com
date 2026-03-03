@@ -49,11 +49,12 @@ const MobileNav = () => {
 			</button>
 			{mounted
 				? createPortal(
+						<div className="fixed inset-0 z-50 overflow-hidden pointer-events-none">
 						<div
-							className={`fixed inset-0 z-50 h-full w-full transform bg-white opacity-95 duration-300 ease-in-out dark:bg-gray-950 dark:opacity-[0.98] ${
+							className={`h-full w-full transform bg-white opacity-95 duration-300 ease-in-out dark:bg-gray-950 dark:opacity-[0.98] ${
 								navShow
-									? "translate-x-0"
-									: "translate-x-full pointer-events-none"
+									? "translate-x-0 pointer-events-auto"
+									: "translate-x-full"
 							}`}
 							aria-hidden={!navShow}
 						>
@@ -92,6 +93,7 @@ const MobileNav = () => {
 									</div>
 								))}
 							</nav>
+						</div>
 						</div>,
 						document.body,
 					)
