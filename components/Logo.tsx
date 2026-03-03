@@ -7,8 +7,9 @@ export default function Logo() {
 				<Image
 					src="/static/images/jd-white.png"
 					alt="logo"
-					width="70"
-					height="70"
+					width="55"
+					height="55"
+					style={{ width: "auto", height: "auto" }}
 					priority
 				/>
 			</div>
