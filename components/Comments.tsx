@@ -6,7 +6,7 @@ import siteMetadata from "@/data/siteMetadata.mjs";
 
 export default function Comments({ slug }: { slug: string }) {
 	const { theme: nextTheme, resolvedTheme } = useTheme();
-	const giscusConfig = siteMetadata.comments?.giscusConfig;
+	const giscusConfig = siteMetadata.comment?.giscusConfig;
 
 	if (!giscusConfig) return null;
 
