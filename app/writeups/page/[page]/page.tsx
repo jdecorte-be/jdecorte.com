@@ -5,7 +5,8 @@ import ListLayout from "@/layouts/ListLayoutWithTags";
 const POSTS_PER_PAGE = 5;
 
 export const generateStaticParams = async () => {
-	const totalPages = Math.ceil(allWriteups.length / POSTS_PER_PAGE);
+	const publishedPosts = allWriteups.filter((post) => !post.draft);
+	const totalPages = Math.ceil(publishedPosts.length / POSTS_PER_PAGE);
 	const paths = Array.from({ length: totalPages }, (_, i) => ({
 		page: (i + 1).toString(),
 	}));
@@ -17,7 +18,7 @@ export default async function Page(
 	props: Readonly<{ params: Promise<{ page: string }> }>,
 ) {
 	const params = await props.params;
-	const posts = allCoreContent(sortPosts(allWriteups));
+	const posts = allCoreContent(sortPosts(allWriteups.filter((post) => !post.draft)));
 	const pageNumber = Number.parseInt(params.page);
 	const initialDisplayPosts = posts.slice(
 		POSTS_PER_PAGE * (pageNumber - 1),

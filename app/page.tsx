@@ -8,7 +8,7 @@ const antonio = Antonio({
 });
 
 export default async function Page() {
-	const sortedPosts = sortPosts(allWriteups);
+	const sortedPosts = sortPosts(allWriteups.filter((post) => !post.draft));
 	const posts = allCoreContent(sortedPosts);
 	return <Main posts={posts} heroFontStyles={antonio.className} />;
 }

@@ -42,8 +42,8 @@ export default async function TagPage(
 	const title = tag[0].toUpperCase() + tag.split(" ").join("-").slice(1);
 	const filteredPosts = allCoreContent(
 		sortPosts(
-			allWriteups.filter((post) =>
-				post.tags?.map((t) => slug(t)).includes(tag),
+			allWriteups.filter(
+				(post) => !post.draft && post.tags?.map((t) => slug(t)).includes(tag),
 			),
 		),
 	);

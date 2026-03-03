@@ -72,7 +72,9 @@ export async function generateMetadata({
 }
 
 export const generateStaticParams = async () => {
-	const paths = allWriteups.map((p) => ({ slug: p.slug.split("/") }));
+	const paths = allWriteups
+		.filter((p) => !p.draft)
+		.map((p) => ({ slug: p.slug.split("/") }));
 
 	return paths;
 };
@@ -81,7 +83,7 @@ export default async function Page({ params }) {
 	const { slug } = await params;
 	const newslug = decodeURI(slug?.join("/"));
 	// Filter out drafts in production
-	const sortedCoreContents = allCoreContent(sortPosts(allWriteups));
+	const sortedCoreContents = allCoreContent(sortPosts(allWriteups.filter((p) => !p.draft)));
 	const postIndex = sortedCoreContents.findIndex((p) => p.slug === newslug);
 	if (postIndex === -1) {
 		return notFound();

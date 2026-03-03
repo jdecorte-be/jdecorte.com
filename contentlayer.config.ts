@@ -74,7 +74,7 @@ function createSearchIndex(allWriteups) {
 	) {
 		writeFileSync(
 			`public/${siteMetadata.search.kbarConfig.searchDocumentsPath}`,
-			JSON.stringify(allCoreContent(sortPosts(allWriteups))),
+			JSON.stringify(allCoreContent(sortPosts(allWriteups.filter((post) => post.draft !== true)))),
 		);
 		console.log("Local search index generated...");
 	}
