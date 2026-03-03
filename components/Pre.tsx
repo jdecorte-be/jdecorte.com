@@ -144,11 +144,11 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
             transition={{ duration: 0.15 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
-            className={`absolute right-2 top-2 h-8 w-8 rounded border-2 bg-gray-700 p-1 dark:bg-gray-800 ${
+            className={`absolute right-2 top-2 h-7 w-7 rounded-md border p-1 backdrop-blur-sm transition-all duration-200 ${
               copied
-                ? "border-primary-400 focus:border-primary-400 focus:outline-none"
-                : "border-gray-300 hover:border-primary-400"
-            } transition-colors duration-200`}
+                ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-400"
+                : "border-white/10 bg-white/5 text-gray-400 hover:border-white/25 hover:bg-white/10 hover:text-gray-200"
+            }`}
             onClick={onCopy}
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -159,7 +159,6 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   fill="none"
-                  className="text-primary-400"
                   initial={{ opacity: 0, rotate: -15 }}
                   animate={{ opacity: 1, rotate: 0 }}
                   exit={{ opacity: 0 }}
@@ -169,7 +168,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                    d="M5 13l4 4L19 7"
                   />
                 </motion.svg>
               ) : (
@@ -179,7 +178,6 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   fill="none"
-                  className="text-gray-300"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -189,7 +187,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                   />
                 </motion.svg>
               )}
@@ -202,7 +200,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
         {children}
       </pre>
       {LanguageIcon && (
-        <span className="pointer-events-none absolute bottom-2 right-2 select-none text-gray-400" aria-hidden="true">
+        <span className="pointer-events-none absolute bottom-2 right-2 select-none" style={{ color: 'rgb(58, 61, 72)' }} aria-hidden="true">
           <LanguageIcon size={16} />
         </span>
       )}

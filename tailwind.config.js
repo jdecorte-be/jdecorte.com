@@ -90,7 +90,7 @@ module.exports = {
               fontWeight: '600',
             },
             code: {
-              color: theme('colors.accent.400'),
+              color: theme('--code-text'),
             },
             pre: {
               background: '#282a36',

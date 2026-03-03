@@ -228,5 +228,9 @@ input:-webkit-autofill:focus {
     --chart-4: 280 65% 60%;
     --chart-5: 30 80% 55%;
     --radius: 0.5rem;
+
+    /* ── Code ─────────────────────────────────────────────────── */
+    --code-inline-bg: rgba(255, 255, 255, 0.06);
+    --code-text: #f09483;
   }
 }
