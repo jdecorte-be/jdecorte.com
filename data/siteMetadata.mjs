@@ -4,7 +4,7 @@ const siteMetadata = {
 	author: "John Decorte",
 	headerTitle: "John Decorte",
 	description: "John Decorte | Full-Stack Developer & Cybersecurity Engineer in Toronto. Explore my projects, skills, and experience.",
-	language: "en-us",
+	language: "en",
 	theme: "dark", // system, dark or light
 	siteUrl: "https://jdecorte.com",
 	siteRepo: "https://github.com/jdecorte-be/jdecorte.com",

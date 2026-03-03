@@ -9,7 +9,7 @@ const MAX_DISPLAY = 3;
 
 export default function Home({ posts, heroFontStyles }) {
 	return (
-		<div className="relative">
+		<div className="relative overflow-x-hidden">
 			{/* NOTE: Animations might be a little much, also animate-blob is on a second line to get around prettier ordering error */}
 			<div
 				className={
@@ -26,7 +26,7 @@ export default function Home({ posts, heroFontStyles }) {
 
 			<Hero heroFontStyles={heroFontStyles} />
 
-			<PortfolioSection />
+			{/* <PortfolioSection /> */}
 
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
 				<div className="space-y-2 pb-8 pt-6 md:space-y-5">
