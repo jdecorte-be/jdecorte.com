@@ -119,7 +119,7 @@ export default function RootLayout({
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
-					<div className="flex h-screen flex-col justify-between font-sans">
+					<div className="flex min-h-screen flex-col justify-between font-sans">
 						<CustomKBarSearchProvider
 							searchConfig={
 								siteMetadata.search as {
