@@ -109,7 +109,7 @@ export default async function Page({ params }) {
 	const Layout = layouts[post.layout ?? defaultLayout];
 
 	return (
-		<>
+		<div className="relative flex min-h-screen flex-col overflow-x-hidden">
 			<script
 				type="application/ld+json"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
@@ -127,6 +127,6 @@ export default async function Page({ params }) {
 					toc={post.toc}
 				/>
 			</Layout>
-		</>
+		</div>
 	);
 }

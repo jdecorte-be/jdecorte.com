@@ -4,7 +4,24 @@
 
 @layer base {
   html {
-    scrollbar-gutter: stable;
+    overflow-x: hidden;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  .prose {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
+  }
+  .prose pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  @media (min-width: 1024px) {
+    html {
+      scrollbar-gutter: stable;
+    }
   }
 }
 

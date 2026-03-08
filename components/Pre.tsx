@@ -131,8 +131,15 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
   };
 
   return (
-    <div onMouseEnter={onEnter} onMouseLeave={onExit} className="relative" role="region" aria-label={`${langName} code block`}>
-      {/* copy button */}
+    <div
+      onMouseEnter={onEnter}
+      onMouseLeave={onExit}
+      className="relative w-full min-w-0 overflow-x-auto"
+      style={{ contain: 'inline-size' }}
+      role="region"
+      aria-label={`${langName} code block`}
+    >
+      {/* copy button — always visible on touch devices, hover-only on desktop */}
       <AnimatePresence>
         {hovered && (
           <motion.button
@@ -144,7 +151,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
             transition={{ duration: 0.15 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.92 }}
-            className={`absolute right-2 top-2 h-7 w-7 rounded-md border p-1 backdrop-blur-sm transition-all duration-200 ${
+            className={`absolute right-2 top-2 z-10 h-7 w-7 rounded-md border p-1 backdrop-blur-sm transition-all duration-200 ${
               copied
                 ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-400"
                 : "border-white/10 bg-white/5 text-gray-400 hover:border-white/25 hover:bg-white/10 hover:text-gray-200"
@@ -196,11 +203,21 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
         )}
       </AnimatePresence>
 
-      <pre ref={textInput} className={className} {...rest}>
+      <pre
+        ref={textInput}
+        className={`${className ?? ""} text-xs sm:text-sm`}
+        style={{ width: 'max-content', minWidth: '100%' }}
+        {...rest}
+      >
         {children}
       </pre>
+
       {LanguageIcon && (
-        <span className="pointer-events-none absolute bottom-2 right-2 select-none" style={{ color: 'rgb(58, 61, 72)' }} aria-hidden="true">
+        <span
+          className="pointer-events-none absolute bottom-2 right-2 hidden select-none sm:inline"
+          style={{ color: "rgb(58, 61, 72)" }}
+          aria-hidden="true"
+        >
           <LanguageIcon size={16} />
         </span>
       )}
@@ -208,4 +225,4 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
   );
 };
 
-export default Pre;
+export default Pre;2
