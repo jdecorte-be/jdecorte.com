@@ -14,7 +14,7 @@ const siteMetadata = {
 	github: "https://github.com/jdecorte-be",
 	// bluesky: "https://bsky.app/profile/jdecorte.com",
 	linkedin: "https://www.linkedin.com/in/johndecorte/",
-	locale: "en-US",
+	locale: "en-CA",
 	analytics: {
 		// If you want to use an analytics provider you have to add it to the
 		// content security policy in the `next.config.js` file.
