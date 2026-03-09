@@ -28,6 +28,7 @@ export default function PortfolioSection() {
 						className="mb-12 text-center"
 						initial="hidden"
 						whileInView="visible"
+						viewport={{ once: true, amount: 0.2 }}
 						variants={fadeInFromTop}
 					>
 						<p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary-500">
@@ -71,7 +72,8 @@ export default function PortfolioSection() {
 								<m.div
 									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"
-									animate="visible"
+									whileInView="visible"
+									viewport={{ once: true, amount: 0.2 }}
 									variants={staggerContainer}
 								>
 									<m.div
@@ -133,7 +135,8 @@ export default function PortfolioSection() {
 								<m.div
 									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"
-									animate="visible"
+									whileInView="visible"
+									viewport={{ once: true, amount: 0.2 }}
 									variants={staggerContainer}
 								>
 									<div className="flex h-full flex-col gap-6">
@@ -195,7 +198,8 @@ export default function PortfolioSection() {
 								<m.div
 									className="flex flex-col gap-6"
 									initial="hidden"
-									animate="visible"
+									whileInView="visible"
+									viewport={{ once: true, amount: 0.2 }}
 									variants={staggerContainer}
 								>
 									<m.div

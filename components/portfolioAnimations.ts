@@ -1,7 +1,7 @@
 import type { Variants } from "framer-motion";
 
 export const fadeInFromLeft: Variants = {
-	hidden: { opacity: 1, x: -200 },
+	hidden: { opacity: 0, x: -200 },
 	visible: {
 		opacity: 1,
 		x: 0,
@@ -13,7 +13,7 @@ export const fadeInFromLeft: Variants = {
 };
 
 export const fadeInFromRight: Variants = {
-	hidden: { opacity: 1, x: 200 },
+	hidden: { opacity: 0, x: 200 },
 	visible: {
 		opacity: 1,
 		x: 0,
