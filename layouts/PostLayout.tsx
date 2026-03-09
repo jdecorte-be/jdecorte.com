@@ -6,6 +6,7 @@ import Image from "@/components/Image";
 import Link from "@/components/Link";
 import PageTitle from "@/components/PageTitle";
 import ScrollTopAndComment from "@/components/ScrollTopAndComment";
+import SectionContainer from "@/components/SectionContainer";
 import Tag from "@/components/Tag";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
@@ -40,7 +41,7 @@ export default function PostLayout({
 	const basePath = path.split("/")[0];
 
 	return (
-		<>
+		<SectionContainer>
 			<ScrollTopAndComment />
 			<article>
 				<div className="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
@@ -110,7 +111,7 @@ export default function PostLayout({
 							</dd>
 						</dl>
 						<div className="min-w-0 divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-							<div className="prose min-w-0 max-w-none overflow-x-hidden pb-8 pt-10 dark:prose-invert">
+							<div className="prose min-w-0 max-w-none pb-8 pt-10 dark:prose-invert">
 								{children}
 							</div>
 							<div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">
@@ -181,6 +182,6 @@ export default function PostLayout({
 					</div>
 				</div>
 			</article>
-		</>
+		</SectionContainer>
 	);
 }

@@ -116,7 +116,7 @@ export default function RootLayout({
 						>
 							<Header />
 							<SectionContainer>
-							<main className="mb-auto">
+								<main className="mb-auto px-4 sm:px-6 lg:px-8">
 									<TransitionWrapper>{children}</TransitionWrapper>
 								</main>
 								<Footer />

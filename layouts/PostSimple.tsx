@@ -6,6 +6,7 @@ import Comments from "@/components/Comments";
 import Link from "@/components/Link";
 import PageTitle from "@/components/PageTitle";
 import ScrollTopAndComment from "@/components/ScrollTopAndComment";
+import SectionContainer from "@/components/SectionContainer";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 interface LayoutProps {
@@ -24,7 +25,7 @@ export default function PostLayout({
 	const { slug, date, title } = content;
 
 	return (
-		<>
+		<SectionContainer>
 			<ScrollTopAndComment />
 			<article>
 				<div>
@@ -47,7 +48,7 @@ export default function PostLayout({
 					</header>
 					<div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
 						<div className="min-w-0 divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-							<div className="prose min-w-0 max-w-none overflow-x-hidden pb-8 pt-10 dark:prose-invert">
+							<div className="prose min-w-0 max-w-none pb-8 pt-10 dark:prose-invert">
 								{children}
 							</div>
 						</div>
@@ -88,6 +89,6 @@ export default function PostLayout({
 					</div>
 				</div>
 			</article>
-		</>
+		</SectionContainer>
 	);
 }
