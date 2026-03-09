@@ -93,7 +93,7 @@ export default function ListLayoutWithTags({
 	const [mobileTagsOpen, setMobileTagsOpen] = useState(false);
 
 	return (
-		<div className="chronicle min-h-screen">
+		<div className="chronicle">
 			{/* Mobile Header + Tag Toggle */}
 			<div className="pb-4 pt-6 sm:hidden">
 				<div className="flex items-center justify-between">
@@ -182,7 +182,7 @@ export default function ListLayoutWithTags({
 				</AnimatePresence>
 			</div>
 
-			<div className="flex sm:space-x-10">
+			<div className="mt-10 flex items-start sm:space-x-10">
 				{/* Sidebar tags — desktop only */}
 				<div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-[hsl(230_15%_10%)] pt-5 shadow-md dark:bg-[hsl(230_15%_10%)] dark:shadow-gray-800/40 sm:flex">
 					<div className="px-6 py-4">
@@ -223,7 +223,7 @@ export default function ListLayoutWithTags({
 				</div>
 
 				{/* Timeline */}
-				<div className="chronicle-timeline relative mx-auto w-full max-w-4xl">
+				<div className="chronicle-timeline relative w-full flex-1 max-w-none">
 					{displayPosts.map((post, idx) => {
 						const { path, date, title, summary, tags } = post;
 						return (
