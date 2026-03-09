@@ -138,7 +138,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
       aria-label={`${langName} code block`}
     >
       {/* copy button — sticky so it stays visible when scrolling */}
-      {/* <div className="sticky right-0 top-0 z-10 float-right h-0 w-0">
+      <div className="sticky right-0 top-0 z-10 float-right h-0 w-0">
         <motion.button
           key="copy-btn"
           aria-label="Copy code"
@@ -148,23 +148,54 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
               ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-400 opacity-100"
               : hovered
                 ? "border-white/10 bg-white/5 text-gray-400 opacity-100 hover:border-white/25 hover:bg-white/10 hover:text-gray-200"
-                : "border-white/10 bg-white/5 text-gray-400 opacity-60 sm:opacity-0"
+                : "border-white/10 bg-white/5 text-gray-400 opacity-60"
             }`}
           onClick={onCopy}
         >
           <AnimatePresence mode="wait" initial={false}>
             {copied ? (
-              <motion.svg ... />
+              <motion.svg
+                key="copied"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                aria-hidden="true"
+              >
+                <path d="M20 6L9 17l-5-5" />
+              </motion.svg>
             ) : (
-              <motion.svg ... />
+              <motion.svg
+                key="copy"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                aria-hidden="true"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2" />
+                <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+              </motion.svg>
             )}
           </AnimatePresence>
         </motion.button>
-      </div> */}
+      </div>
 
       <pre
         ref={textInput}
-        className={`${className ?? ""} !my-0 w-full max-w-full text-xs sm:text-sm lg:text-base overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[70vh] lg:max-h-[80vh] rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
+        className={`${className ?? ""} !my-0 w-full max-w-full text-xs sm:text-sm lg:text-base overflow-x-auto rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
         suppressHydrationWarning
         {...rest}
       >
@@ -172,13 +203,13 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
       </pre>
 
       {/* language icon — sticky to bottom-right of visible area */}
-      {/* {LanguageIcon && (
+      {LanguageIcon && (
         <div className="pointer-events-none sticky right-0 bottom-0 float-right -mt-7 mr-2 mb-2 hidden h-0 select-none sm:block">
           <span style={{ color: "rgb(58, 61, 72)" }} aria-hidden="true">
             <LanguageIcon size={16} />
           </span>
         </div>
-      )} */}
+      )}
     </div>
   );
 };
