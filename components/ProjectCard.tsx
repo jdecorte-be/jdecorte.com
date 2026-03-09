@@ -53,7 +53,7 @@ const ProjectCard = ({
 				{/* Image */}
 				<div
 					className={`relative w-full shrink-0 overflow-hidden ${
-						isLarge ? "h-72 md:h-[560px]" : "h-52"
+						isLarge ? "h-64 md:h-[400px]" : "h-52"
 					}`}
 				>
 					{imgSrc ? (
