@@ -83,6 +83,8 @@ const nextConfig = {
   compress: true,
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
   turbopack: {},
+  // allow fetches for assets from this origin during development
+  allowedDevOrigins: ['https://jdecorte.com'],
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 30,
