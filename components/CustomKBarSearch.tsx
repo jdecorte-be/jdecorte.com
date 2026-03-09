@@ -89,13 +89,20 @@ function CustomKBarModal({
 	actions: Action[];
 	isLoading: boolean;
 }) {
+	const { visualState } = useKBar((state) => ({
+		visualState: state.visualState,
+	}));
+
 	useRegisterActions(actions, [actions]);
 
 	return (
 		<KBarPortal>
-			<KBarPositioner className="z-50 flex items-start justify-center bg-black/60 p-4 pt-[15vh] backdrop-blur-md">
-				<KBarAnimator className="w-full max-w-xl">
-					<div className="overflow-hidden rounded-2xl border border-white/[0.07] bg-gray-950/40 shadow-[0_8px_60px_0_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-2xl">
+			<KBarPositioner
+				className="kbar-overlay z-50 flex items-start justify-center bg-black/60 p-4 pt-[15vh] backdrop-blur-md"
+				data-kbar-state={visualState}
+			>
+				<KBarAnimator className="kbar-animator w-full max-w-xl">
+					<div className="kbar-surface overflow-hidden rounded-2xl border border-white/[0.07] bg-gray-950/40 shadow-[0_8px_60px_0_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.04)] backdrop-blur-2xl">
 						{/* Search input row */}
 						<div className="flex items-center gap-3 px-4 py-3.5">
 							<svg
@@ -233,7 +240,12 @@ function SearchLoader({
 
 export function CustomKBarSearchProvider({ searchConfig, children }: Props) {
 	return (
-		<KBarProvider options={{ animations: { enterMs: 150, exitMs: 100 } }}>
+		<KBarProvider
+			options={{
+				animations: { enterMs: 220, exitMs: 160 },
+				disableScrollbarManagement: true,
+			}}
+		>
 			<SearchLoader
 				searchDocumentsPath={searchConfig.kbarConfig.searchDocumentsPath}
 			>
