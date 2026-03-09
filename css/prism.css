@@ -33,9 +33,10 @@ pre[class*="language-"] {
 	border-radius: 6px;
 	font-size: 0.75rem;
 	border: 1px solid rgba(255, 255, 255, 0.1);
-	width: max-content;
-	min-width: 100%;
 	box-sizing: border-box;
+	overflow-x: auto;
+	line-height: 1.6;
+	tab-size: 3;
 }
 
 @media (min-width: 640px) {

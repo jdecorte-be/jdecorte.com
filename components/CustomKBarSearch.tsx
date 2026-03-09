@@ -233,7 +233,7 @@ function SearchLoader({
 
 export function CustomKBarSearchProvider({ searchConfig, children }: Props) {
 	return (
-		<KBarProvider>
+		<KBarProvider options={{ animations: { enterMs: 150, exitMs: 100 } }}>
 			<SearchLoader
 				searchDocumentsPath={searchConfig.kbarConfig.searchDocumentsPath}
 			>
