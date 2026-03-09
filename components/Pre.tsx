@@ -162,7 +162,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
 
       <pre
         ref={textInput}
-        className={`${className ?? ""} !my-0 text-[11px] sm:text-sm lg:text-base overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[70vh] lg:max-h-[80vh] rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
+        className={`${className ?? ""} !my-0 w-full max-w-full text-[11px] sm:text-sm lg:text-base overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[70vh] lg:max-h-[80vh] rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
         {...rest}
       >
         {children}

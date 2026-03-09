@@ -50,7 +50,7 @@ export default function Latest({ posts }) {
 														))}
 													</div>
 												</div>
-												<div className="prose max-w-none text-gray-500 dark:text-gray-400">
+												<div className="prose max-w-none overflow-x-hidden text-gray-500 dark:text-gray-400">
 													{summary}
 												</div>
 											</div>
