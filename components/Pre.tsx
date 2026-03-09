@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ComponentPropsWithoutRef, ReactNode, useRef, useState } from "react";
+import { ComponentPropsWithoutRef, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import {
   SiC,
@@ -105,13 +105,11 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
   const textInput = useRef<HTMLPreElement>(null);
   const [hovered, setHovered] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [copyCount, setCopyCount] = useState(0);
   const LanguageIcon = getLanguageIcon(className);
   const langMatch = className?.split(" ").find((c) => c.startsWith("language-"));
   const langName = langMatch?.replace("language-", "") ?? "code";
 
   const onEnter = () => setHovered(true);
-
   const onExit = () => {
     setHovered(false);
     setCopied(false);
@@ -126,7 +124,6 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
       execCopy(text);
     }
     setCopied(true);
-    setCopyCount((c) => c + 1);
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -134,95 +131,53 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onExit}
-      className="relative w-full min-w-0 overflow-x-auto"
-      style={{ contain: 'inline-size' }}
+      className="relative my-5 sm:my-6"
       role="region"
       aria-label={`${langName} code block`}
     >
-      {/* copy button — always visible on touch devices, hover-only on desktop */}
-      <AnimatePresence>
-        {hovered && (
-          <motion.button
-            key="copy-btn"
-            aria-label="Copy code"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.15 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.92 }}
-            className={`absolute right-2 top-2 z-10 h-7 w-7 rounded-md border p-1 backdrop-blur-sm transition-all duration-200 ${
-              copied
-                ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-400"
-                : "border-white/10 bg-white/5 text-gray-400 hover:border-white/25 hover:bg-white/10 hover:text-gray-200"
+      {/* copy button — sticky so it stays visible when scrolling */}
+      {/* <div className="sticky right-0 top-0 z-10 float-right h-0 w-0">
+        <motion.button
+          key="copy-btn"
+          aria-label="Copy code"
+          whileTap={{ scale: 0.92 }}
+          className={`absolute right-2 top-2 h-7 w-7 rounded-md border p-1 backdrop-blur-sm transition-all duration-200
+            ${copied
+              ? "border-emerald-500/60 bg-emerald-500/10 text-emerald-400 opacity-100"
+              : hovered
+                ? "border-white/10 bg-white/5 text-gray-400 opacity-100 hover:border-white/25 hover:bg-white/10 hover:text-gray-200"
+                : "border-white/10 bg-white/5 text-gray-400 opacity-60 sm:opacity-0"
             }`}
-            onClick={onCopy}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              {copied ? (
-                <motion.svg
-                  key="check"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  fill="none"
-                  initial={{ opacity: 0, rotate: -15 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </motion.svg>
-              ) : (
-                <motion.svg
-                  key="copy"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  fill="none"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  />
-                </motion.svg>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        )}
-      </AnimatePresence>
+          onClick={onCopy}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {copied ? (
+              <motion.svg ... />
+            ) : (
+              <motion.svg ... />
+            )}
+          </AnimatePresence>
+        </motion.button>
+      </div> */}
 
       <pre
         ref={textInput}
-        className={`${className ?? ""} text-xs sm:text-sm`}
-        style={{ width: 'max-content', minWidth: '100%' }}
+        className={`${className ?? ""} !my-0 text-[11px] sm:text-sm lg:text-base overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[70vh] lg:max-h-[80vh] rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
         {...rest}
       >
         {children}
       </pre>
 
-      {LanguageIcon && (
-        <span
-          className="pointer-events-none absolute bottom-2 right-2 hidden select-none sm:inline"
-          style={{ color: "rgb(58, 61, 72)" }}
-          aria-hidden="true"
-        >
-          <LanguageIcon size={16} />
-        </span>
-      )}
+      {/* language icon — sticky to bottom-right of visible area */}
+      {/* {LanguageIcon && (
+        <div className="pointer-events-none sticky right-0 bottom-0 float-right -mt-7 mr-2 mb-2 hidden h-0 select-none sm:block">
+          <span style={{ color: "rgb(58, 61, 72)" }} aria-hidden="true">
+            <LanguageIcon size={16} />
+          </span>
+        </div>
+      )} */}
     </div>
   );
 };
 
-export default Pre;2
+export default Pre;

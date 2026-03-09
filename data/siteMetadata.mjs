@@ -2,7 +2,7 @@
 const siteMetadata = {
 	title: "John Decorte",
 	author: "John Decorte",
-	headerTitle: "John Decorte",
+	headerTitle: "John Decorte - Full-Stack Developer & Cybersecurity Engineer - Portfolio",
 	description: "John Decorte | Full-Stack Developer & Cybersecurity Engineer in Toronto. Explore my projects, skills, and experience.",
 	language: "en",
 	theme: "dark", // system, dark or light

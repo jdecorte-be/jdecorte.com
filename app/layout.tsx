@@ -11,7 +11,6 @@ import TransitionWrapper from "@/components/TransitionWrapper";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import MaintenancePage from "./maintenance";
 import { ThemeProviders } from "./theme-providers";
 
 const space_grotesk = Space_Grotesk({
@@ -69,17 +68,6 @@ export const metadata: Metadata = {
 export default function RootLayout({
 	children,
 }: Readonly<{ children: React.ReactNode }>) {
-	const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true";
-	if (isMaintenanceMode) {
-		return (
-			<html>
-				<body>
-					<MaintenancePage />
-				</body>
-			</html>
-		);
-	}
-
 	return (
 		<html
 			lang={siteMetadata.language}
@@ -130,7 +118,7 @@ export default function RootLayout({
 						>
 							<Header />
 							<SectionContainer>
-								<main className="mb-auto">
+							<main className="mb-auto">
 									<TransitionWrapper>{children}</TransitionWrapper>
 								</main>
 								<Footer />
