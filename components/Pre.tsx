@@ -131,7 +131,9 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onExit}
-      className="relative my-5 sm:my-6"
+      className="relative my-5 sm:my-6 w-full min-w-0 overflow-x-auto"
+      style={{ contain: "inline-size" }}
+      suppressHydrationWarning
       role="region"
       aria-label={`${langName} code block`}
     >
@@ -162,7 +164,8 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
 
       <pre
         ref={textInput}
-        className={`${className ?? ""} !my-0 w-full max-w-full text-[11px] sm:text-sm lg:text-base overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[70vh] lg:max-h-[80vh] rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
+        className={`${className ?? ""} !my-0 w-full max-w-full text-xs sm:text-sm lg:text-base overflow-x-auto overflow-y-auto max-h-[50vh] sm:max-h-[70vh] lg:max-h-[80vh] rounded-md p-3 sm:p-4 lg:p-5 leading-relaxed text-left`}
+        suppressHydrationWarning
         {...rest}
       >
         {children}
