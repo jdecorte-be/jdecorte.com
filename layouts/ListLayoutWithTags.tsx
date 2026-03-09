@@ -145,18 +145,21 @@ export default function ListLayoutWithTags({
 							className="overflow-hidden"
 						>
 							<div className="mt-3 flex flex-wrap gap-2 rounded-md border border-gray-800 bg-[hsl(230_15%_10%)] p-3">
-								{pathname.startsWith("/writeups") && !pathname.includes("/tags/") ? (
-									<span className="rounded-full border border-primary-500/40 bg-primary-500/10 px-3 py-1 text-xs font-bold uppercase text-primary-400">
-										All Posts
-									</span>
-								) : (
-									<Link
-										href="/writeups"
-										className="rounded-full border border-gray-700 px-3 py-1 text-xs font-medium uppercase text-gray-400 transition-colors hover:border-primary-500 hover:text-primary-400"
-									>
-										All Posts
-									</Link>
-								)}
+								<Link
+									href="/writeups"
+									aria-current={
+										pathname.startsWith("/writeups") && !pathname.includes("/tags/")
+											? "page"
+											: undefined
+									}
+									className={
+										pathname.startsWith("/writeups") && !pathname.includes("/tags/")
+											? "rounded-full border border-primary-500/40 bg-primary-500/10 px-3 py-1 text-xs font-bold uppercase text-primary-400"
+											: "rounded-full border border-gray-700 px-3 py-1 text-xs font-medium uppercase text-gray-400 transition-colors hover:border-primary-500 hover:text-primary-400"
+									}
+								>
+									All Posts
+								</Link>
 								{sortedTags.map((t) => {
 									const isActive = pathname.split("/tags/")[1] === slug(t);
 									return isActive ? (
@@ -186,18 +189,17 @@ export default function ListLayoutWithTags({
 				{/* Sidebar tags — desktop only */}
 				<div className="hidden h-full max-h-screen min-w-[280px] max-w-[280px] flex-wrap overflow-auto rounded bg-[hsl(230_15%_10%)] pt-5 shadow-md dark:bg-[hsl(230_15%_10%)] dark:shadow-gray-800/40 sm:flex">
 					<div className="px-6 py-4">
-						{pathname.startsWith("/writeups") ? (
-							<span className="font-bold uppercase text-primary-500">
-								All Posts
-							</span>
-						) : (
-							<Link
-								href="/writeups"
-								className="font-bold uppercase text-gray-700 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
-							>
-								All Posts
-							</Link>
-						)}
+						<Link
+							href="/writeups"
+							aria-current={pathname.startsWith("/writeups") ? "page" : undefined}
+							className={
+								pathname.startsWith("/writeups")
+									? "font-bold uppercase text-primary-500"
+									: "font-bold uppercase text-gray-700 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
+							}
+						>
+							All Posts
+						</Link>
 						<ul>
 							{sortedTags.map((t) => {
 								return (

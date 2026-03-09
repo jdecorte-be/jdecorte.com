@@ -94,6 +94,15 @@ const TAG_COLORS = [
 	},
 ];
 
+const TAG_COLOR_OVERRIDES: Record<string, number> = {
+	arm64: 5, // Monokai Blue
+	"malware-dev": 11, // Monokai Red
+	macho: 4, // Monokai Purple
+	"binary-injection": 3, // Monokai Orange
+	"x86-64": 8, // Monokai Teal
+	linux: 1, // Monokai Green
+};
+
 function hashString(str: string): number {
 	let hash = 0;
 	for (let i = 0; i < str.length; i++) {
@@ -103,9 +112,12 @@ function hashString(str: string): number {
 }
 
 const Tag = ({ text, index = 0, asSpan = false }: Props) => {
-	// Use hash as base, then offset by index to avoid same colors on the same line
-	const baseIndex = hashString(text) % TAG_COLORS.length;
-	const colorIndex = (baseIndex + index) % TAG_COLORS.length;
+	const normalizedText = slug(text);
+	const overrideIndex = TAG_COLOR_OVERRIDES[normalizedText];
+	const colorIndex =
+		typeof overrideIndex === "number"
+			? overrideIndex % TAG_COLORS.length
+			: hashString(normalizedText) % TAG_COLORS.length;
 	const color = TAG_COLORS[colorIndex];
 	const className = `mr-2 mt-1 inline-block rounded-sm border px-2.5 py-0.5 font-mono text-xs font-semibold tracking-wider transition-colors ${color.border} ${color.text} ${color.bg}`;
 	const content = text.split(" ").join("-");
