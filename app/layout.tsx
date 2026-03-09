@@ -105,7 +105,7 @@ export default function RootLayout({
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
-					<div className="flex min-h-screen flex-col justify-between font-sans">
+					<div className="flex min-h-screen flex-col font-sans">
 						<CustomKBarSearchProvider
 							searchConfig={
 								siteMetadata.search as {
@@ -116,10 +116,12 @@ export default function RootLayout({
 						>
 							<Header />
 							<SectionContainer>
-								<main className="mb-auto px-4 sm:px-6 lg:px-8">
+								<main className="flex-1 px-4 sm:px-6 lg:px-8">
 									<TransitionWrapper>{children}</TransitionWrapper>
 								</main>
-								<Footer />
+								<div className="mt-auto">
+									<Footer />
+								</div>
 							</SectionContainer>
 						</CustomKBarSearchProvider>
 					</div>
