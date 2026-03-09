@@ -102,8 +102,6 @@ export default function RootLayout({
 			<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
 			<body className="overflow-x-hidden bg-[color:var(--background)] text-white antialiased">
 				<ThemeProviders>
-					<SpeedInsights />
-					<VercelAnalytics />
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
