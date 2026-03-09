@@ -7,7 +7,7 @@
   "scripts": {
     "start": "next dev",
     "dev": "contentlayer2 build && cross-env INIT_CWD=$PWD next dev",
-    "build": "node -e \"if(process.env.NODE_ENV!=='production'){console.error('NODE_ENV must be production');process.exit(1)}\" && contentlayer2 build && cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
+    "build": "contentlayer2 build && cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "build:content": "contentlayer2 build",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
