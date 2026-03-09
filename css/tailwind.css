@@ -85,6 +85,26 @@ input:-webkit-autofill:focus {
   to { opacity: 1; transform: translateX(10px) translateY(-10px); }
 }
 
+@keyframes kbarOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes kbarOverlayOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes kbarPopIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes kbarPopOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(10px) scale(0.985); }
+}
+
 .fade-in {
   animation: fadeIn 200ms ease-in-out forwards;
 }
@@ -102,6 +122,30 @@ input:-webkit-autofill:focus {
 .image-animate-on-load {
   animation: fadeInUp 400ms ease-out forwards;
   animation-delay: 200ms;
+}
+
+.kbar-overlay {
+  animation: kbarOverlayIn 200ms ease-out both;
+}
+
+.kbar-overlay[data-kbar-state="exiting"] {
+  animation: kbarOverlayOut 160ms ease-in both;
+}
+
+.kbar-animator {
+  transform-origin: top center;
+  animation: kbarPopIn 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.kbar-animator[data-kbar-state="exiting"] {
+  animation: kbarPopOut 160ms ease-in both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kbar-overlay,
+  .kbar-animator {
+    animation: none;
+  }
 }
 
 .fix-blur {
