@@ -1,16 +1,16 @@
 import "css/tailwind.css";
 
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Roboto_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics, type AnalyticsConfig } from "pliny/analytics";
-import { CustomKBarSearchProvider } from "@/components/CustomKBarSearch";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import SectionContainer from "@/components/SectionContainer";
-import TransitionWrapper from "@/components/TransitionWrapper";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import SectionContainer from "@/components/layout/SectionContainer";
+import TransitionWrapper from "@/components/layout/TransitionWrapper";
+import { CustomKBarSearchProvider } from "@/components/navigation/CustomKBarSearch";
 import siteMetadata from "@/data/siteMetadata.mjs";
-import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProviders } from "./theme-providers";
 
 const space_grotesk = Space_Grotesk({

@@ -1,36 +1,7 @@
 "use client";
 
-import { LazyMotion, domAnimation, m } from "framer-motion";
-import { useEffect, useState } from "react";
-import Link from "./Link";
-
-// GitHub linguist colors for common languages
-const LANG_COLORS: Record<string, string> = {
-	C: "#555555",
-	"C++": "#f34b7d",
-	"C#": "#178600",
-	Assembly: "#6E4C13",
-	Makefile: "#427819",
-	Python: "#3572A5",
-	JavaScript: "#f1e05a",
-	TypeScript: "#3178c6",
-	Rust: "#dea584",
-	Go: "#00ADD8",
-	Java: "#b07219",
-	Swift: "#F05138",
-	"Objective-C": "#438eff",
-	Shell: "#89e051",
-	Ruby: "#701516",
-	Lua: "#000080",
-	Zig: "#ec915c",
-	Haskell: "#5e5086",
-	Nix: "#7e7eff",
-	HTML: "#e34c26",
-	CSS: "#563d7c",
-	SCSS: "#c6538c",
-	Dockerfile: "#384d54",
-	CMake: "#DA3434",
-};
+import { domAnimation, LazyMotion, m } from "framer-motion";
+import Link from "@/components/core/Link";
 
 interface Language {
 	name: string;
@@ -38,64 +9,54 @@ interface Language {
 	color: string;
 }
 
-interface GithubCardProps {
+interface GithubCardClientProps {
 	repo: string;
 	description?: string;
+	repoDescription?: string | null;
+	languages?: Language[];
 }
 
 const cardMotion = {
-	hidden: { opacity: 0, y: 16 },
-	visible: {
+	rest: {
 		opacity: 1,
 		y: 0,
-		transition: { duration: 0.45, ease: "easeOut" },
+		scale: 1,
+		boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
+		transition: { duration: 0.2, ease: "easeOut" },
 	},
 	hover: {
-		y: -4,
-		boxShadow: "0 18px 40px -24px rgba(0, 0, 0, 0.55)",
+		y: -6,
+		boxShadow: "0 20px 50px -30px rgba(15, 23, 42, 0.6)",
+		transition: { duration: 0.2, ease: "easeOut", staggerChildren: 0.06 },
+	},
+};
+
+const itemMotion = {
+	rest: { opacity: 1, y: 0 },
+	hover: {
+		opacity: 1,
+		y: -2,
 		transition: { duration: 0.2, ease: "easeOut" },
 	},
 };
 
-const GithubCard = ({ repo, description }: GithubCardProps) => {
+const barMotion = {
+	rest: { opacity: 0.95, scaleX: 0.985 },
+	hover: {
+		opacity: 1,
+		scaleX: 1,
+		transition: { duration: 0.25, ease: "easeOut" },
+	},
+};
+
+const GithubCardClient = ({
+	repo,
+	description,
+	repoDescription,
+	languages = [],
+}: GithubCardClientProps) => {
 	const [owner, repoName] = repo.split("/");
 	const href = `https://github.com/${repo}`;
-
-	const [repoDescription, setRepoDescription] = useState<string | null>(null);
-	const [languages, setLanguages] = useState<Language[]>([]);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const [repoRes, langRes] = await Promise.all([
-					fetch(`https://api.github.com/repos/${repo}`),
-					fetch(`https://api.github.com/repos/${repo}/languages`),
-				]);
-
-				if (repoRes.ok) {
-					const repoJson = await repoRes.json();
-					setRepoDescription(repoJson.description ?? null);
-				}
-
-				if (langRes.ok) {
-					const langJson: Record<string, number> = await langRes.json();
-					const total = Object.values(langJson).reduce((a, b) => a + b, 0);
-					setLanguages(
-						Object.entries(langJson).map(([name, bytes]) => ({
-							name,
-							percentage: Math.round((bytes / total) * 1000) / 10,
-							color: LANG_COLORS[name] || "#8b8b8b",
-						})),
-					);
-				}
-			} catch {
-				// Silently fail — card still renders without fetched data
-			}
-		};
-
-		fetchData();
-	}, [repo]);
-
 	const displayDescription = description ?? repoDescription;
 
 	return (
@@ -107,15 +68,14 @@ const GithubCard = ({ repo, description }: GithubCardProps) => {
 			>
 				<m.div
 					className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-50 px-5 py-4 transition-colors duration-200 hover:border-primary-500 dark:border-white/[0.1] dark:bg-white/[0.03] dark:hover:border-primary-500/60"
-					initial="hidden"
-					whileInView="visible"
+					initial="rest"
+					animate="rest"
 					whileHover="hover"
 					whileFocus="hover"
-					viewport={{ once: true, amount: 0.4 }}
 					variants={cardMotion}
 				>
 					{/* Repo name row */}
-					<div className="flex items-center gap-2">
+					<m.div className="flex items-center gap-2" variants={itemMotion}>
 						<svg
 							className="h-4 w-4 shrink-0 fill-gray-500 dark:fill-gray-400"
 							viewBox="0 0 16 16"
@@ -127,23 +87,30 @@ const GithubCard = ({ repo, description }: GithubCardProps) => {
 							<span className="text-gray-500 dark:text-gray-400">{owner}/</span>
 							{repoName}
 						</span>
-					</div>
+					</m.div>
 
 					{/* Description */}
 					{displayDescription && (
-						<p className="text-sm text-gray-600 dark:text-gray-400">
+						<m.p
+							className="text-sm text-gray-600 dark:text-gray-400"
+							variants={itemMotion}
+						>
 							{displayDescription}
-						</p>
+						</m.p>
 					)}
 
 					{/* Languages */}
 					{languages.length > 0 && (
-						<div className="flex flex-col gap-2">
+						<m.div className="flex flex-col gap-2" variants={itemMotion}>
 							<p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
 								Languages
 							</p>
 							{/* Bar */}
-							<div className="flex h-2 w-full overflow-hidden rounded-full">
+							<m.div
+								className="flex h-2 w-full overflow-hidden rounded-full"
+								style={{ transformOrigin: "left" }}
+								variants={barMotion}
+							>
 								{languages.map((lang) => (
 									<span
 										key={lang.name}
@@ -154,7 +121,7 @@ const GithubCard = ({ repo, description }: GithubCardProps) => {
 										}}
 									/>
 								))}
-							</div>
+							</m.div>
 							{/* Labels */}
 							<div className="flex flex-wrap gap-x-4 gap-y-1">
 								{languages.map((lang) => (
@@ -173,7 +140,7 @@ const GithubCard = ({ repo, description }: GithubCardProps) => {
 									</div>
 								))}
 							</div>
-						</div>
+						</m.div>
 					)}
 				</m.div>
 			</Link>
@@ -181,4 +148,4 @@ const GithubCard = ({ repo, description }: GithubCardProps) => {
 	);
 };
 
-export default GithubCard;
+export default GithubCardClient;

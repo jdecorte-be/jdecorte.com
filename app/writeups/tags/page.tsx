@@ -1,8 +1,8 @@
 import { genPageMetadata } from "app/seo";
 import tagData from "app/tag-data.json" with { type: "json" };
 import { slug } from "github-slugger";
-import Link from "@/components/Link";
-import Tag from "@/components/Tag";
+import Tag from "@/components/content/Tag";
+import Link from "@/components/core/Link";
 
 export const metadata = genPageMetadata({
 	title: "Tags",

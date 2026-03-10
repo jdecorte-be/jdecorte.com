@@ -1,7 +1,7 @@
 import type { Authors } from "contentlayer/generated";
 import type { ReactNode } from "react";
-import Image from "@/components/Image";
-import SocialIcon from "@/components/social-icons";
+import Image from "@/components/core/Image";
+import SocialIcon from "@/components/social/social-icons";
 
 interface Props {
 	children: ReactNode;

@@ -1,10 +1,10 @@
 import type { MDXComponents } from "mdx/types";
 import TOCInline from "pliny/ui/TOCInline";
+import Image from "@/components/core/Image";
+import ImageLightbox from "@/components/core/ImageLightbox";
+import CustomLink from "@/components/core/Link";
+import GithubCard from "@/components/social/GithubCard";
 import Callout from "./Callout";
-import GithubCard from "./GithubCard";
-import Image from "./Image";
-import ImageLightbox from "./ImageLightbox";
-import CustomLink from "./Link";
 import Pre from "./Pre";
 import TableWrapper from "./TableWrapper";
 // import Pre from "pliny/ui/Pre";

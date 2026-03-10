@@ -1,13 +1,13 @@
 import type { Authors, Writeups } from "contentlayer/generated";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import type { ReactNode } from "react";
-import Comments from "@/components/Comments";
-import Image from "@/components/Image";
-import Link from "@/components/Link";
-import PageTitle from "@/components/PageTitle";
-import ScrollTopAndComment from "@/components/ScrollTopAndComment";
-import SectionContainer from "@/components/SectionContainer";
-import Tag from "@/components/Tag";
+import Comments from "@/components/content/Comments";
+import PageTitle from "@/components/content/PageTitle";
+import ScrollTopAndComment from "@/components/content/ScrollTopAndComment";
+import Tag from "@/components/content/Tag";
+import Image from "@/components/core/Image";
+import Link from "@/components/core/Link";
+import SectionContainer from "@/components/layout/SectionContainer";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 const editUrl = (path: string) =>

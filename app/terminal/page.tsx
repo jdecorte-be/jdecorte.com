@@ -1,5 +1,5 @@
 import { genPageMetadata } from "app/seo";
-import Terminal from "@/components/Terminal";
+import Terminal from "@/components/terminal/Terminal";
 
 export const metadata = genPageMetadata({ title: "Terminal" });
 

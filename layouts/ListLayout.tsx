@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import { formatDate } from "pliny/utils/formatDate";
 import { useState } from "react";
-import Link from "@/components/Link";
-import Tag from "@/components/Tag";
+import Tag from "@/components/content/Tag";
+import Link from "@/components/core/Link";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 interface PaginationProps {

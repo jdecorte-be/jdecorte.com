@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "./Link";
+import Link from "@/components/core/Link";
 
 type HackerNavLinkProps = {
 	href: string;
