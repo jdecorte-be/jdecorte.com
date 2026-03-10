@@ -3,7 +3,7 @@ import {
 	AvatarGroup,
 	AvatarGroupTooltip,
 } from "@/components/animate-ui/components/animate/avatar-group";
-import { Github, Linkedin, Mail } from "@/components/social-icons/icons";
+import { Github, Linkedin, Mail } from "@/components/social/social-icons/icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import siteMetadata from "@/data/siteMetadata.mjs";
 

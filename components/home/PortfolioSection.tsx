@@ -1,8 +1,15 @@
 "use client";
 
-import { LazyMotion, domAnimation, m } from "framer-motion";
+import { domAnimation, LazyMotion, m } from "framer-motion";
 
-import ProjectCard from "@/components/ProjectCard";
+import ProjectCard from "@/components/home/ProjectCard";
+import {
+	fadeInFromBottom,
+	fadeInFromLeft,
+	fadeInFromRight,
+	fadeInFromTop,
+	staggerContainer,
+} from "@/components/home/portfolioAnimations";
 import {
 	Tabs,
 	TabsContent,
@@ -10,13 +17,6 @@ import {
 	TabsList,
 	TabsTrigger,
 } from "@/components/ui/tabs";
-import {
-	fadeInFromBottom,
-	fadeInFromLeft,
-	fadeInFromRight,
-	fadeInFromTop,
-	staggerContainer,
-} from "@/components/portfolioAnimations";
 import { CATEGORIES, projects } from "@/data/portfolioData";
 
 export default function PortfolioSection() {
@@ -37,7 +37,7 @@ export default function PortfolioSection() {
 						<h2 className="mb-6 text-4xl font-bold tracking-tight text-gray-100 md:text-5xl">
 							Discover what I've created
 						</h2>
-							<p className="mx-auto max-w-3xl text-base text-gray-400 md:text-lg">
+						<p className="mx-auto max-w-3xl text-base text-gray-400 md:text-lg">
 							Each piece reflects my passion for innovation and commitment to
 							delivering high-quality results. Feel free to explore and get
 							inspired!
@@ -107,12 +107,12 @@ export default function PortfolioSection() {
 												<m.div
 													key={project.title}
 													className="flex-1"
-												initial="hidden"
-												whileInView="visible"
-												viewport={{ once: true, amount: 0.2 }}
-												variants={
-													index === 0 ? fadeInFromRight : fadeInFromBottom
-												}
+													initial="hidden"
+													whileInView="visible"
+													viewport={{ once: true, amount: 0.2 }}
+													variants={
+														index === 0 ? fadeInFromRight : fadeInFromBottom
+													}
 												>
 													<ProjectCard
 														title={project.title}
@@ -146,12 +146,12 @@ export default function PortfolioSection() {
 												<m.div
 													key={project.title}
 													className="flex-1"
-												initial="hidden"
-												whileInView="visible"
-												viewport={{ once: true, amount: 0.2 }}
-												variants={
-													index === 0 ? fadeInFromLeft : fadeInFromBottom
-												}
+													initial="hidden"
+													whileInView="visible"
+													viewport={{ once: true, amount: 0.2 }}
+													variants={
+														index === 0 ? fadeInFromLeft : fadeInFromBottom
+													}
 												>
 													<ProjectCard
 														title={project.title}
@@ -168,10 +168,10 @@ export default function PortfolioSection() {
 									</div>
 									<m.div
 										className="lg:h-full"
-									initial="hidden"
-									whileInView="visible"
-									viewport={{ once: true, amount: 0.2 }}
-									variants={fadeInFromRight}
+										initial="hidden"
+										whileInView="visible"
+										viewport={{ once: true, amount: 0.2 }}
+										variants={fadeInFromRight}
 									>
 										{projects["Low level"]
 											.filter((p) => p.size === "large")
@@ -230,12 +230,12 @@ export default function PortfolioSection() {
 											.map((project, index) => (
 												<m.div
 													key={project.title}
-												initial="hidden"
-												whileInView="visible"
-												viewport={{ once: true, amount: 0.2 }}
-												variants={
-													index === 0 ? fadeInFromLeft : fadeInFromRight
-												}
+													initial="hidden"
+													whileInView="visible"
+													viewport={{ once: true, amount: 0.2 }}
+													variants={
+														index === 0 ? fadeInFromLeft : fadeInFromRight
+													}
 												>
 													<ProjectCard
 														title={project.title}

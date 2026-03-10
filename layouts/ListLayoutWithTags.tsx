@@ -6,11 +6,11 @@ import type { Writeups } from "contentlayer/generated";
 import { slug } from "github-slugger";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import { formatDate } from "pliny/utils/formatDate";
-import Link from "@/components/Link";
-import Tag from "@/components/Tag";
+import { useState } from "react";
+import Tag from "@/components/content/Tag";
+import Link from "@/components/core/Link";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 interface PaginationProps {
@@ -148,12 +148,14 @@ export default function ListLayoutWithTags({
 								<Link
 									href="/writeups"
 									aria-current={
-										pathname.startsWith("/writeups") && !pathname.includes("/tags/")
+										pathname.startsWith("/writeups") &&
+										!pathname.includes("/tags/")
 											? "page"
 											: undefined
 									}
 									className={
-										pathname.startsWith("/writeups") && !pathname.includes("/tags/")
+										pathname.startsWith("/writeups") &&
+										!pathname.includes("/tags/")
 											? "rounded-full border border-primary-500/40 bg-primary-500/10 px-3 py-1 text-xs font-bold uppercase text-primary-400"
 											: "rounded-full border border-gray-700 px-3 py-1 text-xs font-medium uppercase text-gray-400 transition-colors hover:border-primary-500 hover:text-primary-400"
 									}
@@ -191,7 +193,9 @@ export default function ListLayoutWithTags({
 					<div className="px-6 py-4">
 						<Link
 							href="/writeups"
-							aria-current={pathname.startsWith("/writeups") ? "page" : undefined}
+							aria-current={
+								pathname.startsWith("/writeups") ? "page" : undefined
+							}
 							className={
 								pathname.startsWith("/writeups")
 									? "font-bold uppercase text-primary-500"
@@ -205,9 +209,9 @@ export default function ListLayoutWithTags({
 								return (
 									<li key={t} className="my-3">
 										{pathname.split("/tags/")[1] === slug(t) ? (
-										<span className="inline px-3 py-2 text-sm font-bold uppercase text-primary-500">
-											{`${t} (${tagCounts[t]})`}
-										</span>
+											<span className="inline px-3 py-2 text-sm font-bold uppercase text-primary-500">
+												{`${t} (${tagCounts[t]})`}
+											</span>
 										) : (
 											<Link
 												href={`/writeups/tags/${slug(t)}`}
@@ -278,7 +282,9 @@ export default function ListLayoutWithTags({
 									{/* Vertical line segment (anchored to dot center) */}
 									<div
 										className="absolute left-[4.5px] top-0 w-px bg-gray-800"
-										style={{ bottom: idx < displayPosts.length - 1 ? '-0.75rem' : '0' }}
+										style={{
+											bottom: idx < displayPosts.length - 1 ? "-0.75rem" : "0",
+										}}
 									/>
 									{/* Timeline dot */}
 									<div className="relative z-10 mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full border-2 border-primary-500 bg-gray-950 transition-colors group-hover:border-accent-400 group-hover:bg-accent-400" />
@@ -287,7 +293,9 @@ export default function ListLayoutWithTags({
 										className="flex flex-col items-start font-mono text-xs leading-tight tracking-wider text-gray-500 dark:text-gray-400"
 									>
 										<span className="text-[0.65rem] uppercase text-gray-500">
-											{new Date(date).toLocaleString(siteMetadata.locale, { month: "short" })}
+											{new Date(date).toLocaleString(siteMetadata.locale, {
+												month: "short",
+											})}
 										</span>
 										<span className="text-lg font-bold text-gray-300">
 											{new Date(date).getDate().toString().padStart(2, "0")}

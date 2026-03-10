@@ -127,10 +127,7 @@ const Tag = ({ text, index = 0, asSpan = false }: Props) => {
 	}
 
 	return (
-		<Link
-			href={`/writeups/tags/${slug(text)}`}
-			className={className}
-		>
+		<Link href={`/writeups/tags/${slug(text)}`} className={className}>
 			{content}
 		</Link>
 	);

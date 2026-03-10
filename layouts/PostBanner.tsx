@@ -2,12 +2,12 @@ import type { Writeups } from "contentlayer/generated";
 import Bleed from "pliny/ui/Bleed";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import type { ReactNode } from "react";
-import Comments from "@/components/Comments";
-import Image from "@/components/Image";
-import Link from "@/components/Link";
-import PageTitle from "@/components/PageTitle";
-import ScrollTopAndComment from "@/components/ScrollTopAndComment";
-import SectionContainer from "@/components/SectionContainer";
+import Comments from "@/components/content/Comments";
+import PageTitle from "@/components/content/PageTitle";
+import ScrollTopAndComment from "@/components/content/ScrollTopAndComment";
+import Image from "@/components/core/Image";
+import Link from "@/components/core/Link";
+import SectionContainer from "@/components/layout/SectionContainer";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 interface LayoutProps {

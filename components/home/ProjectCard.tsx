@@ -82,8 +82,8 @@ const ProjectCard = ({
 							</svg>
 						</div>
 					)}
-				{/* Primary tint reveal on hover */}
-				<div className="absolute inset-0 bg-primary-500/0 transition-colors duration-500 group-hover:bg-primary-500/10" />
+					{/* Primary tint reveal on hover */}
+					<div className="absolute inset-0 bg-primary-500/0 transition-colors duration-500 group-hover:bg-primary-500/10" />
 				</div>
 
 				{/* Content */}

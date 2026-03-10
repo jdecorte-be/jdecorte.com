@@ -88,13 +88,13 @@ export default function Callout({
 			className={`not-prose my-6 rounded-md border border-transparent border-l-[3px] ${style.border} px-4 py-2`}
 			role="alert"
 		>
-			<p className={`mb-1 flex items-center gap-2 text-sm font-semibold ${style.color}`}>
+			<p
+				className={`mb-1 flex items-center gap-2 text-sm font-semibold ${style.color}`}
+			>
 				{style.svg}
 				{displayTitle}
 			</p>
-			<div className="text-sm text-gray-700 dark:text-gray-200">
-				{children}
-			</div>
+			<div className="text-sm text-gray-700 dark:text-gray-200">{children}</div>
 		</div>
 	);
 }

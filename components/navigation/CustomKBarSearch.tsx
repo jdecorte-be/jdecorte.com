@@ -51,7 +51,7 @@ function RenderResults() {
 							<div className="min-w-0">
 								{item.subtitle && (
 									<p
-												className={`truncate text-[11px] ${active ? "text-gray-400" : "text-gray-600"}`}
+										className={`truncate text-[11px] ${active ? "text-gray-400" : "text-gray-600"}`}
 									>
 										{item.subtitle}
 									</p>
@@ -64,10 +64,10 @@ function RenderResults() {
 								{item.shortcut.map((sc) => (
 									<kbd
 										key={sc}
-											className={`flex h-5 min-w-[1.25rem] items-center justify-center rounded-md border px-1 text-[10px] font-medium ${
-												active
+										className={`flex h-5 min-w-[1.25rem] items-center justify-center rounded-md border px-1 text-[10px] font-medium ${
+											active
 												? "border-white/15 bg-white/10 text-gray-300"
-													: "border-white/10 bg-white/5 text-gray-500"
+												: "border-white/10 bg-white/5 text-gray-500"
 										}`}
 									>
 										{sc}
@@ -145,16 +145,24 @@ function CustomKBarModal({
 						{/* Footer hint */}
 						<div className="flex items-center gap-4 border-t border-white/[0.05] px-4 py-2.5 text-[10px] text-gray-600">
 							<span className="flex items-center gap-1.5">
-								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">↑</kbd>
-								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">↓</kbd>
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">
+									↑
+								</kbd>
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">
+									↓
+								</kbd>
 								<span>navigate</span>
 							</span>
 							<span className="flex items-center gap-1.5">
-								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">↵</kbd>
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">
+									↵
+								</kbd>
 								<span>open</span>
 							</span>
 							<span className="flex items-center gap-1.5 ml-auto">
-								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">esc</kbd>
+								<kbd className="rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 font-sans">
+									esc
+								</kbd>
 								<span>close</span>
 							</span>
 						</div>

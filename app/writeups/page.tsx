@@ -8,7 +8,9 @@ const POSTS_PER_PAGE = 5;
 export const metadata = genPageMetadata({ title: "Writeups" });
 
 export default function ThoughtPage() {
-	const posts = allCoreContent(sortPosts(allWriteups.filter((post) => !post.draft)));
+	const posts = allCoreContent(
+		sortPosts(allWriteups.filter((post) => !post.draft)),
+	);
 	const pageNumber = 1;
 	const initialDisplayPosts = posts.slice(
 		POSTS_PER_PAGE * (pageNumber - 1),

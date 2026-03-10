@@ -18,7 +18,9 @@ export default async function Page(
 	props: Readonly<{ params: Promise<{ page: string }> }>,
 ) {
 	const params = await props.params;
-	const posts = allCoreContent(sortPosts(allWriteups.filter((post) => !post.draft)));
+	const posts = allCoreContent(
+		sortPosts(allWriteups.filter((post) => !post.draft)),
+	);
 	const pageNumber = Number.parseInt(params.page);
 	const initialDisplayPosts = posts.slice(
 		POSTS_PER_PAGE * (pageNumber - 1),

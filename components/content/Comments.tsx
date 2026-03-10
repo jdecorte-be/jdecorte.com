@@ -1,12 +1,11 @@
 "use client";
 
-import { useTheme } from "next-themes";
 import GiscusComponent from "@giscus/react";
+import { useTheme } from "next-themes";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 export default function Comments({ slug }: { slug: string }) {
 	const { theme: nextTheme, resolvedTheme } = useTheme();
-
 
 	const commentsConfig = siteMetadata.comments;
 

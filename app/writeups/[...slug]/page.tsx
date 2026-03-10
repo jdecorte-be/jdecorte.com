@@ -10,7 +10,7 @@ import {
 	coreContent,
 	sortPosts,
 } from "pliny/utils/contentlayer";
-import { components } from "@/components/MDXComponents";
+import { components } from "@/components/content/MDXComponents";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import PostBanner from "@/layouts/PostBanner";
 import PostLayout from "@/layouts/PostLayout";
@@ -83,7 +83,9 @@ export default async function Page({ params }) {
 	const { slug } = await params;
 	const newslug = decodeURI(slug?.join("/"));
 	// Filter out drafts in production
-	const sortedCoreContents = allCoreContent(sortPosts(allWriteups.filter((p) => !p.draft)));
+	const sortedCoreContents = allCoreContent(
+		sortPosts(allWriteups.filter((p) => !p.draft)),
+	);
 	const postIndex = sortedCoreContents.findIndex((p) => p.slug === newslug);
 	if (postIndex === -1) {
 		return notFound();

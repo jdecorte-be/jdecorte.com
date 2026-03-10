@@ -1,1 +1,8 @@
-{"arm64":1,"malware-dev":2,"macho":1,"binary-injection":2,"x86-64":1,"linux":1}
+{
+	"arm64": 1,
+	"malware-dev": 2,
+	"macho": 1,
+	"binary-injection": 2,
+	"x86-64": 1,
+	"linux": 1
+}
