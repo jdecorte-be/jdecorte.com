@@ -16,18 +16,20 @@ interface GithubCardClientProps {
 	languages?: Language[];
 }
 
+const easeOut = [0.16, 1, 0.3, 1] as const;
+
 const cardMotion = {
 	rest: {
 		opacity: 1,
 		y: 0,
 		scale: 1,
 		boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
-		transition: { duration: 0.2, ease: "easeOut" },
+		transition: { duration: 0.2, ease: easeOut },
 	},
 	hover: {
 		y: -6,
 		boxShadow: "0 20px 50px -30px rgba(15, 23, 42, 0.6)",
-		transition: { duration: 0.2, ease: "easeOut", staggerChildren: 0.06 },
+		transition: { duration: 0.2, ease: easeOut, staggerChildren: 0.06 },
 	},
 };
 
@@ -36,7 +38,7 @@ const itemMotion = {
 	hover: {
 		opacity: 1,
 		y: -2,
-		transition: { duration: 0.2, ease: "easeOut" },
+		transition: { duration: 0.2, ease: easeOut },
 	},
 };
 
@@ -45,7 +47,7 @@ const barMotion = {
 	hover: {
 		opacity: 1,
 		scaleX: 1,
-		transition: { duration: 0.25, ease: "easeOut" },
+		transition: { duration: 0.25, ease: easeOut },
 	},
 };
 
