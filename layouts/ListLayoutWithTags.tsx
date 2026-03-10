@@ -5,10 +5,11 @@ import tagData from "app/tag-data.json" with { type: "json" };
 import type { Writeups } from "contentlayer/generated";
 import { slug } from "github-slugger";
 import { AnimatePresence, motion } from "motion/react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import { formatDate } from "pliny/utils/formatDate";
 import { useState } from "react";
+import type { KeyboardEvent, MouseEvent } from "react";
 import Tag from "@/components/content/Tag";
 import Link from "@/components/core/Link";
 import siteMetadata from "@/data/siteMetadata.mjs";
@@ -83,6 +84,7 @@ export default function ListLayoutWithTags({
 	pagination,
 }: Readonly<ListLayoutProps>) {
 	const pathname = usePathname();
+	const router = useRouter();
 	const tagCounts = tagData as Record<string, number>;
 	const tagKeys = Object.keys(tagCounts);
 	const sortedTags = tagKeys.toSorted((a, b) => tagCounts[b] - tagCounts[a]);
@@ -91,6 +93,11 @@ export default function ListLayoutWithTags({
 		initialDisplayPosts.length > 0 ? initialDisplayPosts : posts;
 
 	const [mobileTagsOpen, setMobileTagsOpen] = useState(false);
+	const stopCardNavigation = (
+		event: MouseEvent<HTMLAnchorElement> | KeyboardEvent<HTMLAnchorElement>,
+	) => {
+		event.stopPropagation();
+	};
 
 	return (
 		<div className="chronicle">
@@ -246,17 +253,34 @@ export default function ListLayoutWithTags({
 							>
 								{/* Card */}
 								<div className="timeline-content min-w-0">
-									<Link href={`/${path}`} className="block">
-										<div className="rounded-l-lg border-r-2 border-primary-500/50 bg-[hsl(230_15%_10%)] px-3 py-4 transition-all duration-300 group-hover:-translate-x-1 group-hover:border-accent-400 group-hover:bg-[hsl(230_15%_16%)] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] sm:px-5 sm:py-5 md:px-7 md:py-6">
+										<div
+											onClick={() => router.push(`/${path}`)}
+											onKeyDown={(event) => {
+												if (event.key === "Enter" || event.key === " ") {
+													event.preventDefault();
+													router.push(`/${path}`);
+												}
+											}}
+											role="link"
+											tabIndex={0}
+											aria-label={`Read ${title}`}
+											className="rounded-l-lg border-r-2 border-primary-500/50 bg-[hsl(230_15%_10%)] px-3 py-4 transition-all duration-300 group-hover:-translate-x-1 group-hover:border-accent-400 group-hover:bg-[hsl(230_15%_16%)] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] sm:px-5 sm:py-5 md:px-7 md:py-6"
+										>
 											{/* Title */}
-											<h2 className="text-base font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 sm:text-xl md:text-2xl">
-												{title}
-											</h2>
+												<h2 className="text-base font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 sm:text-xl md:text-2xl">
+													{title}
+												</h2>
 
 											{/* Badges */}
 											<div className="mt-2 flex flex-wrap gap-1.5">
 												{tags?.map((tag, i) => (
-													<Tag key={tag} text={tag} index={i} asSpan />
+														<Tag
+															key={tag}
+															text={tag}
+															index={i}
+															onClick={stopCardNavigation}
+															onKeyDown={stopCardNavigation}
+														/>
 												))}
 											</div>
 
@@ -274,7 +298,6 @@ export default function ListLayoutWithTags({
 												</p>
 											)}
 										</div>
-									</Link>
 								</div>
 
 								{/* Date column */}
