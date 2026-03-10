@@ -1,10 +1,13 @@
 import { slug } from "github-slugger";
 import Link from "next/link";
+import type { KeyboardEventHandler, MouseEventHandler } from "react";
 
 interface Props {
 	text: string;
 	index?: number;
 	asSpan?: boolean;
+	onClick?: MouseEventHandler<HTMLAnchorElement>;
+	onKeyDown?: KeyboardEventHandler<HTMLAnchorElement>;
 }
 
 const TAG_COLORS = [
@@ -111,7 +114,13 @@ function hashString(str: string): number {
 	return Math.abs(hash);
 }
 
-const Tag = ({ text, index = 0, asSpan = false }: Props) => {
+const Tag = ({
+	text,
+	index = 0,
+	asSpan = false,
+	onClick,
+	onKeyDown,
+}: Props) => {
 	const normalizedText = slug(text);
 	const overrideIndex = TAG_COLOR_OVERRIDES[normalizedText];
 	const colorIndex =
@@ -127,7 +136,12 @@ const Tag = ({ text, index = 0, asSpan = false }: Props) => {
 	}
 
 	return (
-		<Link href={`/writeups/tags/${slug(text)}`} className={className}>
+		<Link
+			href={`/writeups/tags/${slug(text)}`}
+			className={className}
+			onClick={onClick}
+			onKeyDown={onKeyDown}
+		>
 			{content}
 		</Link>
 	);
