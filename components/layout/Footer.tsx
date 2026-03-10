@@ -21,7 +21,9 @@ export default function Footer() {
 					<div>{" • "}</div>
 					<div>{`© ${new Date().getFullYear()}`}</div>
 				</div>
-				<div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
+				<div className="mb-8 flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+					<Link href="/legal">Legal notice</Link>
+					<span>{" • "}</span>
 					<Link href="https://github.com/jdecorte-be/jdecorte.com">Source</Link>
 				</div>
 			</div>
