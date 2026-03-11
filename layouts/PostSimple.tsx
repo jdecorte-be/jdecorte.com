@@ -22,7 +22,7 @@ export default function PostLayout({
 	prev,
 	children,
 }: Readonly<LayoutProps>) {
-	const { slug, date, title } = content;
+	const { slug, date, title, summary } = content;
 
 	return (
 		<SectionContainer>
@@ -43,6 +43,11 @@ export default function PostLayout({
 							</dl>
 							<div>
 								<PageTitle>{title}</PageTitle>
+								{summary && (
+									<p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-gray-600 dark:text-gray-300">
+										{summary}
+									</p>
+								)}
 							</div>
 						</div>
 					</header>
