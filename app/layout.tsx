@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Roboto_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics, type AnalyticsConfig } from "pliny/analytics";
+import { Suspense } from "react";
 import UmamiPageview from "@/components/analytics/UmamiPageview";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -106,7 +107,9 @@ export default function RootLayout({
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
-					<UmamiPageview />
+					<Suspense fallback={null}>
+						<UmamiPageview />
+					</Suspense>
 					<div className="flex min-h-screen flex-col font-sans">
 						<CustomKBarSearchProvider
 							searchConfig={

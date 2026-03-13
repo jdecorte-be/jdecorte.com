@@ -4,7 +4,7 @@ import type { LinkProps } from "next/link";
 import Link from "next/link";
 import type { AnchorHTMLAttributes } from "react";
 
-type UmamiAnchorProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type UmamiAnchorProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
 	"data-umami-event"?: string;
 };
 
@@ -12,7 +12,12 @@ const CustomLink = ({
 	href,
 	...rest
 }: LinkProps & UmamiAnchorProps) => {
-	const hrefValue = typeof href === "string" ? href : href?.pathname ?? "";
+	const hrefValue =
+		typeof href === "string"
+			? href
+			: typeof href?.pathname === "string"
+				? href.pathname
+				: "";
 	const isInternalLink = hrefValue.startsWith("/");
 	const isAnchorLink = hrefValue.startsWith("#");
 	const umamiEvent =
@@ -25,7 +30,7 @@ const CustomLink = ({
 
 	if (isAnchorLink) {
 		return (
-			<a href={href} {...rest} data-umami-event={umamiEvent}>
+			<a href={hrefValue} {...rest} data-umami-event={umamiEvent}>
 				{rest.children}
 			</a>
 		);
@@ -35,7 +40,7 @@ const CustomLink = ({
 		<a
 			target="_blank"
 			rel="noopener noreferrer"
-			href={href}
+			href={hrefValue}
 			{...rest}
 			data-umami-event={umamiEvent}
 		>
