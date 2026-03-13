@@ -67,8 +67,8 @@ export default function PortfolioSection() {
 						</m.div>
 
 						<TabsContents>
-							{/* Network Layout: Large left, Small cards stacked right */}
-							<TabsContent value="Network">
+							{/* Network & System Layout: Large left, Small cards stacked right */}
+							<TabsContent value="Network & System">
 								<m.div
 									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"
@@ -83,7 +83,7 @@ export default function PortfolioSection() {
 										viewport={{ once: true, amount: 0.2 }}
 										variants={fadeInFromLeft}
 									>
-										{projects["Network"]
+										{projects["Network & System"]
 											.filter((p) => p.size === "large")
 											.map((project) => (
 												<div key={project.title} className="h-full">
@@ -101,7 +101,7 @@ export default function PortfolioSection() {
 											))}
 									</m.div>
 									<div className="flex h-full flex-col gap-6">
-										{projects["Network"]
+										{projects["Network & System"]
 											.filter((p) => p.size === "small")
 											.map((project, index) => (
 												<m.div
@@ -235,6 +235,69 @@ export default function PortfolioSection() {
 													viewport={{ once: true, amount: 0.2 }}
 													variants={
 														index === 0 ? fadeInFromLeft : fadeInFromRight
+													}
+												>
+													<ProjectCard
+														title={project.title}
+														size={project.size}
+														buttonText={project.buttonText}
+														imgSrc={project.imgSrc}
+														href={project.href}
+														index={project.index}
+													>
+														{project.description}
+													</ProjectCard>
+												</m.div>
+											))}
+									</div>
+								</m.div>
+							</TabsContent>
+
+							{/* Cybersecurity Layout: Large left, Small cards stacked right */}
+							<TabsContent value="Cybersecurity">
+								<m.div
+									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
+									initial="hidden"
+									whileInView="visible"
+									viewport={{ once: true, amount: 0.2 }}
+									variants={staggerContainer}
+								>
+									<m.div
+										className="lg:h-full"
+										initial="hidden"
+										whileInView="visible"
+										viewport={{ once: true, amount: 0.2 }}
+										variants={fadeInFromLeft}
+									>
+										{projects["Cybersecurity"]
+											.filter((p) => p.size === "large")
+											.map((project) => (
+												<div key={project.title} className="h-full">
+													<ProjectCard
+														title={project.title}
+														size={project.size}
+														buttonText={project.buttonText}
+														imgSrc={project.imgSrc}
+														href={project.href}
+														index={project.index}
+													>
+														{project.description}
+													</ProjectCard>
+												</div>
+											))}
+									</m.div>
+									<div className="flex h-full flex-col gap-6">
+										{projects["Cybersecurity"]
+											.filter((p) => p.size === "small")
+											.map((project, index) => (
+												<m.div
+													key={project.title}
+													className="flex-1"
+													initial="hidden"
+													whileInView="visible"
+													viewport={{ once: true, amount: 0.2 }}
+													variants={
+														index === 0 ? fadeInFromRight : fadeInFromBottom
 													}
 												>
 													<ProjectCard

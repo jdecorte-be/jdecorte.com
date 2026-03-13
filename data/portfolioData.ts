@@ -1,4 +1,4 @@
-export type Category = "Network" | "Low level" | "Web Dev";
+export type Category = "Network & System" | "Low level" | "Web Dev" | "Cybersecurity";
 
 export type Project = {
 	title: string;
@@ -11,102 +11,122 @@ export type Project = {
 };
 
 export const projects: Record<Category, Project[]> = {
-	Network: [
+	"Network & System": [
 		{
-			title: "42 Network",
+			title: "Bgp At Doors of Autonomous Systems is Simple (BADASS)",
 			size: "large",
-			buttonText: "View Writeup",
+			buttonText: "",
 			imgSrc: "",
-			href: "/writeups/42",
-			description:
-				"A comprehensive network infrastructure project for distributed computing and real-time communication.",
+			href: "",
+			description: "",
 			index: 0,
 		},
 		{
-			title: "TCP/IP Stack",
+			title: "Inception Of Things (IoT)",
 			size: "small",
-			buttonText: "View Project",
+			buttonText: "",
 			imgSrc: "",
-			href: "#",
-			description:
-				"Custom implementation of TCP/IP networking protocols from scratch.",
+			href: "",
+			description: "",
 			index: 1,
 		},
 		{
-			title: "VPN Gateway",
+			title: "AWS Certification",
 			size: "small",
-			buttonText: "View Project",
+			buttonText: "",
 			imgSrc: "",
-			href: "#",
-			description:
-				"Secure VPN gateway with encryption and authentication mechanisms.",
+			href: "",
+			description: "",
 			index: 2,
 		},
 	],
 	"Low level": [
 		{
-			title: "MachO Injection",
+			title: "Rust Chess Engine",
 			size: "large",
-			buttonText: "View Writeup",
+			buttonText: "",
 			imgSrc: "",
-			href: "/writeups/macho-injection",
-			description:
-				"Advanced binary manipulation techniques for macOS executable injection and dynamic analysis.",
+			href: "",
+			description: "",
 			index: 0,
 		},
 		{
-			title: "Custom Allocator",
+			title: "Web server in C++",
 			size: "small",
-			buttonText: "View Project",
+			buttonText: "",
 			imgSrc: "",
-			href: "#",
-			description:
-				"High-performance memory allocator with custom heap management strategies.",
+			href: "",
+			description: "",
 			index: 1,
 		},
 		{
-			title: "Kernel Module",
+			title: "Minishell in C",
 			size: "small",
-			buttonText: "View Project",
+			buttonText: "",
 			imgSrc: "",
-			href: "#",
-			description:
-				"Linux kernel module for system call interception and monitoring.",
+			href: "",
+			description: "",
 			index: 2,
 		},
 	],
 	"Web Dev": [
 		{
-			title: "Tweetz",
+			title: "Logs Dashboard",
 			size: "large",
-			buttonText: "View Writeup",
+			buttonText: "",
 			imgSrc: "",
-			href: "/writeups/tweetz",
-			description:
-				"Real-time social media platform with scalable microservices architecture and WebSocket integration.",
+			href: "",
+			description: "",
 			index: 0,
 		},
 		{
-			title: "Wili Logs",
+			title: "Portfolio Website",
 			size: "small",
-			buttonText: "View Writeup",
+			buttonText: "",
 			imgSrc: "",
-			href: "/writeups/wilink",
-			description:
-				"Advanced logging and monitoring dashboard with analytics and visualization.",
+			href: "",
+			description: "",
 			index: 1,
 		},
 		{
-			title: "E-Commerce Platform",
+			title: "Multiplayer Ping Pong Game",
 			size: "small",
-			buttonText: "View Project",
+			buttonText: "",
 			imgSrc: "",
-			href: "#",
-			description:
-				"Full-stack e-commerce solution with payment integration and inventory management.",
+			href: "",
+			description: "",
+			index: 2,
+		},
+	],
+	Cybersecurity: [
+		{
+			title: "d34th: A metamorphic malware",
+			size: "large",
+			buttonText: "",
+			imgSrc: "",
+			href: "",
+			description: "",
+			index: 0,
+		},
+		{
+			title: "binary exploitation challenges",
+			size: "small",
+			buttonText: "",
+			imgSrc: "",
+			href: "",
+			description: "",
+			index: 1,
+		},
+		{
+			title: "Woody Woodpacker",
+			size: "small",
+			buttonText: "",
+			imgSrc: "",
+			href: "",
+			description: "",
 			index: 2,
 		},
 	],
 };
 
-export const CATEGORIES: Category[] = ["Network", "Low level", "Web Dev"];
+export const CATEGORIES: Category[] = ["Network & System", "Low level", "Web Dev", "Cybersecurity"];
