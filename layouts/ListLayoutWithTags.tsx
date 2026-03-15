@@ -267,7 +267,7 @@ export default function ListLayoutWithTags({
 											className="rounded-l-lg border-r-2 border-primary-500/50 bg-[hsl(230_15%_10%)] px-3 py-4 transition-all duration-300 group-hover:-translate-x-1 group-hover:border-accent-400 group-hover:bg-[hsl(230_15%_16%)] group-hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)] sm:px-5 sm:py-5 md:px-7 md:py-6"
 										>
 											{/* Title */}
-												<h2 className="text-base font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 sm:text-xl md:text-2xl">
+												<h2 className="select-none text-base font-bold leading-tight tracking-tight text-gray-100 transition-colors group-hover:text-primary-400 sm:text-xl md:text-2xl">
 													{title}
 												</h2>
 
@@ -293,7 +293,7 @@ export default function ListLayoutWithTags({
 
 											{/* Summary */}
 											{summary && (
-												<p className="mt-3 line-clamp-2 text-sm leading-relaxed text-gray-400">
+												<p className="select-none mt-3 line-clamp-2 text-sm leading-relaxed text-gray-400">
 													{summary}
 												</p>
 											)}
