@@ -28,6 +28,7 @@
     "clsx": "^2.1.1",
     "contentlayer2": "^0.5.8",
     "esbuild": "^0.25.2",
+    "gifuct-js": "^2.1.2",
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.2",
     "image-size": "^1.2.1",

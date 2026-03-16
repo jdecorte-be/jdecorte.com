@@ -19,6 +19,7 @@
         "clsx": "^2.1.1",
         "contentlayer2": "^0.5.8",
         "esbuild": "^0.25.2",
+        "gifuct-js": "^2.1.2",
         "github-slugger": "^2.0.0",
         "gray-matter": "^4.0.2",
         "image-size": "^1.2.1",
@@ -1053,6 +1054,8 @@
 
     "get-stream": ["get-stream@6.0.1", "", {}, ""],
 
+    "gifuct-js": ["gifuct-js@2.1.2", "", { "dependencies": { "js-binary-schema-parser": "^2.0.3" } }, "sha512-rI2asw77u0mGgwhV3qA+OEgYqaDn5UNqgs+Bx0FGwSpuqfYn+Ir6RQY5ENNQ8SbIiG/m5gVa7CD5RriO4f4Lsg=="],
+
     "giscus": ["giscus@1.6.0", "", { "dependencies": { "lit": "^3.2.1" } }, ""],
 
     "github-slugger": ["github-slugger@2.0.0", "", {}, ""],
@@ -1194,6 +1197,8 @@
     "isexe": ["isexe@2.0.0", "", {}, ""],
 
     "jiti": ["jiti@1.21.7", "", { "bin": "bin/jiti.js" }, ""],
+
+    "js-binary-schema-parser": ["js-binary-schema-parser@2.0.3", "", {}, "sha512-xezGJmOb4lk/M1ZZLTR/jaBHQ4gG/lqQnJqdIv4721DMggsa1bDVlHXNeHYogaIEHD9vCRv0fcL4hMA+Coarkg=="],
 
     "js-tokens": ["js-tokens@4.0.0", "", {}, ""],
 
