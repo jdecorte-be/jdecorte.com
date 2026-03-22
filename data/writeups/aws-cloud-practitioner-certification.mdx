@@ -1,0 +1,567 @@
+---
+title: 'AWS Cloud Practitioner Certification Cheat Sheet'
+date: '2026-03-20'
+draft: false
+tags: ['AWS', 'Cloud Practitioner', 'Certification', 'Cheat Sheet', 'Exam Guide']
+summary: 'Quick reference guide for passing the AWS Certified Cloud Practitioner (CLF-C02) exam with all essential concepts, services, and exam tips.'
+---
+
+## Exam Overview
+
+**Format:** 65 questions | 90 minutes | $100 USD | Passing score: 700/1000
+
+**Domains:**
+- Cloud Concepts (24%)
+- Security & Compliance (30%)
+- Cloud Technology & Services (34%)
+- Billing, Pricing & Support (12%)
+
+---
+
+## Cloud Computing Fundamentals
+
+### Six Advantages of Cloud Computing
+1. Trade capital expense for variable expense
+2. Benefit from massive economies of scale
+3. Stop guessing capacity
+4. Increase speed and agility
+5. Stop spending money on data centers
+6. Go global in minutes
+
+### Deployment Models
+- **Public Cloud:** AWS, Azure, Google Cloud
+- **Private Cloud (On-Premises):** Own data center
+- **Hybrid Cloud:** Mix of public and private
+
+### Service Models
+- **IaaS:** EC2, S3 (Infrastructure as a Service)
+- **PaaS:** Elastic Beanstalk, RDS (Platform as a Service)
+- **SaaS:** Gmail, Office 365 (Software as a Service)
+
+---
+
+## AWS Global Infrastructure
+
+| Component | Description | Count |
+|-----------|-------------|-------|
+| **Regions** | Geographic areas | 30+ worldwide |
+| **Availability Zones** | Isolated data centers within region | 3+ per region |
+| **Edge Locations** | CDN endpoints | 400+ worldwide |
+| **Local Zones** | Extensions for ultra-low latency | Select cities |
+
+**Region Selection Factors:** Compliance, Latency, Pricing, Service Availability
+
+---
+
+## AWS Shared Responsibility Model ⭐ CRITICAL
+
+### AWS Responsibility: "Security OF the Cloud"
+- Physical security of data centers
+- Hardware, software, networking infrastructure
+- Managed services (RDS, Lambda, DynamoDB)
+- Global infrastructure (regions, AZs, edge locations)
+
+### Customer Responsibility: "Security IN the Cloud"
+- Customer data and content
+- Identity and Access Management (IAM)
+- Application configuration
+- Operating system patches (for EC2)
+- Network and firewall configuration
+- Client-side data encryption
+- Server-side encryption (file systems)
+
+---
+
+## Core AWS Services by Category
+
+### Compute
+
+| Service | Description | Use Case |
+|---------|-------------|----------|
+| **EC2** | Virtual servers in the cloud | Web servers, applications |
+| **Lambda** | Serverless compute, event-driven | Backends, data processing |
+| **Elastic Beanstalk** | PaaS - deploy apps without managing infrastructure | Quick deployments |
+| **ECS** | Container orchestration | Docker containers |
+| **EKS** | Managed Kubernetes | Kubernetes workloads |
+| **Fargate** | Serverless containers | Containers without servers |
+
+**EC2 Pricing Models:**
+- **On-Demand:** Pay per hour/second, no commitment
+- **Reserved Instances:** 1-3 year commitment, up to 75% savings
+- **Spot Instances:** Bid on unused capacity, up to 90% savings
+- **Savings Plans:** Flexible pricing, commit to $/hour
+
+### Storage
+
+| Service | Type | Description | Use Case |
+|---------|------|-------------|----------|
+| **S3** | Object | Unlimited storage, 11 nines durability | Backup, static websites, data lakes |
+| **EBS** | Block | Persistent storage for EC2 | Database volumes, boot volumes |
+| **EFS** | File | Shared file system (NFS) | Shared file access across instances |
+| **FSx for Windows** | File | Windows file server (SMB) | Windows workloads |
+| **FSx for Lustre** | File | High-performance computing | HPC, ML workloads |
+| **Storage Gateway** | Hybrid | On-premises to AWS storage | Hybrid cloud storage |
+| **Snow Family** | Physical | Physical data transfer devices | Large data migrations |
+
+**S3 Storage Classes:**
+- **S3 Standard:** Frequent access, millisecond latency
+- **S3 Intelligent-Tiering:** Automatic cost optimization
+- **S3 Standard-IA:** Infrequent access, lower cost
+- **S3 One Zone-IA:** Single AZ, even lower cost
+- **S3 Glacier Instant Retrieval:** Archive, millisecond retrieval
+- **S3 Glacier Flexible Retrieval:** Archive, minutes-hours retrieval
+- **S3 Glacier Deep Archive:** Lowest cost, 12-hour retrieval
+
+### Database
+
+| Service | Type | Description | Best For |
+|---------|------|-------------|----------|
+| **RDS** | Relational | Managed MySQL, PostgreSQL, Oracle, SQL Server, MariaDB | Traditional apps |
+| **Aurora** | Relational | AWS high-performance database, 5x faster than MySQL | High performance |
+| **DynamoDB** | NoSQL | Key-value, serverless, millisecond latency | Mobile, gaming, IoT |
+| **ElastiCache** | In-Memory | Redis or Memcached caching | Improve app performance |
+| **Redshift** | Data Warehouse | Analyze large datasets | Analytics, BI |
+| **Neptune** | Graph | Graph database | Social networks, recommendations |
+| **DocumentDB** | Document | MongoDB-compatible | Document storage |
+
+**RDS Features:**
+- **Multi-AZ:** High availability, automatic failover
+- **Read Replicas:** Scale read workloads, up to 5 replicas
+
+### Networking & Content Delivery
+
+| Service | Description | Use Case |
+|---------|-------------|----------|
+| **VPC** | Virtual private cloud, isolated network | Network foundation |
+| **CloudFront** | CDN, cache content at edge locations | Fast content delivery |
+| **Route 53** | DNS service, domain registration | Domain management, routing |
+| **Direct Connect** | Dedicated network connection to AWS | Consistent network performance |
+| **ELB** | Distribute traffic across targets | High availability |
+| **API Gateway** | Create, publish, manage APIs | RESTful APIs, WebSocket |
+| **Transit Gateway** | Connect VPCs and on-premises networks | Hub-and-spoke architecture |
+
+**Elastic Load Balancer Types:**
+- **ALB (Application):** Layer 7 (HTTP/HTTPS), path-based routing
+- **NLB (Network):** Layer 4 (TCP/UDP), extreme performance
+- **GLB (Gateway):** Third-party virtual appliances
+
+**Route 53 Routing Policies:**
+- Simple, Weighted, Latency, Failover, Geolocation, Geoproximity, Multi-value
+
+---
+
+## Security, Identity & Compliance
+
+### IAM (Identity and Access Management) ⭐ CRITICAL
+
+**Components:**
+- **Users:** Individual accounts
+- **Groups:** Collections of users
+- **Roles:** Assign permissions to AWS services
+- **Policies:** JSON documents defining permissions
+
+**IAM Best Practices:**
+- Enable MFA on root account
+- Use principle of least privilege
+- Use roles for EC2 instances (not access keys)
+- Never share credentials
+- Rotate credentials regularly
+- Use groups to assign permissions
+
+**Root User:**
+- Created when account is created
+- Complete access to all AWS resources
+- **Secure it:** Enable MFA, don't use for everyday tasks
+
+### Security Services
+
+| Service | Purpose |
+|---------|---------|
+| **AWS Organizations** | Multi-account management, consolidated billing |
+| **Shield** | DDoS protection (Standard: free, Advanced: paid) |
+| **WAF** | Web Application Firewall, protect against attacks |
+| **GuardDuty** | Threat detection using ML |
+| **Inspector** | Automated vulnerability scanning |
+| **Macie** | Discover and protect sensitive data (PII) |
+| **KMS** | Manage encryption keys |
+| **Secrets Manager** | Store and rotate credentials |
+| **Certificate Manager** | Provision SSL/TLS certificates |
+| **Cognito** | User authentication for web/mobile apps |
+| **Artifact** | Access compliance reports |
+
+**Compliance Programs:** HIPAA, PCI DSS, ISO, SOC, FedRAMP, GDPR
+
+---
+
+## Management & Governance
+
+| Service | Purpose |
+|---------|---------|
+| **CloudWatch** | Monitor resources, set alarms, view logs |
+| **CloudTrail** | Log all AWS API calls for auditing |
+| **CloudFormation** | Infrastructure as Code (IaC), JSON/YAML templates |
+| **Config** | Track resource configurations and compliance |
+| **Systems Manager** | View and control infrastructure, automate tasks |
+| **Trusted Advisor** | Automated best practice recommendations |
+| **Control Tower** | Set up and govern multi-account environment |
+| **Service Catalog** | Create and manage IT service catalogs |
+| **Personal Health Dashboard** | Alerts about AWS events affecting your resources |
+
+**Trusted Advisor Categories:** Cost Optimization, Performance, Security, Fault Tolerance, Service Limits
+
+---
+
+## Migration & Transfer
+
+| Service | Purpose |
+|---------|---------|
+| **DMS** | Database Migration Service, migrate databases |
+| **SMS** | Server Migration Service, migrate VMs |
+| **DataSync** | Automated data transfer, on-premises to AWS |
+| **Transfer Family** | SFTP/FTPS/FTP into S3 or EFS |
+| **Migration Hub** | Track migrations from central location |
+| **Snow Family** | Physical devices for data transfer |
+
+**Snow Family:**
+- **Snowcone:** 8TB storage, portable edge computing
+- **Snowball Edge:** 80TB storage, compute capabilities
+- **Snowmobile:** 100PB storage, exabyte-scale transfer
+
+---
+
+## Application Integration
+
+| Service | Type | Description |
+|---------|------|-------------|
+| **SQS** | Queue | Message queuing, decouple components |
+| **SNS** | Pub/Sub | Publish messages to subscribers |
+| **Step Functions** | Workflow | Orchestrate distributed applications |
+| **EventBridge** | Event Bus | Route events between AWS services and SaaS apps |
+
+**SQS Queue Types:**
+- **Standard:** Unlimited throughput, at-least-once delivery, best-effort ordering
+- **FIFO:** First-in-first-out, exactly-once processing, ordered
+
+---
+
+## Analytics & Machine Learning
+
+### Analytics
+- **Athena:** Query S3 data using SQL
+- **EMR:** Big data processing (Hadoop, Spark)
+- **Kinesis:** Real-time data streaming
+- **QuickSight:** Business intelligence, visualizations
+- **Glue:** ETL (Extract, Transform, Load)
+
+### Machine Learning
+- **SageMaker:** Build, train, deploy ML models
+- **Rekognition:** Image and video analysis
+- **Comprehend:** Natural language processing
+- **Lex:** Build chatbots (powers Alexa)
+- **Polly:** Text-to-speech
+- **Transcribe:** Speech-to-text
+- **Translate:** Language translation
+
+---
+
+## Pricing & Billing ⭐ CRITICAL
+
+### Pricing Models
+
+**Pay-as-you-go:** No upfront costs, pay only for what you use
+
+**Save when you reserve:** 
+- Reserved Instances (1-3 years, up to 75% savings)
+- Savings Plans (flexible, commit to $/hour)
+
+**Pay less by using more:** Volume-based discounts, tiered pricing
+
+### Free Tier
+
+**12 Months Free (New Accounts):**
+- EC2: 750 hours/month t2.micro or t3.micro
+- S3: 5GB standard storage
+- RDS: 750 hours/month db.t2.micro
+- CloudFront: 50GB data transfer out
+
+**Always Free:**
+- Lambda: 1M requests/month
+- DynamoDB: 25GB storage
+- SNS: 1M publishes/month
+- CloudWatch: 10 custom metrics
+
+### Cost Management Tools
+
+| Tool | Purpose |
+|------|---------|
+| **Pricing Calculator** | Estimate costs before deployment |
+| **Cost Explorer** | Visualize and analyze spending |
+| **Budgets** | Set custom budgets, get alerts |
+| **Cost & Usage Report** | Most detailed billing data |
+| **Billing Dashboard** | View current charges |
+| **Cost Allocation Tags** | Track costs by project/department |
+
+**Consolidated Billing (Organizations):**
+- One bill for multiple accounts
+- Volume pricing discounts combined
+- No extra charge
+
+### Data Transfer Costs
+- Inbound: FREE
+- Outbound: Charged (varies by service)
+- Between AZs: Charged
+- Same AZ: Often free
+
+---
+
+## AWS Support Plans ⭐ CRITICAL
+
+| Plan | Cost | Response Time | Best For |
+|------|------|---------------|----------|
+| **Basic** | FREE | No tech support | Learning, exploring |
+| **Developer** | $29/mo or 3% | General: < 24h<br/>System impaired: < 12h | Testing, development |
+| **Business** | $100/mo or 3-10% | Prod down: < 1h<br/>Prod impaired: < 4h | Production workloads |
+| **Enterprise** | $15k/mo or 3-10% | Critical: < 15min<br/>Urgent: < 1h | Mission-critical |
+
+**All Plans Include:**
+- 24/7 access to customer service
+- Documentation and whitepapers
+- AWS Personal Health Dashboard
+
+**Business & Enterprise Add:**
+- AWS Trusted Advisor (all checks)
+- Infrastructure Event Management
+
+**Enterprise Exclusive:**
+- Technical Account Manager (TAM)
+- Support Concierge
+- Well-Architected Reviews
+
+---
+
+## Well-Architected Framework
+
+### Six Pillars
+
+1. **Operational Excellence**
+   - Run and monitor systems
+   - Automate operations
+   - Learn from failures
+
+2. **Security**
+   - Protect information and systems
+   - Defense in depth
+   - Encryption at rest and in transit
+
+3. **Reliability**
+   - Recover from failures
+   - Test recovery procedures
+   - Scale horizontally
+
+4. **Performance Efficiency**
+   - Use appropriate resources
+   - Monitor performance
+   - Evolve with technology
+
+5. **Cost Optimization**
+   - Avoid unnecessary costs
+   - Measure efficiency
+   - Use consumption model
+
+6. **Sustainability**
+   - Minimize environmental impact
+   - Maximize utilization
+   - Use managed services
+
+---
+
+## Developer Tools
+
+| Service | Purpose |
+|---------|---------|
+| **CodeCommit** | Source control (like GitHub) |
+| **CodeBuild** | Compile and test code |
+| **CodeDeploy** | Automated deployments |
+| **CodePipeline** | CI/CD pipeline |
+| **Cloud9** | Cloud-based IDE |
+| **X-Ray** | Analyze and debug applications |
+
+---
+
+## Common Exam Scenarios
+
+### High Availability
+- **Multi-AZ:** Deploy across multiple Availability Zones
+- **Multi-Region:** Deploy across multiple Regions for disaster recovery
+- **Auto Scaling:** Automatically adjust capacity
+- **Load Balancing:** Distribute traffic
+
+### Cost Optimization
+- Use Reserved Instances for predictable workloads
+- Use Spot Instances for flexible workloads
+- Right-size resources (don't over-provision)
+- Use S3 lifecycle policies
+- Delete unused resources
+- Use AWS Cost Explorer
+
+### Security Best Practices
+- Enable MFA
+- Use IAM roles, not access keys
+- Encrypt data (at rest and in transit)
+- Use Security Groups and NACLs
+- Enable CloudTrail for auditing
+- Use private subnets for databases
+- Principle of least privilege
+
+### Performance
+- Use CloudFront for content delivery
+- Use ElastiCache for caching
+- Use Read Replicas for read-heavy workloads
+- Use Multi-AZ for database high availability
+- Choose appropriate instance types
+
+---
+
+## VPC Essentials
+
+**Components:**
+- **Subnets:** Divide VPC into smaller networks
+  - Public: Has internet access via Internet Gateway
+  - Private: No direct internet access
+- **Internet Gateway:** Connect VPC to internet
+- **NAT Gateway:** Allow private subnets to access internet
+- **Route Tables:** Control traffic routing
+- **Security Groups:** Stateful firewall (instance level)
+- **NACLs:** Stateless firewall (subnet level)
+- **VPC Peering:** Connect two VPCs
+- **VPC Endpoints:** Private connections to AWS services
+
+**Security Groups vs NACLs:**
+- **Security Groups:** Stateful, allow rules only, instance level
+- **NACLs:** Stateless, allow and deny rules, subnet level
+
+---
+
+## Key Terms to Know
+
+**Elasticity:** Scale resources up/down based on demand
+
+**Scalability:** Handle increased load by adding resources
+- Vertical: Increase instance size
+- Horizontal: Add more instances
+
+**Fault Tolerance:** System continues operating if component fails
+
+**High Availability:** System is accessible and operational most of the time
+
+**Durability:** Long-term data protection (S3: 11 nines)
+
+**RPO (Recovery Point Objective):** Maximum acceptable data loss time
+
+**RTO (Recovery Time Objective):** Maximum acceptable downtime
+
+---
+
+## Exam Tips
+
+### Question Strategy
+1. **Read carefully:** Identify key words (most, least, cost-effective, secure)
+2. **Eliminate wrong answers:** Cross out obviously incorrect options
+3. **Flag difficult questions:** Return later with fresh perspective
+4. **Don't overthink:** First instinct is often correct
+5. **No penalty for guessing:** Answer every question
+
+### Time Management
+- 90 minutes for 65 questions = ~1.4 minutes per question
+- Spend no more than 2 minutes on any question
+- Flag and move on if stuck
+- Reserve 15 minutes for review
+
+### Common Traps
+- ❌ Outdated services (Classic Load Balancer vs ALB)
+- ❌ Solutions that work but aren't optimal
+- ❌ Missing key requirements in question
+- ❌ Confusing similar service names
+
+### Must Memorize
+- ✅ Shared Responsibility Model
+- ✅ Support plan response times
+- ✅ Core services and their use cases
+- ✅ IAM best practices
+- ✅ Six advantages of cloud computing
+- ✅ Well-Architected Framework pillars
+- ✅ Free Tier offerings
+
+---
+
+## Quick Service Lookup
+
+**Need to:** → **Use this service:**
+- Virtual servers → EC2
+- Serverless compute → Lambda
+- Object storage → S3
+- Block storage → EBS
+- Shared file storage → EFS
+- Relational database → RDS
+- NoSQL database → DynamoDB
+- Caching → ElastiCache
+- CDN → CloudFront
+- DNS → Route 53
+- Load balancing → ELB
+- Virtual network → VPC
+- Identity management → IAM
+- Monitoring → CloudWatch
+- API logging → CloudTrail
+- Infrastructure as Code → CloudFormation
+- DDoS protection → Shield
+- Threat detection → GuardDuty
+- Message queue → SQS
+- Pub/Sub messaging → SNS
+- Container orchestration → ECS/EKS
+- Serverless containers → Fargate
+
+---
+
+## Resources
+
+### Essential Study Materials
+- **AWS Skill Builder:** Free Cloud Practitioner Essentials course
+- **AWS Whitepapers:** Overview of AWS, Well-Architected Framework
+- **Tutorials Dojo:** Practice exams (highly recommended)
+- **Stephane Maarek (Udemy):** Video course with practice exams
+- **freeCodeCamp:** Free 4-hour course on YouTube
+- **AWS Documentation:** Service FAQs
+
+### Practice Exams
+- AWS Official Practice Question Set ($20)
+- Tutorials Dojo by Jon Bonso (Best quality)
+- Whizlabs
+- Stephane Maarek
+
+### Free Resources
+- Tutorials Dojo Cheat Sheets
+- Reddit r/AWSCertifications
+- AWS re:Post forum
+- YouTube: AWS Official, freeCodeCamp, Stephane Maarek
+
+---
+
+## Final Checklist Before Exam
+
+- [ ] Memorized Shared Responsibility Model
+- [ ] Know all support plans and response times
+- [ ] Can identify 5+ services in each major category
+- [ ] Understand IAM best practices
+- [ ] Know AWS global infrastructure components
+- [ ] Understand pricing models and Free Tier
+- [ ] Taken 3+ practice exams scoring 85%+
+- [ ] Reviewed all incorrect practice questions
+- [ ] Know Well-Architected Framework pillars
+- [ ] Understand cost management tools
+- [ ] Created AWS Free Tier account and explored console
+
+---
+
+**Remember:** The Cloud Practitioner exam tests foundational knowledge, not deep technical implementation. Focus on understanding what each service does and when to use it. With proper preparation, you'll pass! 🎯
+
+**Good luck! ☁️**
