@@ -12,13 +12,7 @@ summary: "A comprehensive guide to building a functional shell interpreter from 
 
 Ever wondered how your terminal shell actually works? How does it parse commands, execute programs, handle pipes, and manage processes? **Minishell** is a 42 school project that challenges you to build your own mini version of Bash from scratch in C. It's an incredible journey into the depths of Unix systems programming.
 
-This project implements a functional shell program that handles:
-- Command parsing and execution
-- Pipes and redirections
-- Environment variable expansion
-- Built-in commands (cd, echo, pwd, export, unset, env, exit)
-- Signal handling (Ctrl-C, Ctrl-D, Ctrl-\)
-- Process management with proper cleanup
+This project implements a functional shell program that handles command parsing and execution, pipes and redirections, environment variable expansion, built-in commands (cd, echo, pwd, export, unset, env, exit), signal handling (Ctrl-C, Ctrl-D, Ctrl-\), and process management with proper cleanup.
 
 In this article, I'll walk through the key concepts and implementation challenges of building a shell, from understanding processes and pipes to handling signals and building command pipelines.
 
@@ -27,15 +21,7 @@ In this article, I'll walk through the key concepts and implementation challenge
 Minishell is a miniature shell program based on Bash that supports:
 
 **Core Features:**
-- Interactive prompt with command history (up and down arrows)
-- System executables from the environment (`ls`, `cat`, `grep`, etc.)
-- Local executables (`./minishell`)
-- Builtin commands with their essential options
-- Pipes (`|`) for chaining commands
-- Redirections (`>`, `>>`, `<`, `<<`)
-- Environment variable expansion (`$USER`, `$VAR`)
-- Exit status tracking (`$?`)
-- Signal handling for user interrupts
+The shell provides an interactive prompt with command history (up and down arrows), executes both system executables from the environment (`ls`, `cat`, `grep`, etc.) and local executables (`./minishell`), and includes builtin commands with their essential options. It supports pipes (`|`) for chaining commands, redirections (`>`, `>>`, `<`, `<<`), environment variable expansion (`$USER`, `$VAR`), exit status tracking (`$?`), and signal handling for user interrupts.
 
 **Limitations:**
 The project intentionally doesn't support backslashes, semicolons, logical operators (`&&`, `||`), or wildcards to keep the scope manageable while still covering the fundamental concepts.
@@ -54,9 +40,7 @@ You can view active processes with:
 ps aux
 ```
 
-Each process has:
-- **PID** (Process Identifier): A unique non-negative integer
-- **PPID** (Parent Process Identifier): Reference to the parent process
+Each process has a **PID** (Process Identifier), which is a unique non-negative integer, and a **PPID** (Parent Process Identifier) that references the parent process.
 
 Processes are organized hierarchically. At startup, Unix has just one process called `init` (PID 1), which is the direct or indirect ancestor of all other processes.
 
@@ -72,10 +56,7 @@ The `fork()` system call creates a new process by cloning the current one:
 pid_t fork(void);
 ```
 
-The return value is crucial:
-- **In the parent process**: Returns the child's PID
-- **In the child process**: Returns 0
-- **On error**: Returns -1
+The return value is crucial: in the parent process, it returns the child's PID; in the child process, it returns 0; and on error, it returns -1.
 
 Here's a basic example:
 
@@ -169,10 +150,7 @@ pid_t waitpid(pid_t pid, int *status, int options);
 
 **wait()** waits for any child process to terminate.
 
-**waitpid()** offers more control:
-- **pid**: Specific child to wait for, or -1 for any child
-- **status**: Pointer to store the exit status
-- **options**: Flags like `WNOHANG` (return immediately if child hasn't exited)
+**waitpid()** offers more control with three parameters: **pid** (specific child to wait for, or -1 for any child), **status** (pointer to store the exit status), and **options** (flags like `WNOHANG` to return immediately if child hasn't exited).
 
 ### Analyzing Exit Status
 
@@ -247,9 +225,7 @@ Pipes are the foundation of shell command chaining. They allow one process's out
 
 ### What is a Pipe?
 
-A **pipe** is a unidirectional communication channel with:
-- A **read end** (file descriptor)
-- A **write end** (file descriptor)
+A **pipe** is a unidirectional communication channel with a read end (file descriptor) and a write end (file descriptor).
 
 Data written to the write end is buffered until read from the read end.
 
@@ -263,9 +239,7 @@ Data written to the write end is buffered until read from the read end.
 int pipe(int pipefd[2]);
 ```
 
-The `pipefd` array will contain:
-- `pipefd[0]`: Read end
-- `pipefd[1]`: Write end
+The `pipefd` array will contain `pipefd[0]` (the read end) and `pipefd[1]` (the write end).
 
 ### Basic Pipe Example
 
@@ -314,10 +288,7 @@ int main(void)
 
 ### Critical: Close Unused File Descriptors!
 
-This is crucial and often the source of bugs. Each process must close the pipe ends it doesn't use:
-
-- If all write ends aren't closed, `read()` will wait indefinitely instead of returning EOF
-- If all read ends aren't closed, `write()` will block when the pipe is full
+This is crucial and often the source of bugs. Each process must close the pipe ends it doesn't use: if all write ends aren't closed, `read()` will wait indefinitely instead of returning EOF, and if all read ends aren't closed, `write()` will block when the pipe is full.
 
 ```c
 // Parent writes to pipe
@@ -381,10 +352,7 @@ Here's a visual representation of how the shell's pipe operator works:
 
 ## Building Pipelines
 
-A pipeline like `cmd1 | cmd2 | cmd3` requires multiple pipes. The pattern is:
-
-- **N commands** require **N-1 pipes**
-- Each middle command reads from one pipe and writes to the next
+A pipeline like `cmd1 | cmd2 | cmd3` requires multiple pipes. The pattern is that **N commands** require **N-1 pipes**, and each middle command reads from one pipe and writes to the next.
 
 ```
 cmd1 --> pipe1 --> cmd2 --> pipe2 --> cmd3
@@ -451,13 +419,7 @@ Shells need to handle user interrupts gracefully. When you press Ctrl-C, you don
 
 ### Understanding Signals
 
-A **signal** is an asynchronous notification sent to a process. Common signals:
-
-- `SIGINT` (2): Interrupt (Ctrl-C)
-- `SIGQUIT` (3): Quit (Ctrl-\)
-- `SIGTERM` (15): Termination request
-- `SIGKILL` (9): Force kill (cannot be caught!)
-- `SIGSTOP` (19): Stop process (cannot be caught!)
+A **signal** is an asynchronous notification sent to a process. Common signals include `SIGINT` (2, Interrupt via Ctrl-C), `SIGQUIT` (3, Quit via Ctrl-\), `SIGTERM` (15, Termination request), `SIGKILL` (9, Force kill that cannot be caught!), and `SIGSTOP` (19, Stop process that cannot be caught!).
 
 Here's a visual representation of how signals work at the system level:
 
@@ -541,9 +503,7 @@ Safe functions include: `write()`, `_exit()`, `signal()`, `kill()`, and a few ot
 
 In Minishell, the expected behavior is:
 
-- **Ctrl-C (SIGINT)**: Display a new prompt line (interrupt current command)
-- **Ctrl-D**: Exit the shell (EOF)
-- **Ctrl-\ (SIGQUIT)**: Do nothing (ignore)
+The shell needs to behave as follows: **Ctrl-C (SIGINT)** displays a new prompt line (interrupt current command), **Ctrl-D** exits the shell (EOF), and **Ctrl-\ (SIGQUIT)** does nothing (ignore).
 
 In the parent shell process:
 ```c
@@ -608,10 +568,7 @@ And what happens when a blocked signal is unblocked (notice how the pending sign
 
 Shells support redirecting input and output:
 
-- `>` : Redirect output (overwrite)
-- `>>` : Redirect output (append)
-- `<` : Redirect input
-- `<<` : Here-document (read until delimiter)
+The shell supports four redirection operators: `>` (redirect output, overwrite), `>>` (redirect output, append), `<` (redirect input), and `<<` (here-document, read until delimiter).
 
 ### Output Redirection: `>`
 
@@ -739,8 +696,7 @@ char *get_env_value(char *name, char **env)
 
 ### Special Variables
 
-- `$?` : Exit status of last command
-- `$$` : Current shell's PID
+The shell handles two special variables: `$?` (exit status of last command) and `$$` (current shell's PID).
 
 These require special handling during parsing.
 
@@ -838,11 +794,7 @@ typedef struct s_cmd
 } t_cmd;
 ```
 
-Parse the tokens into this structure, handling:
-- Quotes (single and double)
-- Variable expansion
-- Whitespace
-- Special characters
+Parse the tokens into this structure, handling quotes (single and double), variable expansion, whitespace, and special characters.
 
 ## Execution Flow
 
@@ -922,34 +874,19 @@ void execute_pipeline(t_cmd *cmds)
 
 ### 1. Memory Leaks
 
-With all the forking and string manipulation, leaks are easy:
-
-- Use Valgrind religiously
-- Free everything in both parent and child paths
-- Be especially careful with readline's returned strings
+With all the forking and string manipulation, leaks are easy. Use Valgrind religiously, free everything in both parent and child paths, and be especially careful with readline's returned strings.
 
 ### 2. File Descriptor Leaks
 
-Unclosed file descriptors accumulate and cause mysterious bugs:
-
-- Track all opens/pipes with a list
-- Close in both parent and child
-- Use `lsof -p <pid>` to debug
+Unclosed file descriptors accumulate and cause mysterious bugs. Track all opens/pipes with a list, close in both parent and child, and use `lsof -p <pid>` to debug.
 
 ### 3. Zombie Processes
 
-Children not properly waited for become zombies:
-
-- Always `wait()` or `waitpid()` for children
-- Use `WNOHANG` if you need non-blocking checks
+Children not properly waited for become zombies. Always `wait()` or `waitpid()` for children, and use `WNOHANG` if you need non-blocking checks.
 
 ### 4. Race Conditions
 
-With multiple processes and signals:
-
-- Block signals during critical sections
-- Use proper signal-safe functions
-- Be careful with shared resources
+With multiple processes and signals, block signals during critical sections, use proper signal-safe functions, and be careful with shared resources.
 
 ### 5. Quote Handling
 
@@ -967,9 +904,7 @@ Implement a state machine to track quote context.
 
 ### Testers
 
-Several community testers exist:
-- [minishell_tester](https://github.com/LucasKuhn/minishell_tester)
-- [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester)
+Several community testers exist: [minishell_tester](https://github.com/LucasKuhn/minishell_tester) and [42_minishell_tester](https://github.com/zstenger93/42_minishell_tester).
 
 ### Debugging Tips
 
@@ -981,13 +916,7 @@ Several community testers exist:
 
 ### Edge Cases
 
-- Empty input
-- Commands with only whitespace
-- Unclosed quotes
-- Invalid redirections
-- Permission errors
-- Non-existent commands
-- Signal delivery during system calls
+Test edge cases like empty input, commands with only whitespace, unclosed quotes, invalid redirections, permission errors, non-existent commands, and signal delivery during system calls.
 
 ## Lessons Learned
 
@@ -999,21 +928,11 @@ Building Minishell taught me:
 4. **RTFM** - Man pages become your best friend
 5. **Testing is essential** - Edge cases will break your shell
 
-The project forces you to understand:
-- How processes actually work
-- The beauty and complexity of Unix pipes
-- Why signal handling is so tricky
-- What shells do when you type commands
+The project forces you to understand how processes actually work, the beauty and complexity of Unix pipes, why signal handling is so tricky, and what shells do when you type commands.
 
 ## Conclusion
 
-Minishell is more than just a project—it's a deep dive into Unix fundamentals. By building a shell from scratch, you gain intimate knowledge of:
-
-- Process creation and management
-- Inter-process communication
-- Signal handling
-- File descriptors and I/O redirection
-- Command parsing and execution
+Minishell is more than just a project—it's a deep dive into Unix fundamentals. By building a shell from scratch, you gain intimate knowledge of process creation and management, inter-process communication, signal handling, file descriptors and I/O redirection, and command parsing and execution.
 
 Every time you open a terminal now, you'll understand what's happening under the hood. You'll appreciate the elegance of Unix's pipe philosophy and the complexity involved in making it all work seamlessly.
 
@@ -1025,8 +944,4 @@ Happy shell building! 🐚
 
 ## Resources
 
-- [GNU Bash Manual](https://www.gnu.org/software/bash/manual/)
-- Man pages: `man bash`, `man fork`, `man pipe`, `man signal`
-- [The Linux Programming Interface](https://man7.org/tlpi/) by Michael Kerrisk
-- [Advanced Programming in the UNIX Environment](https://www.apuebook.com/) by Stevens & Rago
-- [Minishell Tutorial Series](https://www.codequoi.com/)
+Key resources include the [GNU Bash Manual](https://www.gnu.org/software/bash/manual/), man pages (`man bash`, `man fork`, `man pipe`, `man signal`), [The Linux Programming Interface](https://man7.org/tlpi/) by Michael Kerrisk, [Advanced Programming in the UNIX Environment](https://www.apuebook.com/) by Stevens & Rago, and the [Minishell Tutorial Series](https://www.codequoi.com/).
