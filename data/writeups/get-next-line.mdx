@@ -16,6 +16,14 @@ By the end of this article, you'll understand exactly how to build a function th
 
 Let's dive in.
 
+## The Big Picture
+
+Before we get into the weeds, let's look at the overall architecture of how `get_next_line` works:
+
+![Complete algorithm flowchart](/static/images/gnl/algorithm-flowchart.png)
+
+This flowchart shows the entire decision tree: checking for errors, reading data, searching for newlines, and handling both normal cases and edge cases like EOF. Keep this in mind as we explore each component.
+
 ## Understanding File Descriptors
 
 Before we dive into the implementation, let's quickly understand what file descriptors are and how they work at the operating system level.
@@ -94,7 +102,9 @@ Our solution uses four functions working in harmony:
 
 Let's break down each one.
 
-![Function flow diagram showing how all four functions work together](/images/writeups/get-next-line/function-flow.png)
+![Function overview showing the relationships between all components](/static/images/gnl/function-overview.png)
+
+This diagram shows how our functions interact with each other and the flow of data through the system.
 
 ### 1. The Main Event: `get_next_line`
 
@@ -132,7 +142,9 @@ This function is responsible for combining the existing buffer with newly read d
 
 ![Buffer combination process](/static/images/gnl/keep-bufs-detail.png)
 
-The diagram shows exactly what happens:
+![Overall GNL process overview](/static/images/gnl/images_yamkim_post_a09c92e7-9f49-4664-8fd5-1670d6a9ed48_gnl_overview.png)
+
+The diagrams show exactly what happens:
 1. **malloc** — Allocate space for the combined size: `strlen(backup) + read_size + 1`
 2. **ft_strlcpy** — Copy the existing backup (leftover data) to the start of the new buffer
 3. **ft_strlcpy** — Append the newly read data (buf) to the end
@@ -144,7 +156,7 @@ This pattern ensures we never lose data. Every read operation appends to what we
 
 When we hit EOF or encounter errors, we need special handling:
 
-![Return all edge case handling](/static/images/gnl/return-all-detail.png)
+![Return all edge case handling](/static/images/gnl/images_yamkim_post_54b991dd-9c3a-46d2-a363-e5bda0be352f_return_all.png)
 
 This function deals with three scenarios:
 - **read_size < 0** — Error reading from file descriptor; return NULL
