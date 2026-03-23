@@ -42,21 +42,21 @@ export const projects: Record<Category, Project[]> = {
 	],
 	"Low level": [
 		{
-			title: "Rust Chess Engine",
-			size: "large",
-			buttonText: "",
-			imgSrc: "/static/images/portfolio/chess/main.gif",
-			href: "",
-			description: "Implemented a chess engine in Rust with move generation, board evaluation, and alpha-beta search.",
-			index: 0,
-		},
-		{
 			title: "Web server in C++",
-			size: "small",
+			size: "large",
 			buttonText: "",
 			imgSrc: "/static/images/portfolio/webserv/main.jpg",
 			href: "/writeups/webserv",
 			description: "Developed an HTTP server from scratch with request parsing, routing, CGI handling, and config support.",
+			index: 0,
+		},
+		{
+			title: "Get Next Line (GNL)",
+			size: "small",
+			buttonText: "",
+			imgSrc: "/static/images/portfolio/gnl/main.png",
+			href: "/writeups/get-next-line",
+			description: "Implemented the get_next_line function to read files line by line with efficient buffer management.",
 			index: 1,
 		},
 		{
