@@ -4,14 +4,14 @@ import type { LinkProps } from "next/link";
 import Link from "next/link";
 import type { AnchorHTMLAttributes } from "react";
 
-type UmamiAnchorProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
+type UmamiAnchorProps = Omit<
+	AnchorHTMLAttributes<HTMLAnchorElement>,
+	"href"
+> & {
 	"data-umami-event"?: string;
 };
 
-const CustomLink = ({
-	href,
-	...rest
-}: LinkProps & UmamiAnchorProps) => {
+const CustomLink = ({ href, ...rest }: LinkProps & UmamiAnchorProps) => {
 	const hrefValue =
 		typeof href === "string"
 			? href

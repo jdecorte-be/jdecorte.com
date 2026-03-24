@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 declare global {
 	interface Window {
@@ -10,7 +10,7 @@ declare global {
 				payload?:
 					| string
 					| Record<string, unknown>
-					| ((props: Record<string, unknown>) => Record<string, unknown>)
+					| ((props: Record<string, unknown>) => Record<string, unknown>),
 			) => void;
 		};
 	}
