@@ -96,7 +96,7 @@ const ProjectCard = ({
 						>
 							{title}
 						</h3>
-						<p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 md:text-base">
+						<p className="whitespace-pre-wrap text-sm leading-relaxed text-gray-500 dark:text-gray-400 md:text-base">
 							{children}
 						</p>
 					</div>

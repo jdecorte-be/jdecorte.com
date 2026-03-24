@@ -1,11 +1,12 @@
 import { formatDate } from "pliny/utils/formatDate";
 import Tag from "@/components/content/Tag";
 import Link from "@/components/core/Link";
+import GithubContributions from "@/components/home/GithubContributions";
 import Hero from "@/components/home/Hero";
 import PortfolioSection from "@/components/home/PortfolioSection";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
-const MAX_DISPLAY = 3;
+const MAX_DISPLAY = 2;
 
 export default function Home({ posts, heroFontStyles }) {
 	return (
@@ -27,6 +28,21 @@ export default function Home({ posts, heroFontStyles }) {
 			<Hero heroFontStyles={heroFontStyles} />
 
 			<PortfolioSection />
+
+			<div className="pt-20">
+				<div className="space-y-2 pb-8 pt-6 text-center md:space-y-5">
+					<h2 className="text-2xl font-extrabold leading-8 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-9 md:text-3xl md:leading-10">
+						My Open Source Journey
+					</h2>
+					<p className="text-base leading-6 text-gray-500 dark:text-gray-400">
+						Each green square represents a day of contribution, a step towards
+						better software for everyone.
+					</p>
+				</div>
+				<div className="flex justify-center">
+					<GithubContributions username="jdecorte-be" />
+				</div>
+			</div>
 
 			<div className="divide-y divide-gray-200 pt-20 dark:divide-gray-700">
 				<div className="space-y-2 pb-8 pt-6 md:space-y-5">

@@ -28,13 +28,13 @@ export default function LegalPage() {
 							Contact
 						</h2>
 						<p className="mt-3">
-							Email: {" "}
+							Email:{" "}
 							<Link href={`mailto:${siteMetadata.email}`}>
 								{siteMetadata.email}
 							</Link>
 						</p>
 						<p className="mt-2">
-							Website: {" "}
+							Website:{" "}
 							<Link href={siteMetadata.siteUrl}>{siteMetadata.siteUrl}</Link>
 						</p>
 					</section>
@@ -43,14 +43,19 @@ export default function LegalPage() {
 							Hosting provider
 						</h2>
 						<p className="mt-3">Hostinger Operations, UAB</p>
-						<p className="mt-2">Svitrigailos str. 34, Vilnius 03230, Lithuania</p>
+						<p className="mt-2">
+							Svitrigailos str. 34, Vilnius 03230, Lithuania
+						</p>
 						<p className="mt-2">Phone: +370 645 03378</p>
 						<p className="mt-2">
-							Email: <Link href="mailto:domains@hostinger.com">domains@hostinger.com</Link>
+							Email:{" "}
+							<Link href="mailto:domains@hostinger.com">
+								domains@hostinger.com
+							</Link>
 						</p>
 						<p className="mt-2">
 							Corporate officers: Daugirdas Jankus (CEO), Domantas Berzanskis
-							 (CFO), Aivaras Simkus (COO)
+							(CFO), Aivaras Simkus (COO)
 						</p>
 					</section>
 					<section className="rounded-xl border border-gray-200/80 bg-white/50 p-6 text-gray-600 shadow-sm dark:border-gray-700/60 dark:bg-gray-900/40 dark:text-gray-300">
@@ -59,8 +64,8 @@ export default function LegalPage() {
 						</h2>
 						<p className="mt-3">
 							This site uses Umami analytics to understand aggregate usage (for
-							example, pages viewed and device type). No advertising or profiling
-							is performed.
+							example, pages viewed and device type). No advertising or
+							profiling is performed.
 						</p>
 						<p className="mt-2">
 							If you have questions about data collected, contact the publisher
@@ -74,8 +79,8 @@ export default function LegalPage() {
 						<p className="mt-3">
 							Unless otherwise stated, all content on this site is owned by the
 							publisher. You may link to this site and quote brief excerpts with
-							attribution. Any other reproduction or redistribution requires prior
-							written permission.
+							attribution. Any other reproduction or redistribution requires
+							prior written permission.
 						</p>
 					</section>
 					<section className="rounded-xl border border-gray-200/80 bg-white/50 p-6 text-gray-600 shadow-sm dark:border-gray-700/60 dark:bg-gray-900/40 dark:text-gray-300">
@@ -84,13 +89,14 @@ export default function LegalPage() {
 						</h2>
 						<p className="mt-3">
 							The information on this site is provided for general informational
-							purposes only and is provided as-is without warranty. The publisher
-							is not liable for any loss or damage arising from the use of this
-							site.
+							purposes only and is provided as-is without warranty. The
+							publisher is not liable for any loss or damage arising from the
+							use of this site.
 						</p>
 						<p className="mt-2">
-							This site may contain links to third-party websites. The publisher has
-							no control over their content and accepts no responsibility for them.
+							This site may contain links to third-party websites. The publisher
+							has no control over their content and accepts no responsibility
+							for them.
 						</p>
 					</section>
 				</div>
