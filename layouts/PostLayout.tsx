@@ -8,6 +8,7 @@ import Tag from "@/components/content/Tag";
 import Image from "@/components/core/Image";
 import Link from "@/components/core/Link";
 import SectionContainer from "@/components/layout/SectionContainer";
+import ViewCounter from "@/components/analytics/ViewCounter";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
 const editUrl = (path: string) =>
@@ -50,13 +51,15 @@ export default function PostLayout({
 							<dl className="space-y-10">
 								<div>
 									<dt className="sr-only">Published on</dt>
-									<dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+									<dd className="flex items-center justify-center gap-3 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
 										<time dateTime={date}>
 											{new Date(date).toLocaleDateString(
 												siteMetadata.locale,
 												postDateTemplate,
 											)}
 										</time>
+										<span>•</span>
+										<ViewCounter slug={slug} />
 									</dd>
 								</div>
 							</dl>

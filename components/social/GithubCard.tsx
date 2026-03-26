@@ -37,21 +37,35 @@ interface Language {
 	percentage: number;
 	color: string;
 }
+interface RepoStats {
+	stars: number;
+	forks: number;
+	watchers: number;
+	avatar: string;
+}
 
 const toPercentage = (bytes: number, total: number) =>
 	Math.round((bytes / total) * 1000) / 10;
 
-const fetchRepoDescription = async (repo: string) => {
+const fetchRepoData = async (repo: string) => {
 	try {
 		const response = await fetch(`https://api.github.com/repos/${repo}`, {
 			next: { revalidate: 3600 },
 		});
 
-		if (!response.ok) return null;
+		if (!response.ok) return { description: null, stats: null };
 		const repoJson = await response.json();
-		return repoJson.description ?? null;
+		return {
+			description: repoJson.description ?? null,
+			stats: {
+				stars: repoJson.stargazers_count ?? 0,
+				forks: repoJson.forks_count ?? 0,
+				watchers: repoJson.subscribers_count ?? 0,
+				avatar: repoJson.owner?.avatar_url ?? "",
+			} as RepoStats,
+		};
 	} catch {
-		return null;
+		return { description: null, stats: null };
 	}
 };
 
@@ -79,8 +93,8 @@ const fetchLanguages = async (repo: string) => {
 };
 
 const GithubCard = async ({ repo, description }: GithubCardProps) => {
-	const [repoDescription, languages] = await Promise.all([
-		fetchRepoDescription(repo),
+	const [repoData, languages] = await Promise.all([
+		fetchRepoData(repo),
 		fetchLanguages(repo),
 	]);
 
@@ -88,8 +102,9 @@ const GithubCard = async ({ repo, description }: GithubCardProps) => {
 		<GithubCardClient
 			repo={repo}
 			description={description}
-			repoDescription={repoDescription}
+			repoDescription={repoData.description}
 			languages={languages}
+			stats={repoData.stats}
 		/>
 	);
 };

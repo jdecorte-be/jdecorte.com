@@ -9,11 +9,19 @@ interface Language {
 	color: string;
 }
 
+interface RepoStats {
+	stars: number;
+	forks: number;
+	watchers: number;
+	avatar: string;
+}
+
 interface GithubCardClientProps {
 	repo: string;
 	description?: string;
 	repoDescription?: string | null;
 	languages?: Language[];
+	stats?: RepoStats | null;
 }
 
 const easeOut = [0.16, 1, 0.3, 1] as const;
@@ -56,61 +64,87 @@ const GithubCardClient = ({
 	description,
 	repoDescription,
 	languages = [],
+	stats,
 }: GithubCardClientProps) => {
 	const [owner, repoName] = repo.split("/");
 	const href = `https://github.com/${repo}`;
 	const displayDescription = description ?? repoDescription;
 
+	const formatCount = (count: number) => {
+		if (count >= 1000) {
+			return `${(count / 1000).toFixed(1)}k`;
+		}
+		return count.toString();
+	};
+
 	return (
 		<LazyMotion features={domAnimation}>
 			<Link
 				href={href}
-				className="group my-4 block no-underline"
+				className="group my-3 block no-underline"
 				data-umami-event={`GitHub Card: ${repo}`}
 			>
 				<m.div
-					className="flex flex-col gap-3 rounded-lg border border-gray-200 bg-gray-50 px-5 py-4 transition-colors duration-200 hover:border-primary-500 dark:border-white/[0.1] dark:bg-white/[0.03] dark:hover:border-primary-500/60"
+					className="rounded-lg border-2 border-gray-200 bg-gray-50 px-4 pb-4 transition-colors duration-200 hover:border-primary-500 dark:border-white/[0.1] dark:bg-white/[0.03] dark:hover:border-primary-500/60"
 					initial="rest"
 					animate="rest"
 					whileHover="hover"
 					whileFocus="hover"
 					variants={cardMotion}
 				>
-					{/* Repo name row */}
-					<m.div className="flex items-center gap-2" variants={itemMotion}>
-						<svg
-							className="h-4 w-4 shrink-0 fill-gray-500 dark:fill-gray-400"
-							viewBox="0 0 16 16"
-							aria-hidden="true"
-						>
-							<path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z" />
-						</svg>
-						<span className="font-semibold text-primary-500 group-hover:underline">
-							<span className="text-gray-500 dark:text-gray-400">{owner}/</span>
-							{repoName}
-						</span>
+					{/* Header: Avatar + Name */}
+					<m.div className="mb-2 flex items-start gap-3" variants={itemMotion}>
+						{stats?.avatar && (
+							<img
+								src={stats.avatar}
+								alt={`${owner} avatar`}
+								className="h-12 w-12 rounded-full"
+							/>
+						)}
+						<div className="min-w-0 flex-1">
+							<h3 className="truncate text-base font-semibold text-primary-500 group-hover:underline">
+								{owner}/{repoName}
+							</h3>
+							{displayDescription && (
+								<p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+									{displayDescription}
+								</p>
+							)}
+						</div>
 					</m.div>
 
-					{/* Description */}
-					{displayDescription && (
-						<m.p
-							className="text-sm text-gray-600 dark:text-gray-400"
+					{/* Stats */}
+					{stats && (
+						<m.div
+							className="mb-3 flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400"
 							variants={itemMotion}
 						>
-							{displayDescription}
-						</m.p>
+							<div className="flex items-center gap-1">
+								<svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
+									<path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
+								</svg>
+								<span>{formatCount(stats.stars)}</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
+									<path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z" />
+								</svg>
+								<span>{formatCount(stats.forks)}</span>
+							</div>
+							<div className="flex items-center gap-1">
+								<svg className="h-4 w-4" viewBox="0 0 16 16" fill="currentColor">
+									<path d="M8 2c1.981 0 3.671.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.671-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 7.932a.12.12 0 0 0 0 .136c.411.622 1.241 1.75 2.366 2.717C5.176 11.758 6.527 12.5 8 12.5c1.473 0 2.825-.742 3.955-1.715 1.124-.967 1.954-2.096 2.366-2.717a.12.12 0 0 0 0-.136c-.412-.621-1.242-1.75-2.366-2.717C10.824 4.242 9.473 3.5 8 3.5c-1.473 0-2.825.742-3.955 1.715-1.124.967-1.954 2.096-2.366 2.717ZM8 10a2 2 0 1 1-.001-3.999A2 2 0 0 1 8 10Z" />
+								</svg>
+								<span>{formatCount(stats.watchers)}</span>
+							</div>
+						</m.div>
 					)}
 
 					{/* Languages */}
 					{languages.length > 0 && (
-						<m.div className="flex flex-col gap-2" variants={itemMotion}>
-							<p className="text-xs font-semibold text-gray-600 dark:text-gray-300">
-								Languages
-							</p>
-							{/* Bar */}
+						<m.div variants={itemMotion}>
 							<m.div
-								className="flex h-2 w-full overflow-hidden rounded-full"
-								style={{ transformOrigin: "left" }}
+								className="mb-2 flex h-2 w-full overflow-hidden rounded-full"
 								variants={barMotion}
 							>
 								{languages.map((lang) => (
@@ -124,18 +158,14 @@ const GithubCardClient = ({
 									/>
 								))}
 							</m.div>
-							{/* Labels */}
-							<div className="flex flex-wrap gap-x-4 gap-y-1">
+							<div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-gray-600 dark:text-gray-400">
 								{languages.map((lang) => (
-									<div
-										key={lang.name}
-										className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400"
-									>
+									<div key={lang.name} className="flex items-center gap-1">
 										<span
-											className="inline-block h-2.5 w-2.5 rounded-full"
+											className="inline-block h-2 w-2 rounded-full"
 											style={{ backgroundColor: lang.color }}
 										/>
-										<span className="font-medium">{lang.name}</span>
+										<span>{lang.name}</span>
 										<span className="text-gray-400 dark:text-gray-500">
 											{lang.percentage}%
 										</span>
