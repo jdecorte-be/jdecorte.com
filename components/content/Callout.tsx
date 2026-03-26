@@ -85,16 +85,16 @@ export default function Callout({
 
 	return (
 		<div
-			className={`not-prose my-6 rounded-md border border-transparent border-l-[3px] ${style.border} px-4 py-2`}
+			className={`not-prose my-6 rounded-lg border-4 ${style.border} px-5 py-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)] dark:shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] bg-gradient-to-br from-white/50 to-transparent dark:from-white/5 dark:to-transparent backdrop-blur-sm transform transition-all hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)] dark:hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,0.5)]`}
 			role="alert"
 		>
 			<p
-				className={`mb-1 flex items-center gap-2 text-sm font-semibold ${style.color}`}
+				className={`mb-2 flex items-center gap-2 text-base font-bold ${style.color} drop-shadow-sm`}
 			>
 				{style.svg}
 				{displayTitle}
 			</p>
-			<div className="text-sm text-gray-700 dark:text-gray-200">{children}</div>
+			<div className="text-sm text-gray-800 dark:text-gray-100 font-medium">{children}</div>
 		</div>
 	);
 }

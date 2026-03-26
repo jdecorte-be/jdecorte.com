@@ -72,21 +72,21 @@ export const projects: Record<Category, Project[]> = {
 	"Web Dev": [
 		{
 			title: "Logs Dashboard",
-			size: "large",
+			size: "small",
 			buttonText: "",
 			imgSrc: "/static/images/portfolio/dashboard/output.gif",
-			href: "https://log-dashboard.jdecorte.com/en/login",
+			href: "https://log-dashboard.jdecorte.com/en/wili-logs/main",
 			description: "Built a web dashboard to ingest, filter, and visualize application logs for faster debugging and monitoring.",
-			index: 0,
+			index: 1,
 		},
 		{
 			title: "Portfolio Website",
-			size: "small",
+			size: "large",
 			buttonText: "",
 			imgSrc: "",
 			href: "",
 			description: "Designed and developed a personal site to showcase projects, writeups, and technical experiments.",
-			index: 1,
+			index: 0,
 		},
 		{
 			title: "Multiplayer Ping Pong Game",

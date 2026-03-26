@@ -33,46 +33,49 @@ function Pagination({ totalPages, currentPage }: Readonly<PaginationProps>) {
 
 	return (
 		<div className="space-y-2 pb-8 pt-6 md:space-y-5">
-			<nav className="flex justify-between">
-				{!prevPage && (
-					<button
-						type="button"
-						className="cursor-auto disabled:opacity-50"
-						disabled={!prevPage}
-					>
-						Previous
-					</button>
-				)}
-				{prevPage && (
-					<Link
-						href={
-							currentPage - 1 === 1
-								? `/${basePath}/`
-								: `/${basePath}/page/${currentPage - 1}`
-						}
-						rel="prev"
-					>
-						Previous
-					</Link>
-				)}
-				<span>
-					{currentPage} of {totalPages}
-				</span>
-				{!nextPage && (
-					<button
-						type="button"
-						className="cursor-auto disabled:opacity-50"
-						disabled={!nextPage}
-					>
-						Next
-					</button>
-				)}
-				{nextPage && (
-					<Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-						Next
-					</Link>
-				)}
-			</nav>
+			<div className="grid grid-cols-[1fr_56px] gap-x-2 sm:grid-cols-[1fr_80px] sm:gap-x-4 md:gap-x-6">
+				<nav className="flex items-center justify-between rounded-lg bg-[hsl(230_15%_10%)] px-4 py-4 sm:px-6 sm:py-5 md:px-8">
+					{!prevPage && (
+						<button
+							type="button"
+							className="cursor-auto text-gray-600 disabled:opacity-50"
+							disabled={!prevPage}
+						>
+							Previous
+						</button>
+					)}
+					{prevPage && (
+						<Link
+							href={
+								currentPage - 1 === 1
+									? `/${basePath}/`
+									: `/${basePath}/page/${currentPage - 1}`
+							}
+							rel="prev"
+							className="text-primary-500 transition-colors hover:text-primary-400"
+						>
+							Previous
+						</Link>
+					)}
+					<span className="font-medium text-gray-300">
+						{currentPage} of {totalPages}
+					</span>
+					{!nextPage && (
+						<button
+							type="button"
+							className="cursor-auto text-gray-600 disabled:opacity-50"
+							disabled={!nextPage}
+						>
+							Next
+						</button>
+					)}
+					{nextPage && (
+						<Link href={`/${basePath}/page/${currentPage + 1}`} rel="next" className="text-primary-500 transition-colors hover:text-primary-400">
+							Next
+						</Link>
+					)}
+				</nav>
+			</div>
 		</div>
 	);
 }
@@ -86,7 +89,7 @@ export default function ListLayoutWithTags({
 	const pathname = usePathname();
 	const router = useRouter();
 	const tagCounts = tagData as Record<string, number>;
-	const tagKeys = Object.keys(tagCounts);
+	const tagKeys = Object.keys(tagCounts).filter((tag) => tagCounts[tag] > 1);
 	const sortedTags = tagKeys.toSorted((a, b) => tagCounts[b] - tagCounts[a]);
 
 	const displayPosts =
