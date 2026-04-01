@@ -19,12 +19,29 @@ const GithubContributions = ({ username = "jdecorte-be" }) => {
 	useEffect(() => {
 		const fetchGithubContributions = async () => {
 			try {
-				// Use GitHub's contribution API or generate sample data
-				// For now, we'll generate sample data based on the current year
-				const contributions = generateSampleData();
+				// Fetch real GitHub contributions from public API for 2025
+				const response = await fetch(
+					`https://github-contributions-api.jogruber.de/v4/${username}?y=2025`
+				);
+
+				if (!response.ok) {
+					throw new Error("Failed to fetch contributions");
+				}
+
+				const result = await response.json();
+
+				// Transform the API response to match our ContributionDay interface
+				const contributions: ContributionDay[] =
+					result.contributions.map((contribution: any) => ({
+						date: contribution.date,
+						count: contribution.count,
+						level: contribution.level as 0 | 1 | 2 | 3 | 4,
+					})) || [];
+
 				setData(contributions);
 				setLoading(false);
 			} catch (err) {
+				console.error("Error fetching GitHub contributions:", err);
 				setError("Failed to load GitHub contributions");
 				setLoading(false);
 			}
@@ -32,34 +49,6 @@ const GithubContributions = ({ username = "jdecorte-be" }) => {
 
 		fetchGithubContributions();
 	}, [username]);
-
-	const generateSampleData = (): ContributionDay[] => {
-		const data: ContributionDay[] = [];
-		const today = new Date();
-		const oneYearAgo = new Date(today);
-		oneYearAgo.setFullYear(today.getFullYear() - 1);
-
-		for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
-			const dateStr = d.toISOString().split("T")[0];
-			const random = Math.random();
-			let count = 0;
-			let level: 0 | 1 | 2 | 3 | 4 = 0;
-
-			// Create a realistic pattern with some days having more activity
-			if (random > 0.7) {
-				count = Math.floor(Math.random() * 5) + 1;
-				level = count === 1 ? 1 : count <= 3 ? 2 : count <= 5 ? 3 : 4;
-			}
-
-			data.push({
-				date: dateStr,
-				count,
-				level,
-			});
-		}
-
-		return data;
-	};
 
 	const currentTheme = theme === "system" ? systemTheme : theme;
 	const placeholderWeeks = 53;
@@ -118,7 +107,7 @@ const GithubContributions = ({ username = "jdecorte-be" }) => {
 				blockMargin={4}
 				fontSize={14}
 				labels={{
-					totalCount: "{{count}} contributions in the last year",
+					totalCount: "{{count}} contributions in 2025",
 				}}
 			/>
 		</div>
