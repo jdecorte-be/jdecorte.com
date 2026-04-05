@@ -87,7 +87,7 @@ export default function PostLayout({
 													width={96}
 													height={96}
 													alt="avatar"
-													className="h-24 w-24 flex-shrink-0 rounded-full"
+													className="h-12 w-14  rounded-full"
 												/>
 											)}
 											<dl className="whitespace-nowrap text-sm font-medium leading-5">
