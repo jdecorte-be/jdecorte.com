@@ -84,10 +84,10 @@ export default function PostLayout({
 											{author.avatar && (
 												<Image
 													src={author.avatar}
-													width={38}
-													height={38}
+													width={96}
+													height={96}
 													alt="avatar"
-													className="h-10 w-10 flex-shrink-0 rounded-full"
+													className="h-24 w-24 flex-shrink-0 rounded-full"
 												/>
 											)}
 											<dl className="whitespace-nowrap text-sm font-medium leading-5">
