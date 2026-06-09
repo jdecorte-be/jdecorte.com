@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { type ReactNode, useRef } from "react";
+import type { ReactNode } from "react";
 import AnimatedMedia from "@/components/core/AnimatedMedia";
 
 interface Props {
@@ -70,7 +70,6 @@ const ProjectCard = ({
 								alt={title}
 								src={imgSrc}
 								fill
-								priority={index === 0}
 								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 								className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100"
 							/>
