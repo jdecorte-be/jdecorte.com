@@ -5,30 +5,12 @@ import GithubContributions from "@/components/home/GithubContributions";
 import Hero from "@/components/home/Hero";
 import PortfolioSection from "@/components/home/PortfolioSection";
 import siteMetadata from "@/data/siteMetadata.mjs";
-import { projects } from "@/data/portfolioData";
 
 const MAX_DISPLAY = 2;
-
-// Extract all portfolio images for preloading
-const portfolioImages = Object.values(projects)
-	.flat()
-	.map((p) => p.imgSrc);
 
 export default function Home({ posts, heroFontStyles }) {
 	return (
 		<>
-			{/* Preload portfolio images */}
-			{portfolioImages.map((imgSrc) => (
-				<link
-					key={imgSrc}
-					rel="preload"
-					as="image"
-					href={imgSrc}
-					// @ts-ignore - Next.js will handle this
-					precedence="high"
-				/>
-			))}
-
 			<div className="relative">
 				{/* NOTE: Animations might be a little much, also animate-blob is on a second line to get around prettier ordering error */}
 				<div
