@@ -68,8 +68,6 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 				onError={() => setUseFallback(true)}
 			>
 				{shouldLoad && <source src={mp4Src} type="video/mp4" />}
-				{/* Fallback to GIF if MP4 fails */}
-				{shouldLoad && <img src={src} alt={alt} className={className} />}
 			</video>
 		);
 	}

@@ -75,7 +75,7 @@ export const projects: Record<Category, Project[]> = {
 			size: "small",
 			buttonText: "",
 			imgSrc: "/static/images/portfolio/dashboard/output.gif",
-			href: "https://log-dashboard.jdecorte.com/en/wili-logs/main",
+			href: "https://logs.jdecorte.com",
 			description: "Built a web dashboard to ingest, filter, and visualize application logs for faster debugging and monitoring.",
 			index: 1,
 		},

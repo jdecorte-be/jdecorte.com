@@ -4,10 +4,17 @@
 /node_modules
 /.pnp
 .pnp.js
+.pnp.cjs
+.pnp.loader.mjs
 /.yarn/*
 !/.yarn/releases
 !/.yarn/plugins
 !/.yarn/sdks
+package-lock.json
+yarn.lock
+
+# typescript
+*.tsbuildinfo
 
 # testing
 /coverage
