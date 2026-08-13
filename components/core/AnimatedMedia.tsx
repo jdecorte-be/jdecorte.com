@@ -51,6 +51,7 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 	// Check if source is a GIF
 	const isGif = src.endsWith(".gif");
 	const mp4Src = isGif ? src.replace(/\.gif$/, ".mp4") : null;
+	const posterSrc = isGif ? src.replace(/\.gif$/, "-poster.jpg") : undefined;
 
 	// Use video for GIFs if MP4 exists, otherwise fallback to GIF
 	if (isGif && mp4Src && !useFallback) {
@@ -63,7 +64,8 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 				loop
 				muted
 				playsInline
-				preload="none"
+				preload="metadata"
+				poster={posterSrc}
 				className={className}
 				onError={() => setUseFallback(true)}
 			>

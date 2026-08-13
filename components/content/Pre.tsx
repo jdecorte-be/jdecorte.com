@@ -13,7 +13,7 @@ import {
 import {
 	SiC,
 	SiCplusplus,
-	SiCss3,
+	SiCss,
 	SiDocker,
 	SiDotnet,
 	SiGnubash,
@@ -62,7 +62,7 @@ const LANGUAGE_ICONS: Record<string, IconType> = {
 	zsh: FaTerminal,
 	fish: FaTerminal,
 	html: SiHtml5,
-	css: SiCss3,
+	css: SiCss,
 	scss: SiSass,
 	sass: SiSass,
 	json: SiJson,
