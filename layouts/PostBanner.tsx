@@ -2,7 +2,7 @@ import type { Writeups } from "contentlayer/generated";
 import Bleed from "pliny/ui/Bleed";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import type { ReactNode } from "react";
-import Comments from "@/components/content/Comments";
+import Comments from "@/components/content/LazyComments";
 import PageTitle from "@/components/content/PageTitle";
 import ScrollTopAndComment from "@/components/content/ScrollTopAndComment";
 import Image from "@/components/core/Image";

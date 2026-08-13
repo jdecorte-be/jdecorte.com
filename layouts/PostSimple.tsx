@@ -2,7 +2,7 @@ import type { Writeups } from "contentlayer/generated";
 import type { CoreContent } from "pliny/utils/contentlayer";
 import { formatDate } from "pliny/utils/formatDate";
 import type { ReactNode } from "react";
-import Comments from "@/components/content/Comments";
+import Comments from "@/components/content/LazyComments";
 import PageTitle from "@/components/content/PageTitle";
 import ScrollTopAndComment from "@/components/content/ScrollTopAndComment";
 import Link from "@/components/core/Link";
