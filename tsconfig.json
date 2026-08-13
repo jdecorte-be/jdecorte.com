@@ -13,7 +13,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -36,6 +36,24 @@
       ],
       "contentlayer/generated": [
         "./.contentlayer/generated"
+      ],
+      "pliny/analytics": [
+        "./node_modules/pliny/analytics/index.d.ts"
+      ],
+      "pliny/utils/formatDate": [
+        "./node_modules/pliny/utils/formatDate.d.ts"
+      ],
+      "pliny/utils/contentlayer": [
+        "./node_modules/pliny/utils/contentlayer.d.ts"
+      ],
+      "pliny/mdx-components": [
+        "./node_modules/pliny/mdx-components.d.ts"
+      ],
+      "pliny/ui/TOCInline": [
+        "./node_modules/pliny/ui/TOCInline.d.ts"
+      ],
+      "pliny/ui/Bleed": [
+        "./node_modules/pliny/ui/Bleed.d.ts"
       ]
     },
     "plugins": [
