@@ -1,5 +1,6 @@
 [phases.install]
-cmds = ["bun install"]
+cmds = ["bun install --frozen-lockfile"]
+cacheDirectories = ["/root/.bun/install/cache"]
 
 [phases.build]
 cmds = ["bun run build"]

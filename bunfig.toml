@@ -1,0 +1,5 @@
+[install]
+# Reuse the global cache instead of copying packages into node_modules when possible.
+cache = true
+# Keep bun.lock (text lockfile) as the single source of truth.
+saveTextLockfile = true
