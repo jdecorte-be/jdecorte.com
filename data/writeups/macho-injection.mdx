@@ -45,7 +45,7 @@ Imagine a Mach-O file as a well-organized toolbox. Inside, you've got everything
 It's a modular format, which means every piece has a job, and the system knows exactly where to find it. This precision makes Mach-O files powerful but also a little tricky to work with—mess up one part, and the whole thing might crash. That's why understanding its structure is so crucial.
 
 <div style={{ backgroundColor: '#d3d3d3', padding: '1rem', borderRadius: '0.5rem' }}>
-  <Image src="/static/images/writeups/macho-injection/1.webp" alt="description" width={800} height={400} />
+  <Image src="/static/images/writeups/macho-injection/1.avif" alt="description" width={800} height={400} />
 </div>
 
 ### Memory Layout Visualization
@@ -91,7 +91,7 @@ The header is small but mighty. It's the first thing the system reads, so if it'
 
 **How to Inspect It:** Want to see the header of a Mach-O file? Use `otool` like this:
 
-<Image src="/static/images/writeups/macho-injection/2.png" alt="description" width={800} height={400} />
+<Image src="/static/images/writeups/macho-injection/2.avif" alt="description" width={800} height={400} />
 
 ### Example: Reading the Mach-O Header
 
@@ -156,7 +156,7 @@ Some of the most common load commands include:
 **Why Load Commands Matter:** When you're injecting code or adding functionality, these commands will likely be the first thing you modify. For instance, adding a new library involves inserting an `LC_LOAD_DYLIB` command. Want to redirect execution? You'll tweak the `LC_MAIN` command.
 
 **Toolbox Tip:** Run this command to list all load commands in a Mach-O file:
-<Image src="/static/images/writeups/macho-injection/3.png" alt="description" width={800} height={400} />
+<Image src="/static/images/writeups/macho-injection/3.avif" alt="description" width={800} height={400} />
 
 #### **3. Segments and Sections: The Binary's Organization**
 

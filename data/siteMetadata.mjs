@@ -8,7 +8,7 @@ const siteMetadata = {
 	theme: "dark", // system, dark or light
 	siteUrl: "https://jdecorte.com",
 	siteRepo: "https://github.com/jdecorte-be/jdecorte.com",
-	siteLogo: "/static/images/logo.png",
+	siteLogo: "/static/images/jd-white.avif",
 	socialBanner: "/static/images/jdecorte-social.png",
 	email: "jdecorte@proton.me",
 	github: "https://github.com/jdecorte-be",

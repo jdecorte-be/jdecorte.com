@@ -52,7 +52,7 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 	// Accept a direct .mp4 source, or a .gif source with an .mp4 sibling
 	const isVideo = src.endsWith(".mp4") || src.endsWith(".gif");
 	const mp4Src = isVideo ? src.replace(/\.gif$/, ".mp4") : null;
-	const posterSrc = mp4Src?.replace(/\.mp4$/, "-poster.jpg");
+	const posterSrc = mp4Src?.replace(/\.mp4$/, "-poster.avif");
 
 	// Use video when possible, otherwise fallback to a static image
 	if (isVideo && mp4Src && !useFallback) {

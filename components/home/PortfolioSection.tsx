@@ -1,6 +1,6 @@
 "use client";
 
-import { domAnimation, LazyMotion, m } from "framer-motion";
+import { domMax, LazyMotion, m } from "motion/react";
 import { getImageProps } from "next/image";
 import { useEffect } from "react";
 
@@ -37,7 +37,7 @@ export default function PortfolioSection() {
 				if (src.endsWith(".mp4") || src.endsWith(".gif")) {
 					// AnimatedMedia cards: warm the poster and the video itself
 					const mp4Src = src.replace(/\.gif$/, ".mp4");
-					new window.Image().src = mp4Src.replace(/\.mp4$/, "-poster.jpg");
+					new window.Image().src = mp4Src.replace(/\.mp4$/, "-poster.avif");
 					void fetch(mp4Src).catch(() => {});
 				} else {
 					// next/image cards: request the same optimized URL the card will use
@@ -64,7 +64,7 @@ export default function PortfolioSection() {
 	}, []);
 
 	return (
-		<LazyMotion features={domAnimation}>
+		<LazyMotion features={domMax}>
 			<div className="px-4 pt-24">
 				<div className="mx-auto max-w-7xl">
 					<m.div

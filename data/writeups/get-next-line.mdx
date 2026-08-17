@@ -22,7 +22,7 @@ Let's dive in.
 
 Before we get into the weeds, let's look at the overall architecture of how `get_next_line` works:
 
-![Complete algorithm flowchart](/static/images/gnl/algorithm-flowchart.png)
+![Complete algorithm flowchart](/static/images/gnl/algorithm-flowchart.avif)
 
 This flowchart shows the entire decision tree: checking for errors, reading data, searching for newlines, and handling both normal cases and edge cases like EOF. Keep this in mind as we explore each component.
 
@@ -30,7 +30,7 @@ This flowchart shows the entire decision tree: checking for errors, reading data
 
 Before we dive into the implementation, let's quickly understand what file descriptors are and how they work at the operating system level.
 
-![File descriptor table showing how FDs map to files](/static/images/gnl/file-descriptors.jpg)
+![File descriptor table showing how FDs map to files](/static/images/gnl/file-descriptors.avif)
 
 A file descriptor is just an integer that acts as a handle to an open file. When you open a file, the OS maintains a table that maps these integers to actual file objects. File descriptor 0 is standard input, 1 is standard output, and 2 is standard error. Any files you open get assigned numbers starting from 3.
 
@@ -104,7 +104,7 @@ Our solution uses four functions working in harmony:
 
 Let's break down each one.
 
-![Function overview showing the relationships between all components](/static/images/gnl/function-overview.png)
+![Function overview showing the relationships between all components](/static/images/gnl/function-overview.avif)
 
 This diagram shows how our functions interact with each other and the flow of data through the system.
 
@@ -142,9 +142,9 @@ char	*get_next_line(int fd)
 
 This function is responsible for combining the existing buffer with newly read data. It's called repeatedly until we have a complete line.
 
-![Buffer combination process](/static/images/gnl/keep-bufs-detail.png)
+![Buffer combination process](/static/images/gnl/keep-bufs-detail.avif)
 
-![Overall GNL process overview](/static/images/gnl/images_yamkim_post_a09c92e7-9f49-4664-8fd5-1670d6a9ed48_gnl_overview.png)
+![Overall GNL process overview](/static/images/gnl/images_yamkim_post_a09c92e7-9f49-4664-8fd5-1670d6a9ed48_gnl_overview.avif)
 
 The diagrams show exactly what happens:
 1. **malloc** — Allocate space for the combined size: `strlen(backup) + read_size + 1`
@@ -158,7 +158,7 @@ This pattern ensures we never lose data. Every read operation appends to what we
 
 When we hit EOF or encounter errors, we need special handling:
 
-![Return all edge case handling](/static/images/gnl/images_yamkim_post_54b991dd-9c3a-46d2-a363-e5bda0be352f_return_all.png)
+![Return all edge case handling](/static/images/gnl/images_yamkim_post_54b991dd-9c3a-46d2-a363-e5bda0be352f_return_all.avif)
 
 This function deals with three scenarios:
 - **read_size < 0** — Error reading from file descriptor; return NULL
@@ -298,7 +298,7 @@ char *split_lines(char *buffer)
 
 This is often implemented as part of `ft_line` or as a separate function depending on your approach. The key idea: locate the `\n`, split there, return the line, and save the rest.
 
-![Split lines visualization](/static/images/gnl/images_yamkim_post_4c0b8e2b-14de-4fb2-89d3-ada3232e92d3_split_lines.png)
+![Split lines visualization](/static/images/gnl/images_yamkim_post_4c0b8e2b-14de-4fb2-89d3-ada3232e92d3_split_lines.avif)
 
 The diagram shows the complete overview of how all pieces fit together:
 - We search for `\n` using `ft_strchr`

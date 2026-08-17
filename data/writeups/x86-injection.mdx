@@ -50,7 +50,7 @@ When you open an ELF binary, you see:
 └─────────────────────────────────────┘
 ```
 
-<Image src="/static/images/writeups/x86-injection/header.jpg" alt="description" width={800} height={400} />
+<Image src="/static/images/writeups/x86-injection/header.avif" alt="description" width={800} height={400} />
 
 The **padding** exists because segments must align to page boundaries (4096 bytes). This creates "code caves" - empty spaces where we can hide our shellcode.
 
@@ -493,4 +493,4 @@ objdump -d woody > packed.asm
 diff orig.asm packed.asm  # .text should differ
 ```
 
-<Image src="/static/images/writeups/x86-injection/vimdiff.jpg" alt="description" width={800} height={400} />
+<Image src="/static/images/writeups/x86-injection/vimdiff.avif" alt="description" width={800} height={400} />

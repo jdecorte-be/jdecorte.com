@@ -5,7 +5,7 @@ export default function Logo() {
 		<div className="flex items-center justify-between">
 			<div className="mr-1 fade-in">
 				<Image
-					src="/static/images/jd-white.png"
+					src="/static/images/jd-white.avif"
 					alt="logo"
 					width="55"
 					height="55"

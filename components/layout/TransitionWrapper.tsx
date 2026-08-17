@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "motion/react";
 import { usePathname } from "next/navigation";
 
 export default function TransitionWrapper({
@@ -10,15 +9,11 @@ export default function TransitionWrapper({
 }) {
 	const pathname = usePathname();
 
+	// key={pathname} remounts the div on navigation so the CSS fade replays,
+	// without pulling framer-motion into the shared layout bundle.
 	return (
-		<motion.div
-			key={pathname}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.2, ease: "easeInOut" }}
-			style={{ minHeight: "60vh" }}
-		>
+		<div key={pathname} className="fade-in" style={{ minHeight: "60vh" }}>
 			{children}
-		</motion.div>
+		</div>
 	);
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import { motion } from "framer-motion";
+// `m` requires a LazyMotion ancestor loading `domMax` (for the layoutId
+// animation below) — currently provided by PortfolioSection.
+import { m } from "motion/react";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -64,7 +66,7 @@ const TabsTrigger = React.forwardRef<
 		>
 			<span className="relative z-10">{children}</span>
 			{isActive && (
-				<motion.div
+				<m.div
 					layoutId="activeTab"
 					className="absolute inset-0 rounded-lg bg-white dark:bg-primary-600 shadow-md dark:shadow-primary-500/20"
 					transition={{
