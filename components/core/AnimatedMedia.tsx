@@ -15,6 +15,7 @@ interface AnimatedMediaProps {
 const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 	const [useFallback, setUseFallback] = useState(false);
 	const [shouldLoad, setShouldLoad] = useState(false);
+	const [isLoaded, setIsLoaded] = useState(false);
 	const mediaRef = useRef<HTMLVideoElement | HTMLImageElement | null>(null);
 
 	useEffect(() => {
@@ -66,7 +67,8 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 				playsInline
 				preload="metadata"
 				poster={posterSrc}
-				className={className}
+				className={`${className} transition-[opacity,transform] duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+				onLoadedData={() => setIsLoaded(true)}
 				onError={() => setUseFallback(true)}
 			>
 				{shouldLoad && <source src={mp4Src} type="video/mp4" />}
@@ -82,7 +84,8 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 			}}
 			src={shouldLoad ? (src.endsWith(".mp4") ? posterSrc : src) : undefined}
 			alt={alt}
-			className={className}
+			className={`${className} transition-[opacity,transform] duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+			onLoad={() => setIsLoaded(true)}
 			loading="lazy"
 		/>
 	);

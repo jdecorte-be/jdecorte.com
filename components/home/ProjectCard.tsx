@@ -2,8 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import AnimatedMedia from "@/components/core/AnimatedMedia";
+
+// Shared with the tab preloader so warmed URLs match what next/image requests
+export const PROJECT_CARD_IMAGE_SIZES =
+	"(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
 
 interface Props {
 	title: string;
@@ -29,6 +33,7 @@ const ProjectCard = ({
 	const isLarge = size === "large";
 	const indexLabel = String(index + 1).padStart(2, "0");
 	const isGif = imgSrc?.endsWith(".gif") || imgSrc?.endsWith(".mp4");
+	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
 	return (
 		<Link href={href} className="group block h-full">
@@ -59,21 +64,26 @@ const ProjectCard = ({
 					}`}
 				>
 					{imgSrc ? (
-						isGif ? (
-							<AnimatedMedia
-								src={imgSrc}
-								alt={title}
-								className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100"
-							/>
-						) : (
-							<Image
-								alt={title}
-								src={imgSrc}
-								fill
-								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-								className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100"
-							/>
-						)
+						<>
+							{/* Loading skeleton — the media fades in over it once loaded */}
+							<div className="absolute inset-0 animate-pulse bg-gray-100 dark:bg-white/[0.04]" />
+							{isGif ? (
+								<AnimatedMedia
+									src={imgSrc}
+									alt={title}
+									className="relative h-full w-full object-cover object-center ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100"
+								/>
+							) : (
+								<Image
+									alt={title}
+									src={imgSrc}
+									fill
+									sizes={PROJECT_CARD_IMAGE_SIZES}
+									onLoad={() => setIsImageLoaded(true)}
+									className={`object-cover object-center transition-[transform,opacity] duration-700 ease-out group-hover:scale-[1.03] saturate-[0.85] group-hover:saturate-100 ${isImageLoaded ? "opacity-100" : "opacity-0"}`}
+								/>
+							)}
+						</>
 					) : (
 						<div className="flex h-full w-full items-center justify-center bg-gray-100 dark:bg-white/[0.03]">
 							<svg

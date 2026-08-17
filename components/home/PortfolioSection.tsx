@@ -1,8 +1,12 @@
 "use client";
 
 import { domAnimation, LazyMotion, m } from "framer-motion";
+import { getImageProps } from "next/image";
+import { useEffect } from "react";
 
-import ProjectCard from "@/components/home/ProjectCard";
+import ProjectCard, {
+	PROJECT_CARD_IMAGE_SIZES,
+} from "@/components/home/ProjectCard";
 import {
 	fadeInFromBottom,
 	fadeInFromLeft,
@@ -20,6 +24,45 @@ import {
 import { CATEGORIES, projects } from "@/data/portfolioData";
 
 export default function PortfolioSection() {
+	// Warm the browser cache for every category's media during idle time,
+	// so switching tabs shows images instantly instead of lazy-loading them.
+	useEffect(() => {
+		const preloadAll = () => {
+			const seen = new Set<string>();
+			for (const project of Object.values(projects).flat()) {
+				const src = project.imgSrc;
+				if (!src || seen.has(src)) continue;
+				seen.add(src);
+
+				if (src.endsWith(".mp4") || src.endsWith(".gif")) {
+					// AnimatedMedia cards: warm the poster and the video itself
+					const mp4Src = src.replace(/\.gif$/, ".mp4");
+					new window.Image().src = mp4Src.replace(/\.mp4$/, "-poster.jpg");
+					void fetch(mp4Src).catch(() => {});
+				} else {
+					// next/image cards: request the same optimized URL the card will use
+					const { props } = getImageProps({
+						alt: "",
+						src,
+						fill: true,
+						sizes: PROJECT_CARD_IMAGE_SIZES,
+					});
+					const img = new window.Image();
+					if (props.sizes) img.sizes = props.sizes;
+					if (props.srcSet) img.srcset = props.srcSet;
+					img.src = props.src;
+				}
+			}
+		};
+
+		if (typeof window.requestIdleCallback === "function") {
+			const id = window.requestIdleCallback(preloadAll, { timeout: 3000 });
+			return () => window.cancelIdleCallback(id);
+		}
+		const timeoutId = window.setTimeout(preloadAll, 1500);
+		return () => window.clearTimeout(timeoutId);
+	}, []);
+
 	return (
 		<LazyMotion features={domAnimation}>
 			<div className="px-4 pt-24">
