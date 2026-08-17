@@ -48,13 +48,13 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 		void element.play().catch(() => {});
 	}, [shouldLoad]);
 
-	// Check if source is a GIF
-	const isGif = src.endsWith(".gif");
-	const mp4Src = isGif ? src.replace(/\.gif$/, ".mp4") : null;
-	const posterSrc = isGif ? src.replace(/\.gif$/, "-poster.jpg") : undefined;
+	// Accept a direct .mp4 source, or a .gif source with an .mp4 sibling
+	const isVideo = src.endsWith(".mp4") || src.endsWith(".gif");
+	const mp4Src = isVideo ? src.replace(/\.gif$/, ".mp4") : null;
+	const posterSrc = mp4Src?.replace(/\.mp4$/, "-poster.jpg");
 
-	// Use video for GIFs if MP4 exists, otherwise fallback to GIF
-	if (isGif && mp4Src && !useFallback) {
+	// Use video when possible, otherwise fallback to a static image
+	if (isVideo && mp4Src && !useFallback) {
 		return (
 			<video
 				ref={(element) => {
@@ -80,7 +80,7 @@ const AnimatedMedia = ({ src, alt, className = "" }: AnimatedMediaProps) => {
 			ref={(element) => {
 				mediaRef.current = element;
 			}}
-			src={shouldLoad ? src : undefined}
+			src={shouldLoad ? (src.endsWith(".mp4") ? posterSrc : src) : undefined}
 			alt={alt}
 			className={className}
 			loading="lazy"

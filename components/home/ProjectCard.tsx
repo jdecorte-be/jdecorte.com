@@ -28,7 +28,7 @@ const ProjectCard = ({
 }: Props) => {
 	const isLarge = size === "large";
 	const indexLabel = String(index + 1).padStart(2, "0");
-	const isGif = imgSrc?.endsWith(".gif");
+	const isGif = imgSrc?.endsWith(".gif") || imgSrc?.endsWith(".mp4");
 
 	return (
 		<Link href={href} className="group block h-full">

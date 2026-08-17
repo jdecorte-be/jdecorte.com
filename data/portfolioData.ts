@@ -63,7 +63,7 @@ export const projects: Record<Category, Project[]> = {
 			title: "Minishell in C",
 			size: "small",
 			buttonText: "",
-			imgSrc: "/static/images/portfolio/minishell/main3.gif",
+			imgSrc: "/static/images/portfolio/minishell/main3.mp4",
 			href: "/writeups/minishell",
 			description: "Recreated a Unix-like shell with pipelines, redirections, environment expansion, and built-in commands.",
 			index: 2,
