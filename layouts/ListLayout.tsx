@@ -2,8 +2,8 @@
 
 import type { Writeups } from "contentlayer/generated";
 import { usePathname } from "next/navigation";
-import type { CoreContent } from "pliny/utils/contentlayer";
-import { formatDate } from "pliny/utils/formatDate";
+import type { CoreContent } from "pliny/utils/contentlayer.js";
+import { formatDate } from "pliny/utils/formatDate.js";
 import { useState } from "react";
 import Tag from "@/components/content/Tag";
 import Link from "@/components/core/Link";

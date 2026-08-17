@@ -4,7 +4,7 @@ import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Roboto_Mono, Space_Grotesk } from "next/font/google";
-import { Analytics, type AnalyticsConfig } from "pliny/analytics";
+import { Analytics, type AnalyticsConfig } from "pliny/analytics/index.js";
 import { Suspense } from "react";
 import UmamiPageview from "@/components/analytics/UmamiPageview";
 import Footer from "@/components/layout/Footer";

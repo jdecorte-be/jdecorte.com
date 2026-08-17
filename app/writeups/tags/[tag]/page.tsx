@@ -3,7 +3,7 @@ import tagData from "app/tag-data.json" with { type: "json" };
 import { allWriteups } from "contentlayer/generated";
 import { slug } from "github-slugger";
 import type { Metadata } from "next";
-import { allCoreContent, sortPosts } from "pliny/utils/contentlayer";
+import { allCoreContent, sortPosts } from "pliny/utils/contentlayer.js";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import ListLayout from "@/layouts/ListLayoutWithTags";
 

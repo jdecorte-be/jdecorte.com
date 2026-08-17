@@ -1,5 +1,5 @@
 import { allWriteups } from "contentlayer/generated";
-import { allCoreContent, sortPosts } from "pliny/utils/contentlayer";
+import { allCoreContent, sortPosts } from "pliny/utils/contentlayer.js";
 import Latest from "./Latest";
 
 export default async function Page() {

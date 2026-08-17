@@ -1,6 +1,6 @@
 import type { Writeups } from "contentlayer/generated";
-import type { CoreContent } from "pliny/utils/contentlayer";
-import { formatDate } from "pliny/utils/formatDate";
+import type { CoreContent } from "pliny/utils/contentlayer.js";
+import { formatDate } from "pliny/utils/formatDate.js";
 import type { ReactNode } from "react";
 import Comments from "@/components/content/LazyComments";
 import PageTitle from "@/components/content/PageTitle";

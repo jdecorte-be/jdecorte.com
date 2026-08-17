@@ -1,4 +1,4 @@
-import { formatDate } from "pliny/utils/formatDate";
+import { formatDate } from "pliny/utils/formatDate.js";
 import Tag from "@/components/content/Tag";
 import Link from "@/components/core/Link";
 import GithubContributions from "@/components/home/GithubContributions";

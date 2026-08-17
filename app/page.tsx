@@ -1,6 +1,6 @@
 import { allWriteups } from "contentlayer/generated";
 import { Antonio } from "next/font/google";
-import { allCoreContent, sortPosts } from "pliny/utils/contentlayer";
+import { allCoreContent, sortPosts } from "pliny/utils/contentlayer.js";
 import Main from "./Main";
 
 const antonio = Antonio({

@@ -1,5 +1,5 @@
 import { allWriteups } from "contentlayer/generated";
-import { allCoreContent, sortPosts } from "pliny/utils/contentlayer";
+import { allCoreContent, sortPosts } from "pliny/utils/contentlayer.js";
 import ListLayout from "@/layouts/ListLayoutWithTags";
 
 const POSTS_PER_PAGE = 5;

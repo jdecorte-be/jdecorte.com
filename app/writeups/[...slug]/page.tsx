@@ -4,12 +4,12 @@ import type { Authors, Writeups } from "contentlayer/generated";
 import { allAuthors, allWriteups } from "contentlayer/generated";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MDXLayoutRenderer } from "pliny/mdx-components";
+import { MDXLayoutRenderer } from "pliny/mdx-components.js";
 import {
 	allCoreContent,
 	coreContent,
 	sortPosts,
-} from "pliny/utils/contentlayer";
+} from "pliny/utils/contentlayer.js";
 import { components } from "@/components/content/MDXComponents";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import PostBanner from "@/layouts/PostBanner";
