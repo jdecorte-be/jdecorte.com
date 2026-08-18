@@ -8,6 +8,7 @@ import Callout from "./Callout";
 import MDXImg from "./MDXImg";
 import Pre from "./Pre";
 import TableWrapper from "./TableWrapper";
+import Theorem from "./Theorem";
 // import Pre from "pliny/ui/Pre.js";
 
 export const components: MDXComponents = {
@@ -15,6 +16,7 @@ export const components: MDXComponents = {
 	img: MDXImg,
 	TOCInline,
 	Callout,
+	Theorem,
 	GithubCard,
 	a: CustomLink,
 	pre: Pre,

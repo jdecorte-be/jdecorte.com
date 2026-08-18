@@ -14,6 +14,7 @@ const siteMetadata = {
 	github: "https://github.com/jdecorte-be",
 	// bluesky: "https://bsky.app/profile/jdecorte.com",
 	linkedin: "https://www.linkedin.com/in/johndecorte/",
+	hackthebox: "https://app.hackthebox.com/users/1596556",
 	locale: "en-CA",
 	analytics: {
 		// If you want to use an analytics provider you have to add it to the

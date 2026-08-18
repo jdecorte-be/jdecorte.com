@@ -13,3 +13,7 @@ bun install
 ```bash
 bun run dev
 ```
+
+## TODO
+
+- Re-enable the lower-right `StackButton` (tech stack graph) in `app/layout.tsx` — currently commented out.

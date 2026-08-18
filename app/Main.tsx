@@ -55,7 +55,9 @@ export default function Home({ posts, heroFontStyles, contributions }) {
 					<ul className="divide-y divide-gray-200 dark:divide-gray-700">
 						{!posts.length && "No posts found."}
 						{posts.slice(0, MAX_DISPLAY).map((post) => {
-							const { slug, date, title, summary, tags } = post;
+							const { slug, date, title, summary, tags, images } = post;
+							const coverImage =
+								images && images.length > 0 ? images[0] : undefined;
 							return (
 								<li key={slug} className="py-12">
 									<article>
@@ -70,20 +72,39 @@ export default function Home({ posts, heroFontStyles, contributions }) {
 											</dl>
 											<div className="space-y-5 xl:col-span-3">
 												<div className="space-y-6">
-													<div>
-														<h2 className="text-2xl font-bold leading-8 tracking-tight">
+													<div className="flex items-start justify-between gap-6">
+														<div className="min-w-0 flex-1">
+															<h2 className="text-2xl font-bold leading-8 tracking-tight">
+																<Link
+																	href={`/writeups/${slug}`}
+																	className="text-gray-900 dark:text-gray-100"
+																>
+																	{title}
+																</Link>
+															</h2>
+															<div className="flex flex-wrap">
+																{tags.map((tag, i) => (
+																	<Tag key={tag} text={tag} index={i} />
+																))}
+															</div>
+														</div>
+														{coverImage && (
 															<Link
 																href={`/writeups/${slug}`}
-																className="text-gray-900 dark:text-gray-100"
+																className="relative hidden aspect-video w-40 shrink-0 overflow-hidden rounded-lg shadow-lg shadow-black/20 sm:block sm:w-48"
+																aria-hidden="true"
+																tabIndex={-1}
 															>
-																{title}
+																{/* biome-ignore lint/performance/noImgElement: fixed-aspect decorative thumbnail, next/image domain config not needed */}
+																<img
+																	src={coverImage}
+																	alt=""
+																	loading="lazy"
+																	decoding="async"
+																	className="h-full w-full select-none object-cover"
+																/>
 															</Link>
-														</h2>
-														<div className="flex flex-wrap">
-															{tags.map((tag, i) => (
-																<Tag key={tag} text={tag} index={i} />
-															))}
-														</div>
+														)}
 													</div>
 													<div className="prose max-w-none overflow-x-hidden text-gray-500 dark:text-gray-400">
 														{summary}

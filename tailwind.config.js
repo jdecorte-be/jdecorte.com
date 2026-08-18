@@ -75,6 +75,9 @@ module.exports = {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
+            fontSize: '1.1rem',
+            lineHeight: '1.75',
+            maxWidth: '75ch',
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {

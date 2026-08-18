@@ -26,7 +26,7 @@ const MDXImg = ({ src, alt, ...rest }: ImgHTMLAttributes<HTMLImageElement>) => {
 		// biome-ignore lint/performance/noImgElement: markdown images have no intrinsic size, so next/image can't be used
 		<img
 			alt={alt ?? ""}
-			loading="lazy"
+			loading="eager"
 			decoding="async"
 			{...responsiveProps}
 			{...rest}

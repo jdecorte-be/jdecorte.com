@@ -1,0 +1,78 @@
+{
+  "pluginEnabledStatus": {
+    "obsidian-git": true,
+    "dataview": true,
+    "templater": true,
+    "tag-wrangler": true,
+    "advanced-slides": true,
+    "omnisearch": true,
+    "breadcrumbs": true,
+    "cm6-syntax-highlight-obsidian": true,
+    "settings-search": true
+  },
+  "vault": {
+    "type": "markdown",
+    "localizeFileheader": true,
+    "localizeFolder": false,
+    "attachmentFolderPath": "attachments",
+    "showMarkdownInCodeBlocks": true
+  },
+  "fileTypes": {
+    "mdx": "markdown",
+    "md": "markdown",
+    "markdown": "markdown"
+  },
+  "editor": {
+    "defaultMarkdownView": "source",
+    "showInlineTitle": false,
+    "spellcheck": true,
+    "showLineNumber": true,
+    "lineWrap": true,
+    "foldHeading": true,
+    "foldIndent": true,
+    "readableLineLength": true
+  },
+  "appearance": {
+    "theme": "obsidian",
+    "accentColor": "",
+    "baseFontSize": 16,
+    "cssTheme": ""
+  },
+  "fileExplorer": {
+    "sortOrder": "alphabetical",
+    "showSearch": false,
+    "autoReveal": true,
+    "showTags": true
+  },
+  "contentAttributes": {
+    "sortOrder": "frequency",
+    "useHierarchy": true
+  },
+  "graph": {
+    "colorGroups": [],
+    "colorOpen": "",
+    "colorArrow": "",
+    "colorTag": "",
+    "colorRefresh": "",
+    "showTags": true,
+    "showAttachments": true,
+    "showOrphans": true,
+    "showUnresolved": true,
+    "openGospl": false,
+    "showArrow": true,
+    "textFadeMultiplier": 0,
+    "nodeSizeMultiplier": 1,
+    "lineSizeMultiplier": 1,
+    "collapse-forces": true,
+    "centerStrength": 0.518713450292998,
+    "repelStrength": 10,
+    "linkStrength": 1,
+    "linkDistance": 250,
+    "scale": 1.0476190476190477,
+    "close": false
+  },
+  "obsidianCitations": {
+    "citationExportFormat": "markdown",
+    "citationExportPath": ""
+  }
+}

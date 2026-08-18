@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Github, Linkedin, Mail } from "@/components/social/social-icons/icons";
+import { Github, HackTheBox, Linkedin, Mail } from "@/components/social/social-icons/icons";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
@@ -39,7 +39,7 @@ const Hero = ({ heroFontStyles }) => {
 					placeholder="blur"
 					className={`image-animate-on-load absolute -bottom-10 right-0 h-auto w-[140px] opacity-0 drop-shadow-2xl md:right-48 md:top-40 md:w-[270px] xl:left-60`}
 					priority
-					blurDataURL="data:image/webp;base64,UklGRqQAAABXRUJQVlA4WAoAAAAQAAAABwAACwAAQUxQSFIAAAANgBoIAILocNcE2RmAHawyB3PYDDRvrGA7WCNRyfL+Q0REoDM03pGfEtvy/Io5onr3OJGYkine8nNfwrNRH74albavAMotoFH+X7rWwXMzCMENVlA4ICwAAACwAQCdASoIAAwABUB8JZQC7ADc4UgAAP7o0+++xC11zNiOk47LJhRMF0TAAA=="
+					blurDataURL="data:image/webp;base64,UklGRqgAAABXRUJQVlA4WAoAAAAQAAAABwAACwAAQUxQSFcAAAAJcFvbtqKckVAyd89nSsAhogr68JQGaMOrmAoIySjAvYiImAAQhiOWBzAnvV4DeMK1BlKNcw3mOEANcVbN10tZlIOeCK+qU8ovAKfgb6r/04//buvLnxMAVlA4ICoAAACQAQCdASoIAAwABUB8JZQCdADZgLAA/ujzxRifiDrU0tgCA2xucpNcAAA=="
 				/>
 			</div>
 			<div className="absolute bottom-4 left-4 md:bottom-6 md:left-auto md:right-6">
@@ -78,6 +78,19 @@ const Hero = ({ heroFontStyles }) => {
 						<Avatar className="border-2 border-[#F2F0EA] bg-[#F2F0EA]">
 							<AvatarFallback className="bg-[color:var(--background)]">
 								<Linkedin className="h-6 w-6 fill-[#F2F0EA]" />
+							</AvatarFallback>
+						</Avatar>
+					</a>
+					<a
+						href={siteMetadata.hackthebox}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="group relative z-[0] block transition-transform duration-200 ease-out hover:-translate-y-1.5 hover:scale-110 focus-visible:-translate-y-1.5 focus-visible:scale-110"
+					>
+						<SocialTooltip label="HackTheBox" />
+						<Avatar className="border-2 border-[#F2F0EA] bg-[#F2F0EA]">
+							<AvatarFallback className="bg-[color:var(--background)]">
+								<HackTheBox className="h-6 w-6 fill-[#F2F0EA]" />
 							</AvatarFallback>
 						</Avatar>
 					</a>

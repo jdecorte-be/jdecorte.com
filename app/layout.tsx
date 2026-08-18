@@ -1,4 +1,5 @@
 import "css/tailwind.css";
+import "katex/dist/katex.min.css";
 
 import type { Metadata } from "next";
 import { Roboto_Mono, Space_Grotesk } from "next/font/google";
@@ -8,7 +9,7 @@ import Header from "@/components/layout/Header";
 import SectionContainer from "@/components/layout/SectionContainer";
 import TransitionWrapper from "@/components/layout/TransitionWrapper";
 import { CustomKBarSearchProvider } from "@/components/navigation/CustomKBarSearch";
-import StackButton from "@/components/stack/StackButton";
+// import StackButton from "@/components/stack/StackButton";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import { ThemeProviders } from "./theme-providers";
 
@@ -120,7 +121,7 @@ export default function RootLayout({
 							</SectionContainer>
 						</CustomKBarSearchProvider>
 					</div>
-					<StackButton />
+					{/* <StackButton /> */}
 				</ThemeProviders>
 			</body>
 		</html>

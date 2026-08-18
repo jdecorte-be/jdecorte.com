@@ -34,7 +34,7 @@ const AVATAR_COLORS = [
 ];
 
 const inputClasses =
-	"w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-primary-500 focus:outline-none focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100";
+	"w-full rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-sm text-gray-900 placeholder-gray-400 shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100";
 
 function formatDate(date: string) {
 	return new Date(date).toLocaleDateString(siteMetadata.locale, {
@@ -97,7 +97,7 @@ function Avatar({ name }: { name: string }) {
 	return (
 		<span
 			aria-hidden="true"
-			className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white ${colorForName(name)}`}
+			className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white shadow-sm ring-2 ring-white dark:ring-gray-950 ${colorForName(name)}`}
 		>
 			{initialsForName(name)}
 		</span>
@@ -110,9 +110,9 @@ function CommentsSkeleton() {
 			{[0, 1, 2].map((i) => (
 				<li
 					key={i}
-					className="flex animate-pulse gap-3 rounded-lg border border-gray-200 p-4 dark:border-gray-800"
+					className="flex animate-pulse gap-3 rounded-xl border border-gray-200 bg-white/50 p-4 dark:border-gray-800 dark:bg-gray-900/40"
 				>
-					<div className="h-9 w-9 shrink-0 rounded-full bg-gray-200 dark:bg-gray-800" />
+					<div className="h-10 w-10 shrink-0 rounded-full bg-gray-200 dark:bg-gray-800" />
 					<div className="flex-1 space-y-2 py-1">
 						<div className="h-3 w-24 rounded bg-gray-200 dark:bg-gray-800" />
 						<div className="h-3 w-full rounded bg-gray-200 dark:bg-gray-800" />
@@ -235,15 +235,29 @@ function CommentForm({
 				<button
 					type="submit"
 					disabled={submitting}
-					className="rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-600 disabled:opacity-50"
+					className="inline-flex items-center gap-1.5 rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-50"
 				>
-					{submitting ? "Posting…" : parentId ? "Post reply" : "Post comment"}
+					{submitting ? (
+						"Posting…"
+					) : (
+						<>
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+								className="h-4 w-4"
+							>
+								<path d="M3.4 2.5a.75.75 0 0 1 .804-.06l14 7.25a.75.75 0 0 1 0 1.33l-14 7.25a.75.75 0 0 1-1.09-.79l1.51-6.06a.25.25 0 0 1 .19-.19l7.31-1.73a.1.1 0 0 0 0-.2L4.815 7.55a.25.25 0 0 1-.19-.19L3.114 1.3a.75.75 0 0 1 .286-.8z" />
+							</svg>
+							{parentId ? "Post reply" : "Post comment"}
+						</>
+					)}
 				</button>
 				{onCancel && (
 					<button
 						type="button"
 						onClick={onCancel}
-						className="text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+						className="text-sm font-medium text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
 					>
 						Cancel
 					</button>
@@ -268,11 +282,11 @@ function CommentItem({
 
 	return (
 		<li>
-			<div className="flex gap-3 rounded-lg border border-gray-200 bg-white/50 p-4 transition-colors hover:border-gray-300 dark:border-gray-800 dark:bg-gray-900/40 dark:hover:border-gray-700">
+			<div className="group flex gap-3 rounded-xl border border-gray-200 bg-white/60 p-4 shadow-sm transition-all hover:border-gray-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900/40 dark:hover:border-gray-700">
 				<Avatar name={node.author} />
 				<div className="min-w-0 flex-1">
 					<div className="flex flex-wrap items-baseline gap-x-2">
-						<span className="font-medium text-gray-900 dark:text-gray-100">
+						<span className="font-semibold text-gray-900 dark:text-gray-100">
 							{node.author}
 						</span>
 						<span
@@ -283,7 +297,7 @@ function CommentItem({
 						</span>
 					</div>
 					<div
-						className="prose prose-sm mt-1 max-w-none break-words text-gray-700 dark:prose-invert dark:text-gray-300 [&_a]:text-primary-500 [&_a]:underline [&_code]:rounded [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.85em] [&_p]:my-1 dark:[&_code]:bg-gray-800"
+						className="prose prose-sm mt-1.5 max-w-none break-words text-gray-700 dark:prose-invert dark:text-gray-300 [&_a]:text-primary-500 [&_a]:underline [&_code]:rounded [&_code]:bg-gray-100 [&_code]:px-1 [&_code]:py-0.5 [&_code]:text-[0.85em] [&_p]:my-1 dark:[&_code]:bg-gray-800"
 						// biome-ignore lint/security/noDangerouslySetInnerHtml: renderCommentMarkdown HTML-escapes input before introducing any markup
 						dangerouslySetInnerHTML={{
 							__html: renderCommentMarkdown(node.body),
@@ -293,8 +307,22 @@ function CommentItem({
 						<button
 							type="button"
 							onClick={() => setReplying((v) => !v)}
-							className="mt-1 text-xs font-medium text-gray-500 transition-colors hover:text-primary-500 dark:text-gray-400"
+							className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-gray-500 transition-colors hover:text-primary-500 dark:text-gray-400 dark:hover:text-primary-400"
 						>
+							<svg
+								aria-hidden="true"
+								viewBox="0 0 20 20"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth={1.75}
+								className="h-3.5 w-3.5"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M9 4 4 9l5 5M4 9h7a5 5 0 0 1 5 5v2"
+								/>
+							</svg>
 							{replying ? "Cancel" : "Reply"}
 						</button>
 					)}
@@ -313,7 +341,7 @@ function CommentItem({
 				</div>
 			</div>
 			{node.replies.length > 0 && (
-				<ul className="mt-3 space-y-3 border-l border-gray-200 pl-4 dark:border-gray-800">
+				<ul className="mt-3 space-y-3 border-l-2 border-gray-200 pl-4 dark:border-gray-800">
 					{node.replies.map((reply) => (
 						<CommentItem
 							key={reply.id}
@@ -362,16 +390,51 @@ export default function Comments({ slug }: { slug: string }) {
 
 	return (
 		<div className="text-left" id="comments-container">
-			<h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
-				Comments{!loading && ` (${comments.length})`}
-			</h2>
+			<div className="mb-5 flex items-center gap-2">
+				<svg
+					aria-hidden="true"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+					className="h-5 w-5 text-primary-500"
+				>
+					<path
+						fillRule="evenodd"
+						d="M2 4.75A2.75 2.75 0 0 1 4.75 2h10.5A2.75 2.75 0 0 1 18 4.75v7.5A2.75 2.75 0 0 1 15.25 15H9.06l-3.573 2.68A.75.75 0 0 1 4.28 17V15h-.03A2.75 2.75 0 0 1 1.5 12.25v-7.5Z"
+						clipRule="evenodd"
+					/>
+				</svg>
+				<h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+					Comments
+				</h2>
+				{!loading && (
+					<span className="rounded-full bg-primary-500/10 px-2 py-0.5 text-xs font-semibold text-primary-500">
+						{comments.length}
+					</span>
+				)}
+			</div>
 
 			{loading ? (
 				<CommentsSkeleton />
 			) : tree.length === 0 ? (
-				<p className="text-sm text-gray-500 dark:text-gray-400">
-					No comments yet. Be the first to write one.
-				</p>
+				<div className="flex flex-col items-center gap-2 rounded-xl border border-dashed border-gray-300 py-10 text-center dark:border-gray-700">
+					<svg
+						aria-hidden="true"
+						viewBox="0 0 20 20"
+						fill="none"
+						stroke="currentColor"
+						strokeWidth={1.5}
+						className="h-8 w-8 text-gray-400 dark:text-gray-600"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M2 4.75A2.75 2.75 0 0 1 4.75 2h10.5A2.75 2.75 0 0 1 18 4.75v7.5A2.75 2.75 0 0 1 15.25 15H9.06l-3.573 2.68A.75.75 0 0 1 4.28 17V15h-.03A2.75 2.75 0 0 1 1.5 12.25v-7.5Z"
+						/>
+					</svg>
+					<p className="text-sm text-gray-500 dark:text-gray-400">
+						No comments yet. Be the first to write one.
+					</p>
+				</div>
 			) : (
 				<ul className="space-y-4">
 					{tree.map((node) => (
@@ -392,8 +455,8 @@ export default function Comments({ slug }: { slug: string }) {
 				</p>
 			)}
 
-			<div className="mt-6 border-t border-gray-200 pt-6 dark:border-gray-800">
-				<h3 className="mb-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+			<div className="mt-8 rounded-xl border border-gray-200 bg-gray-50/60 p-4 dark:border-gray-800 dark:bg-gray-900/30">
+				<h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-gray-100">
 					Leave a comment
 				</h3>
 				<CommentForm slug={slug} onPosted={handlePosted} />

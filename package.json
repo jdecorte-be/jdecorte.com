@@ -30,6 +30,7 @@
     "github-slugger": "^2.0.0",
     "gray-matter": "^4.0.2",
     "image-size": "^1.2.1",
+    "katex": "^0.16.27",
     "kbar": "^0.1.0-beta.48",
     "lucide-react": "^0.575.0",
     "mongodb": "^7.5.0",

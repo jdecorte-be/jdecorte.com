@@ -114,6 +114,16 @@ function hashString(str: string): number {
 	return Math.abs(hash);
 }
 
+export function getTagColor(text: string) {
+	const normalizedText = slug(text);
+	const overrideIndex = TAG_COLOR_OVERRIDES[normalizedText];
+	const colorIndex =
+		typeof overrideIndex === "number"
+			? overrideIndex % TAG_COLORS.length
+			: hashString(normalizedText) % TAG_COLORS.length;
+	return TAG_COLORS[colorIndex];
+}
+
 const Tag = ({
 	text,
 	index = 0,
@@ -121,13 +131,7 @@ const Tag = ({
 	onClick,
 	onKeyDown,
 }: Props) => {
-	const normalizedText = slug(text);
-	const overrideIndex = TAG_COLOR_OVERRIDES[normalizedText];
-	const colorIndex =
-		typeof overrideIndex === "number"
-			? overrideIndex % TAG_COLORS.length
-			: hashString(normalizedText) % TAG_COLORS.length;
-	const color = TAG_COLORS[colorIndex];
+	const color = getTagColor(text);
 	const className = `mr-2 mt-1 inline-block rounded-sm border px-2.5 py-0.5 font-mono text-xs font-semibold tracking-wider transition-colors ${color.border} ${color.text} ${color.bg}`;
 	const content = text.split(" ").join("-");
 

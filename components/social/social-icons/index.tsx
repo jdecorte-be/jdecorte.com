@@ -2,6 +2,7 @@ import {
 	Bluesky,
 	Facebook,
 	Github,
+	HackTheBox,
 	Instagram,
 	Linkedin,
 	Mail,
@@ -20,6 +21,7 @@ const components = {
 	mastodon: Mastodon,
 	threads: Threads,
 	instagram: Instagram,
+	hackthebox: HackTheBox,
 };
 
 type SocialIconProps = {

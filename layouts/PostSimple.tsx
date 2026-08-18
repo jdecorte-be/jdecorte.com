@@ -25,7 +25,7 @@ export default function PostLayout({
 	const { slug, date, title, summary } = content;
 
 	return (
-		<SectionContainer>
+		<SectionContainer wide>
 			<ScrollTopAndComment />
 			<article>
 				<div>
@@ -53,7 +53,7 @@ export default function PostLayout({
 					</header>
 					<div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:divide-y-0">
 						<div className="min-w-0 divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-							<div className="prose min-w-0 max-w-none pb-8 pt-10 dark:prose-invert">
+							<div className="prose article-content min-w-0 pb-8 pt-10 dark:prose-invert">
 								{children}
 							</div>
 						</div>
