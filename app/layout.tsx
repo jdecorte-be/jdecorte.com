@@ -72,6 +72,7 @@ export default function RootLayout({
 		<html
 			lang={siteMetadata.language}
 			className={`${space_grotesk.variable} ${roboto_mono.variable} scroll-smooth dark overflow-x-hidden`}
+			data-scroll-behavior="smooth"
 			suppressHydrationWarning
 		>
 			<link

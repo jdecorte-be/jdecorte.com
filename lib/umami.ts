@@ -34,10 +34,14 @@ export async function umamiGet<T>(
 			headers: authHeaders(token),
 		});
 		if (!response.ok) {
+			console.error(
+				`Umami request failed: ${response.status} ${response.statusText} (${url})`,
+			);
 			return null;
 		}
 		return (await response.json()) as T;
-	} catch {
+	} catch (error) {
+		console.error(`Umami request errored (${url}):`, error);
 		return null;
 	}
 }
