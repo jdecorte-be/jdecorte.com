@@ -37,6 +37,7 @@ public/sitemap.xml
 
 # misc
 .DS_Store
+.obsidian/
 
 # debug
 *.log

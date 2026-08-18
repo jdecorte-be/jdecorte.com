@@ -14,14 +14,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.8,
 		}));
 
-	// "writeups", "writeups/latest", "writeups/tags", and paginated/tag listing
-	// pages are noindex (see their route metadata) so they're intentionally
-	// left out here — only indexable pages belong in the sitemap.
-	const routes = ["", "legal"].map((route) => ({
+	// "writeups", "writeups/latest", "writeups/tags", paginated/tag listing
+	// pages, and "legal" are noindex (see their route metadata) so they're
+	// intentionally left out here — only indexable pages belong in the sitemap.
+	const routes = [""].map((route) => ({
 		url: `${siteUrl}/${route}`,
 		lastModified: new Date().toISOString().split("T")[0],
 		changeFrequency: "weekly" as const,
-		priority: route === "" ? 1.0 : 0.5,
+		priority: 1.0,
 	}));
 
 	return [...routes, ...writeupsRoutes];

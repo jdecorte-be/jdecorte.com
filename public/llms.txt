@@ -4,7 +4,7 @@
 
 ## Writeups
 
-- [BGP at Doors of Autonomous Systems Is Simple](https://jdecorte.com/writeups/bgp): Build VXLAN tunnels and a BGP EVPN control plane in GNS3 — the same data center networking techniques major cloud providers run in production.
+- [BGP at Doors of Autonomous Systems Is Simple](https://jdecorte.com/writeups/bgp): Build VXLAN tunnels and a BGP EVPN control plane in GNS3, the same data center networking techniques major cloud providers run in production.
 - [AWS Cloud Practitioner Certification Cheat Sheet](https://jdecorte.com/writeups/todo/aws-cloud-practitioner-certification): Quick reference guide for passing the AWS Certified Cloud Practitioner (CLF-C02) exam with all essential concepts, services, and exam tips.
 - [Dynamic Mach-O ARM64 Packer](https://jdecorte.com/writeups/macho-injection): Building a Mach-O packer for macOS ARM64 binaries: dynamic library injection, binary manipulation, and the internal structure of macOS executables.
 - [x86-64 ELF Binary Packer](https://jdecorte.com/writeups/x86-injection): Build your own ELF packer for x86-64 Linux. Learn binary manipulation, shellcode injection, and executable file structure through hands-on implementation.
