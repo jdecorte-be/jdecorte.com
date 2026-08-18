@@ -48,6 +48,12 @@ const formatBounceRate = (bounces: number, visits: number) =>
 const titleCase = (value: string) =>
 	value.replace(/\b\w/g, (c) => c.toUpperCase());
 
+const isArticlePath = (path: string) =>
+	path.startsWith("/writeups/") &&
+	!path.startsWith("/writeups/tags") &&
+	!path.startsWith("/writeups/page") &&
+	path !== "/writeups/latest";
+
 const escapeHtml = (value: string) =>
 	value.replace(
 		/[&<>"']/g,
@@ -119,6 +125,7 @@ const renderEmail = (
 	stats: Stats,
 	series: MetricRow[],
 	sections: MetricSections,
+	topArticle: MetricRow | null,
 	rangeLabel: string,
 ) => `
 <div style="font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:480px;margin:0 auto;color:#111;">
@@ -142,6 +149,14 @@ const renderEmail = (
 			<td colspan="3" style="padding:8px;background:#f5f5f5;border-radius:6px;">
 				<div style="font-size:12px;color:#888;">Avg. visit time</div>
 				<div style="font-size:20px;font-weight:600;">${formatDuration(stats.totaltime, stats.visits)}</div>
+			</td>
+		</tr>
+		<tr><td colspan="3" style="height:8px;"></td></tr>
+		<tr>
+			<td colspan="3" style="padding:8px;background:#f5f5f5;border-radius:6px;">
+				<div style="font-size:12px;color:#888;">🏆 Most visited article</div>
+				<div style="font-size:16px;font-weight:600;">${topArticle ? escapeHtml(topArticle.x) : "No data yet"}</div>
+				${topArticle ? `<div style="font-size:12px;color:#888;">${topArticle.y.toLocaleString()} views</div>` : ""}
 			</td>
 		</tr>
 	</table>
@@ -186,6 +201,7 @@ const renderEmailText = (
 	stats: Stats,
 	series: MetricRow[],
 	sections: MetricSections,
+	topArticle: MetricRow | null,
 	rangeLabel: string,
 ) => `${siteMetadata.title}
 Stats for ${rangeLabel}
@@ -195,6 +211,7 @@ Visitors: ${stats.visitors.toLocaleString()} (${formatChange(stats.visitors, sta
 Visits: ${stats.visits.toLocaleString()} (${formatChange(stats.visits, stats.comparison.visits)} vs prior period)
 Bounce rate: ${formatBounceRate(stats.bounces, stats.visits)}
 Avg. visit time: ${formatDuration(stats.totaltime, stats.visits)}
+Most visited article: ${topArticle ? `${topArticle.x} (${topArticle.y.toLocaleString()} views)` : "No data yet"}
 
 Daily pageviews:
 ${renderTextTrend(series)}
@@ -236,7 +253,7 @@ export async function GET(request: Request) {
 	const [
 		stats,
 		pageviewSeries,
-		topPages,
+		allPaths,
 		entryPages,
 		exitPages,
 		topReferrers,
@@ -248,7 +265,7 @@ export async function GET(request: Request) {
 	] = await Promise.all([
 		umamiGet<Stats>("/stats", range),
 		umamiGet<PageviewSeries>("/pageviews", { ...range, unit: "day", timezone }),
-		metric("path"),
+		metric("path", "50"),
 		metric("entry"),
 		metric("exit"),
 		metric("referrer"),
@@ -268,7 +285,7 @@ export async function GET(request: Request) {
 
 	const rangeLabel = `${new Date(startAt).toLocaleDateString(siteMetadata.locale)} – ${new Date(endAt).toLocaleDateString(siteMetadata.locale)}`;
 	const sections: MetricSections = {
-		topPages: topPages ?? [],
+		topPages: (allPaths ?? []).slice(0, 5),
 		entryPages: entryPages ?? [],
 		exitPages: exitPages ?? [],
 		topReferrers: topReferrers ?? [],
@@ -279,14 +296,18 @@ export async function GET(request: Request) {
 		countries: countries ?? [],
 	};
 	const series = pageviewSeries?.pageviews ?? [];
+	const topArticle =
+		(allPaths ?? [])
+			.filter((row) => isArticlePath(row.x))
+			.sort((a, b) => b.y - a.y)[0] ?? null;
 
 	const resend = new Resend(resendKey);
 	const { error } = await resend.emails.send({
 		from,
 		to,
 		subject: `Weekly stats: ${stats.pageviews.toLocaleString()} pageviews`,
-		html: renderEmail(stats, series, sections, rangeLabel),
-		text: renderEmailText(stats, series, sections, rangeLabel),
+		html: renderEmail(stats, series, sections, topArticle, rangeLabel),
+		text: renderEmailText(stats, series, sections, topArticle, rangeLabel),
 	});
 
 	if (error) {

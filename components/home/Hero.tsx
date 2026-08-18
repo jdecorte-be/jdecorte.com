@@ -29,15 +29,15 @@ const Hero = ({ heroFontStyles }) => {
 					{`Fullstack & Security Engineer \ncrafting resilient, real-time \nsystems — from startups \nto scale. Bug bounty hunter \n& CTF enthusiast.`}
 				</p>
 				<Image
-					src="/static/images/jdecorte_fullbody.avif"
+					src="/static/images/jdecorte_fullbody-v2.avif"
 					alt="John Decorte"
-					width={864}
-					height={1184}
-					sizes="(max-width: 768px) 160px, 305px"
+					width={1396}
+					height={2267}
+					sizes="(max-width: 768px) 140px, 270px"
 					placeholder="blur"
-					className={`image-animate-on-load absolute -bottom-10 right-0 h-auto w-[160px] opacity-0 drop-shadow-2xl md:right-48 md:top-24 md:w-[305px] xl:left-60`}
+					className={`image-animate-on-load absolute -bottom-10 right-0 h-auto w-[140px] opacity-0 drop-shadow-2xl md:right-48 md:top-40 md:w-[270px] xl:left-60`}
 					priority
-					blurDataURL="data:image/webp;base64,UklGRq4AAABXRUJQVlA4WAoAAAAQAAAABwAACgAAQUxQSFIAAAANcFrbtuKcYXQ8oyAKK0gxkWkifvpJHcwMmh1TGxERQFJbtv/g5MY2f4AesxeA8MIYcBpQXH2kJlC/tvwqYBcG4RvAPzh3gPB8k1VA+C/kAnABVlA4IDYAAACQAQCdASoIAAsAA4BaJQAAS0t1JwAA/vDhGkK0hbk51VqofGbblt/5LiS0AMeQ6XSF5FjnwAA="
+					blurDataURL="data:image/webp;base64,UklGRqQAAABXRUJQVlA4WAoAAAAQAAAABwAACwAAQUxQSFIAAAANgBoIAILocNcE2RmAHawyB3PYDDRvrGA7WCNRyfL+Q0REoDM03pGfEtvy/Io5onr3OJGYkine8nNfwrNRH74albavAMotoFH+X7rWwXMzCMENVlA4ICwAAACwAQCdASoIAAwABUB8JZQC7ADc4UgAAP7o0+++xC11zNiOk47LJhRMF0TAAA=="
 				/>
 			</div>
 			<div className="absolute bottom-4 left-4 md:bottom-6 md:left-auto md:right-6">

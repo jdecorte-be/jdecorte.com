@@ -1,17 +1,8 @@
-import Image from "next/image";
-
 export default function Logo() {
 	return (
 		<div className="flex items-center justify-between">
-			<div className="mr-1 fade-in">
-				<Image
-					src="/static/images/jd-white.avif"
-					alt="logo"
-					width="55"
-					height="55"
-					style={{ width: "auto", height: "auto" }}
-					priority
-				/>
+			<div className="mr-1 fade-in font-mono text-xl font-bold tracking-tight text-current">
+				jdecorte
 			</div>
 		</div>
 	);
