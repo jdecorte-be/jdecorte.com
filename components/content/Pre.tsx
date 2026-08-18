@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, m } from "motion/react";
 import { type ComponentPropsWithoutRef, useRef, useState } from "react";
 import type { IconType } from "react-icons";
 import {
@@ -147,7 +147,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
 		>
 			{/* copy button — sticky so it stays visible when scrolling */}
 			<div className="sticky right-0 top-0 z-10 float-right h-0 w-0">
-				<motion.button
+				<m.button
 					key="copy-btn"
 					aria-label="Copy code"
 					whileTap={{ scale: 0.92 }}
@@ -163,7 +163,7 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
 				>
 					<AnimatePresence mode="wait" initial={false}>
 						{copied ? (
-							<motion.svg
+							<m.svg
 								key="copied"
 								viewBox="0 0 24 24"
 								fill="none"
@@ -178,9 +178,9 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
 								aria-hidden="true"
 							>
 								<path d="M20 6L9 17l-5-5" />
-							</motion.svg>
+							</m.svg>
 						) : (
-							<motion.svg
+							<m.svg
 								key="copy"
 								viewBox="0 0 24 24"
 								fill="none"
@@ -196,10 +196,10 @@ const Pre = ({ children, className, ...rest }: PreProps) => {
 							>
 								<rect x="9" y="9" width="13" height="13" rx="2" />
 								<path d="M5 15V5a2 2 0 0 1 2-2h10" />
-							</motion.svg>
+							</m.svg>
 						)}
 					</AnimatePresence>
-				</motion.button>
+				</m.button>
 			</div>
 
 			<pre

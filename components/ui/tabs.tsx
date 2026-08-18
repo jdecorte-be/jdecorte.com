@@ -2,7 +2,7 @@
 
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 // `m` requires a LazyMotion ancestor loading `domMax` (for the layoutId
-// animation below) — currently provided by PortfolioSection.
+// animation below) — provided by LazyMotionProvider further up the tree.
 import { m } from "motion/react";
 import * as React from "react";
 

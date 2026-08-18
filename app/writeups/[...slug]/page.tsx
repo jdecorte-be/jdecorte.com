@@ -12,6 +12,7 @@ import {
 	sortPosts,
 } from "pliny/utils/contentlayer.js";
 import { components } from "@/components/content/MDXComponents";
+import LazyMotionProvider from "@/components/core/LazyMotionProvider";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import PostBanner from "@/layouts/PostBanner";
 import PostLayout from "@/layouts/PostLayout";
@@ -45,7 +46,12 @@ export async function generateMetadata({
 
 	// Generate dynamic ogImage and imageList
 	const ogImageUrl = `/api/og?title=${encodeURIComponent(post.title)}`;
-	const ogImage = { url: ogImageUrl, width: 1200, height: 630, alt: post.title };
+	const ogImage = {
+		url: ogImageUrl,
+		width: 1200,
+		height: 630,
+		alt: post.title,
+	};
 	const canonical = post.canonicalUrl || `${siteMetadata.siteUrl}/${post.path}`;
 
 	return {
@@ -162,11 +168,13 @@ export default async function Page({ params }) {
 				next={next}
 				prev={prev}
 			>
-				<MDXLayoutRenderer
-					code={post.body.code}
-					components={components}
-					toc={post.toc}
-				/>
+				<LazyMotionProvider>
+					<MDXLayoutRenderer
+						code={post.body.code}
+						components={components}
+						toc={post.toc}
+					/>
+				</LazyMotionProvider>
 			</Layout>
 		</div>
 	);

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-	AnimatePresence,
-	motion,
-	useMotionValue,
-	useTransform,
-} from "motion/react";
+import { AnimatePresence, m, useMotionValue, useTransform } from "motion/react";
 import NextImage, { type ImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -56,7 +51,7 @@ const ImageLightbox = (props: ImageProps) => {
 
 			<AnimatePresence>
 				{open && (
-					<motion.div
+					<m.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }}
@@ -66,7 +61,7 @@ const ImageLightbox = (props: ImageProps) => {
 						onClick={close}
 					>
 						{/* Close button */}
-						<motion.button
+						<m.button
 							initial={{ opacity: 0, y: -10 }}
 							animate={{ opacity: 1, y: 0 }}
 							exit={{ opacity: 0, y: -10 }}
@@ -87,10 +82,10 @@ const ImageLightbox = (props: ImageProps) => {
 							>
 								<path d="M18 6 6 18M6 6l12 12" />
 							</svg>
-						</motion.button>
+						</m.button>
 
 						{/* Image container — draggable to dismiss */}
-						<motion.div
+						<m.div
 							ref={containerRef}
 							initial={{ scale: 0.92, opacity: 0 }}
 							animate={{ scale: 1.15, opacity: 1 }}
@@ -114,7 +109,7 @@ const ImageLightbox = (props: ImageProps) => {
 								toggleZoom();
 							}}
 						>
-							<motion.div
+							<m.div
 								animate={{ scale: zoomed ? 1.75 : 1 }}
 								transition={{ type: "spring", damping: 20, stiffness: 200 }}
 								className="overflow-hidden rounded-lg"
@@ -128,9 +123,9 @@ const ImageLightbox = (props: ImageProps) => {
 									priority
 									draggable={false}
 								/>
-							</motion.div>
-						</motion.div>
-					</motion.div>
+							</m.div>
+						</m.div>
+					</m.div>
 				)}
 			</AnimatePresence>
 		</>

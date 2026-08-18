@@ -1,10 +1,10 @@
 "use client";
 
 import { slug } from "github-slugger";
-import { domMax, LazyMotion, m } from "motion/react";
+import { m } from "motion/react";
 import { getImageProps } from "next/image";
 import { useEffect } from "react";
-
+import LazyMotionProvider from "@/components/core/LazyMotionProvider";
 import ProjectCard, {
 	PROJECT_CARD_IMAGE_SIZES,
 } from "@/components/home/ProjectCard";
@@ -65,7 +65,7 @@ export default function PortfolioSection() {
 	}, []);
 
 	return (
-		<LazyMotion features={domMax}>
+		<LazyMotionProvider>
 			<div className="px-4 pt-24">
 				<div className="mx-auto max-w-7xl">
 					<m.div
@@ -363,6 +363,6 @@ export default function PortfolioSection() {
 					</Tabs>
 				</div>
 			</div>
-		</LazyMotion>
+		</LazyMotionProvider>
 	);
 }
