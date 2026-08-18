@@ -16,6 +16,10 @@ export function genPageMetadata({
 }: PageSEOProps): Metadata {
 	return {
 		title,
+		description: description ?? siteMetadata.description,
+		alternates: {
+			canonical: "./",
+		},
 		openGraph: {
 			title: `${title} | ${siteMetadata.title}`,
 			description: description ?? siteMetadata.description,

@@ -101,16 +101,28 @@ export const Writeups = defineDocumentType(() => ({
 		...computedFields,
 		structuredData: {
 			type: "json",
-			resolve: (doc) => ({
-				"@context": "https://schema.org",
-				"@type": "Thought",
-				headline: doc.title,
-				datePublished: doc.date,
-				dateModified: doc.lastmod ?? doc.date,
-				description: doc.summary,
-				image: doc.images ? doc.images[0] : siteMetadata.socialBanner,
-				url: `${siteMetadata.siteUrl}/${doc._raw.flattenedPath}`,
-			}),
+			resolve: (doc) => {
+				const url =
+					doc.canonicalUrl || `${siteMetadata.siteUrl}/${doc._raw.flattenedPath}`;
+				return {
+					"@context": "https://schema.org",
+					"@type": "TechArticle",
+					headline: doc.title,
+					datePublished: new Date(doc.date).toISOString(),
+					dateModified: new Date(doc.lastmod ?? doc.date).toISOString(),
+					description: doc.summary,
+					image: doc.images ? doc.images[0] : siteMetadata.socialBanner,
+					url,
+					mainEntityOfPage: { "@type": "WebPage", "@id": url },
+					keywords: doc.tags ? Array.from(doc.tags).join(", ") : undefined,
+					wordCount: readingTime(doc.body.raw).words,
+					publisher: {
+						"@type": "Person",
+						name: siteMetadata.author,
+						url: siteMetadata.siteUrl,
+					},
+				};
+			},
 		},
 	},
 }));

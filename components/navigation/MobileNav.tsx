@@ -57,6 +57,7 @@ const MobileNav = () => {
 										: "translate-x-full"
 								}`}
 								aria-hidden={!navShow}
+								inert={!navShow}
 							>
 								<div className="flex justify-end">
 									<button

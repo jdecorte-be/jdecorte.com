@@ -5,7 +5,14 @@ import ListLayout from "@/layouts/ListLayoutWithTags";
 
 const POSTS_PER_PAGE = 10;
 
-export const metadata = genPageMetadata({ title: "Writeups" });
+export const metadata = genPageMetadata({
+	title: "Writeups",
+	description:
+		"Security research, CTF writeups, and systems programming deep dives by John Decorte — from binary exploitation to network protocols.",
+	// Listing page — keep it out of the index so search traffic lands on
+	// individual articles instead; still follow links so they get crawled.
+	robots: { index: false, follow: true },
+});
 
 export default function ThoughtPage() {
 	const posts = allCoreContent(

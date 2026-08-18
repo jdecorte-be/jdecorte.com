@@ -46,10 +46,18 @@ export async function generateMetadata({
 	const ogImageUrl = `/api/og?title=${encodeURIComponent(post.title)}`;
 	const ogImages = [ogImageUrl];
 	const imageList = [ogImageUrl];
+	const canonical = post.canonicalUrl || `${siteMetadata.siteUrl}/${post.path}`;
 
 	return {
 		title: post.title,
 		description: post.summary,
+		keywords: post.tags,
+		alternates: {
+			canonical,
+		},
+		robots: post.draft
+			? { index: false, follow: false }
+			: { index: true, follow: true },
 		openGraph: {
 			title: post.title,
 			description: post.summary,
@@ -58,7 +66,8 @@ export async function generateMetadata({
 			type: "article",
 			publishedTime: publishedAt,
 			modifiedTime: modifiedAt,
-			url: "./",
+			tags: post.tags,
+			url: canonical,
 			images: ogImages,
 			authors: authors.length > 0 ? authors : [siteMetadata.author],
 		},

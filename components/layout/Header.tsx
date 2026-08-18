@@ -18,7 +18,7 @@ const Header = () => {
 		>
 			<div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-8 sm:px-6 xl:max-w-5xl xl:px-0">
 				<div>
-					<Link href="/" aria-label={siteMetadata.headerTitle}>
+					<Link href="/" aria-label="jdecorte — home">
 						<div className="flex items-center justify-between">
 							<div className="mr-3 flex h-8">
 								<Logo />

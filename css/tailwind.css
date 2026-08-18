@@ -27,14 +27,21 @@
   .prose code::after {
     content: none;
   }
-  .article-content {
-    font-family: Verdana, Geneva, sans-serif;
-  }
   @media (min-width: 1024px) {
     html {
       scrollbar-gutter: stable;
     }
   }
+}
+
+/* Unlayered on purpose: @tailwindcss/typography sets font-size/max-width on
+   .prose via the "components" layer, which would otherwise win the
+   equal-specificity tiebreak over a rule in @layer base. */
+.article-content {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 1.1rem; /* 17.6px, above the 16px minimum */
+  line-height: 1.6; /* above the 1.5 minimum for reading speed */
+  max-width: 65ch; /* within the 50-75 character optimal line length */
 }
 
 .task-list-item::before {

@@ -1,5 +1,6 @@
 "use client";
 
+import { slug } from "github-slugger";
 import { domMax, LazyMotion, m } from "motion/react";
 import { getImageProps } from "next/image";
 import { useEffect } from "react";
@@ -88,7 +89,7 @@ export default function PortfolioSection() {
 					</m.div>
 
 					{/* Category Tabs */}
-					<Tabs defaultValue="Low level" className="w-full">
+					<Tabs defaultValue={slug("Low level")} className="w-full">
 						<m.div
 							className="mb-8 flex justify-center"
 							initial="hidden"
@@ -100,7 +101,7 @@ export default function PortfolioSection() {
 								{CATEGORIES.map((category) => (
 									<TabsTrigger
 										key={category}
-										value={category}
+										value={slug(category)}
 										className="px-3 py-1.5 text-xs sm:px-6 sm:py-2 sm:text-sm"
 									>
 										{category}
@@ -111,7 +112,7 @@ export default function PortfolioSection() {
 
 						<TabsContents>
 							{/* Network & System Layout: Large left, Small cards stacked right */}
-							<TabsContent value="Network & System">
+							<TabsContent value={slug("Network & System")}>
 								<m.div
 									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"
@@ -174,7 +175,7 @@ export default function PortfolioSection() {
 							</TabsContent>
 
 							{/* Low level Layout: Small cards stacked left, Large right */}
-							<TabsContent value="Low level">
+							<TabsContent value={slug("Low level")}>
 								<m.div
 									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"
@@ -237,7 +238,7 @@ export default function PortfolioSection() {
 							</TabsContent>
 
 							{/* Web Layout: Grid with large card on top, two small cards below */}
-							<TabsContent value="Web Dev">
+							<TabsContent value={slug("Web Dev")}>
 								<m.div
 									className="flex flex-col gap-6"
 									initial="hidden"
@@ -297,7 +298,7 @@ export default function PortfolioSection() {
 							</TabsContent>
 
 							{/* Cybersecurity Layout: Large left, Small cards stacked right */}
-							<TabsContent value="Cybersecurity">
+							<TabsContent value={slug("Cybersecurity")}>
 								<m.div
 									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"

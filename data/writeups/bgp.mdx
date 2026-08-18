@@ -4,7 +4,7 @@ date: '2025-09-10'
 tags: ['bgp', 'evpn', 'vxlan', 'networking', 'gns3', 'docker']
 draft: false
 images: ['/static/images/portfolio/badass/main.avif']
-summary: "A hands-on journey into modern data center networking. Build VXLAN tunnels and a BGP EVPN control plane in GNS3, and learn the same techniques major cloud providers use in production."
+summary: "Build VXLAN tunnels and a BGP EVPN control plane in GNS3 — the same data center networking techniques major cloud providers run in production."
 ---
 ## Overview
 
@@ -144,7 +144,7 @@ Part 2 introduces VXLAN, which extends Layer 2 networks across Layer 3 infrastru
 
 ### Understanding Traditional VLANs
 
-![VLAN Architecture](https://raw.githubusercontent.com/jdecorte-be/badass/master/.assets/vlan.png)
+![VLAN Architecture](/static/images/portfolio/badass/vlan.avif)
 
 A VLAN splits one physical network into multiple logical ones. Unlike physical segmentation, it needs no extra switches or cabling. VLANs work at Layer 2, tagging Ethernet frames with a 12-bit identifier.
 
@@ -168,7 +168,7 @@ Spanning Tree Protocol makes this worse. STP blocks redundant links to prevent l
 
 ### VXLAN Architecture and Design
 
-![VXLAN Overview](https://raw.githubusercontent.com/jdecorte-be/badass/master/.assets/p2.png)
+![VXLAN Overview](/static/images/portfolio/badass/p2.avif)
 
 VXLAN takes a different approach. Instead of tagging frames, it wraps entire Ethernet frames inside Layer 3 UDP packets — sometimes called "MAC-in-UDP." This lets Layer 2 segments stretch across any IP network, including routed networks that span data centers or regions.
 
@@ -206,7 +206,7 @@ VXLAN uses UDP, not TCP. That avoids the overhead of connection setup and state 
 
 ### VTEP: The VXLAN Tunnel Endpoint
 
-![VTEP Architecture](https://raw.githubusercontent.com/jdecorte-be/badass/master/.assets/vtep.png)
+![VTEP Architecture](/static/images/portfolio/badass/vtep.avif)
 
 A VXLAN Tunnel Endpoint (VTEP) sits at the edge of each segment and handles encapsulation and decapsulation. It can live in a physical switch, a virtual switch on a hypervisor, or a container network stack.
 

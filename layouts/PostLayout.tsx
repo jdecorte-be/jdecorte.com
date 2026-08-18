@@ -38,7 +38,8 @@ export default function PostLayout({
 	prev,
 	children,
 }: Readonly<LayoutProps>) {
-	const { filePath, path, slug, date, title, summary, tags, draft } = content;
+	const { filePath, path, slug, date, title, summary, tags, draft, readingTime } =
+		content;
 	const basePath = path.split("/")[0];
 
 	return (
@@ -58,6 +59,12 @@ export default function PostLayout({
 												postDateTemplate,
 											)}
 										</time>
+										{readingTime?.text && (
+											<>
+												<span aria-hidden="true">•</span>
+												<span>{readingTime.text}</span>
+											</>
+										)}
 										<ViewCounter path={path} />
 									</dd>
 								</div>
@@ -90,6 +97,7 @@ export default function PostLayout({
 													height={96}
 													alt="avatar"
 													className="h-12 w-12 rounded-full object-cover"
+													priority
 												/>
 											)}
 											<dl className="whitespace-nowrap text-sm font-medium leading-5">
@@ -118,7 +126,7 @@ export default function PostLayout({
 							</dd>
 						</dl>
 						<div className="min-w-0 divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-							<div className="prose min-w-0 max-w-none pb-8 pt-10 dark:prose-invert">
+							<div className="prose article-content min-w-0 max-w-none pb-8 pt-10 dark:prose-invert">
 								{children}
 							</div>
 							<div className="pb-6 pt-6 text-sm text-gray-700 dark:text-gray-300">

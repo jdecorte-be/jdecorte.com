@@ -2,7 +2,11 @@ import { genPageMetadata } from "app/seo";
 import Link from "@/components/core/Link";
 import siteMetadata from "@/data/siteMetadata.mjs";
 
-export const metadata = genPageMetadata({ title: "Legal notice" });
+export const metadata = genPageMetadata({
+	title: "Legal notice",
+	description: "Legal notice and terms for jdecorte.com.",
+	robots: { index: false, follow: true },
+});
 
 export default function LegalPage() {
 	return (

@@ -7,6 +7,8 @@ import Link from "@/components/core/Link";
 export const metadata = genPageMetadata({
 	title: "Tags",
 	description: "Things I write about",
+	// Thin/duplicate index page — keep out of search results, prioritize articles.
+	robots: { index: false, follow: true },
 });
 
 export default async function Page() {

@@ -21,6 +21,9 @@ export async function generateMetadata(props: {
 				"application/rss+xml": `${siteMetadata.siteUrl}/writeups/tags/${tag}/feed.xml`,
 			},
 		},
+		// Thin/duplicate tag-filtered listing — keep out of search results,
+		// prioritize the articles themselves. Still follow to crawl the links.
+		robots: { index: false, follow: true },
 	});
 }
 
