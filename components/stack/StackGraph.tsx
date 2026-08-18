@@ -20,6 +20,28 @@ function polar(radius: number, angleDeg: number) {
 	};
 }
 
+/**
+ * Anchors a label outward from its node, in the same direction the node
+ * sits from the graph center — instead of a fixed offset that only looks
+ * right for nodes on one side of the circle.
+ */
+function labelTransform(x: number, y: number, gap: number) {
+	const dx = x - CENTER;
+	const dy = y - CENTER;
+	const absDx = Math.abs(dx);
+	const absDy = Math.abs(dy);
+
+	const h = absDx < absDy * 0.6 ? "center" : dx > 0 ? "right" : "left";
+	const v = absDy < absDx * 0.6 ? "middle" : dy > 0 ? "bottom" : "top";
+
+	const tx = h === "center" ? "-50%" : h === "right" ? "0%" : "-100%";
+	const ty = v === "middle" ? "-50%" : v === "bottom" ? "0%" : "-100%";
+	const gapX = h === "center" ? 0 : h === "right" ? gap : -gap;
+	const gapY = v === "middle" ? 0 : v === "bottom" ? gap : -gap;
+
+	return `translate(${tx}, ${ty}) translate(${gapX}px, ${gapY}px)`;
+}
+
 interface PositionedItem extends StackItem {
 	x: number;
 	y: number;
@@ -59,13 +81,23 @@ const containerVariants = {
 	visible: { transition: { staggerChildren: 0.035, delayChildren: 0.05 } },
 };
 
+// x/y stay fixed at -50% in both states — Framer Motion writes its own
+// `transform` while animating `scale`, which would otherwise clobber the
+// Tailwind `-translate-x-1/2 -translate-y-1/2` centering classes.
 const nodeVariants = {
-	hidden: { opacity: 0, scale: 0.4 },
+	hidden: { opacity: 0, scale: 0.4, x: "-50%", y: "-50%" },
 	visible: {
 		opacity: 1,
 		scale: 1,
+		x: "-50%",
+		y: "-50%",
 		transition: { type: "spring" as const, damping: 16, stiffness: 260 },
 	},
+};
+
+const labelVariants = {
+	hidden: { opacity: 0 },
+	visible: { opacity: 1, transition: { duration: 0.25 } },
 };
 
 export default function StackGraph() {
@@ -199,7 +231,7 @@ export default function StackGraph() {
 					onFocus={() => setActive({ kind: "root" })}
 					onClick={() => setActive({ kind: "root" })}
 					aria-label="jdecorte.com"
-					className="absolute z-10 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-gray-900 text-xs font-semibold tracking-wide text-gray-200 shadow-[0_0_0_4px_rgba(255,255,255,0.03)] sm:h-20 sm:w-20 sm:text-sm"
+					className="absolute z-10 flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-gray-900 text-xs font-semibold tracking-wide text-gray-200 shadow-[0_0_0_4px_rgba(255,255,255,0.03)] sm:h-20 sm:w-20 sm:text-sm"
 					style={{ left: `${CENTER}%`, top: `${CENTER}%` }}
 				>
 					JD
@@ -225,7 +257,7 @@ export default function StackGraph() {
 									color: category.color,
 									opacity: dimmed ? 0.35 : 1,
 								}}
-								className="absolute z-10 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border bg-gray-950/90 backdrop-blur-sm transition-opacity sm:h-14 sm:w-14"
+								className="absolute z-10 flex h-11 w-11 items-center justify-center rounded-full border bg-gray-950/90 backdrop-blur-sm transition-opacity sm:h-14 sm:w-14"
 							>
 								<CategoryIcon className="h-4 w-4 sm:h-5 sm:w-5" />
 							</motion.button>
@@ -235,8 +267,9 @@ export default function StackGraph() {
 									left: `${category.x}%`,
 									top: `${category.y}%`,
 									opacity: dimmed ? 0.35 : 1,
+									transform: labelTransform(category.x, category.y, 26),
 								}}
-								className="pointer-events-none absolute z-10 -translate-x-1/2 translate-y-[22px] whitespace-nowrap text-xs font-medium text-gray-200 sm:translate-y-[28px] sm:text-sm"
+								className="pointer-events-none absolute z-10 whitespace-nowrap text-xs font-medium text-gray-200 sm:text-sm"
 							>
 								{category.name}
 							</motion.span>
@@ -270,7 +303,7 @@ export default function StackGraph() {
 													: "rgba(255,255,255,0.12)",
 												opacity: itemDimmed ? 0.4 : 1,
 											}}
-											className="absolute z-10 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border bg-gray-950/80 text-gray-300 backdrop-blur-sm transition-opacity hover:text-white sm:h-11 sm:w-11"
+											className="absolute z-10 flex h-9 w-9 items-center justify-center rounded-full border bg-gray-950/80 text-gray-300 backdrop-blur-sm transition-opacity hover:text-white sm:h-11 sm:w-11"
 										>
 											<ItemIcon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
 										</motion.button>

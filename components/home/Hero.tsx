@@ -26,7 +26,9 @@ const Hero = ({ heroFontStyles }) => {
 				<p
 					className={`fade-in-down pr-20 pt-10 text-[#F2F0EA]/65 opacity-0 md:max-w-[300px] md:pt-24 xl:whitespace-pre`}
 				>
-					{`Fullstack & Security Engineer \ncrafting resilient, real-time \nsystems — from startups \nto scale. Bug bounty hunter \n& CTF enthusiast.`}
+					<span className="text-primary-400">{`Fullstack & Security Engineer`}</span>
+					{` \ncrafting resilient, real-time \nsystems — from startups \nto scale. `}
+					<span className="text-primary-400">{`Bug bounty hunter \n& CTF enthusiast.`}</span>
 				</p>
 				<Image
 					src="/static/images/jdecorte_fullbody-v2.avif"

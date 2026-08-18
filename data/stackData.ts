@@ -25,7 +25,6 @@ import {
 	SiShadcnui,
 	SiTailwindcss,
 	SiTypescript,
-	SiVercel,
 } from "react-icons/si";
 
 export interface StackItem {
@@ -187,12 +186,6 @@ export const stackCategories: StackCategory[] = [
 		icon: Rocket,
 		description: "How the site ships and gets watched in production.",
 		items: [
-			{
-				id: "vercel",
-				name: "Vercel",
-				description: "Analytics and Speed Insights.",
-				icon: SiVercel,
-			},
 			{
 				id: "railway",
 				name: "Railway",
