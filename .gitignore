@@ -53,3 +53,7 @@ yarn-error.log*
 
 # Contentlayer
 .contentlayer
+
+# local agent config
+/CLAUDE.md
+/AGENTS.md
