@@ -6,7 +6,7 @@ const ESCAPE_MAP: Record<string, string> = {
 	"'": "&#39;",
 };
 
-function escapeHtml(input: string): string {
+export function escapeHtml(input: string): string {
 	return input.replace(/[&<>"']/g, (ch) => ESCAPE_MAP[ch]);
 }
 

@@ -38,7 +38,8 @@ const Hero = ({ heroFontStyles }) => {
 					sizes="(max-width: 768px) 140px, 270px"
 					placeholder="blur"
 					className={`image-animate-on-load absolute -bottom-10 right-0 h-auto w-[140px] opacity-0 drop-shadow-2xl md:right-48 md:top-40 md:w-[270px] xl:left-60`}
-					priority
+					preload
+					fetchPriority="high"
 					blurDataURL="data:image/webp;base64,UklGRqgAAABXRUJQVlA4WAoAAAAQAAAABwAACwAAQUxQSFcAAAAJcFvbtqKckVAyd89nSsAhogr68JQGaMOrmAoIySjAvYiImAAQhiOWBzAnvV4DeMK1BlKNcw3mOEANcVbN10tZlIOeCK+qU8ovAKfgb6r/04//buvLnxMAVlA4ICoAAACQAQCdASoIAAwABUB8JZQCdADZgLAA/ujzxRifiDrU0tgCA2xucpNcAAA=="
 				/>
 			</div>

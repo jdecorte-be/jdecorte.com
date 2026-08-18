@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 import { MAX_AUTHOR_LENGTH, MAX_BODY_LENGTH } from "@/lib/commentLimits";
+import { notifyNewComment } from "@/lib/commentNotify";
 import { getClientIp, hashIp, isRateLimited } from "@/lib/commentRateLimit";
 import { getCommentsCollection } from "@/lib/mongodb";
 
@@ -123,6 +124,8 @@ export async function POST(request: Request) {
 			ipHash,
 			createdAt,
 		});
+
+		await notifyNewComment({ slug, author, body, isReply: parentId !== null });
 
 		return NextResponse.json(
 			{

@@ -33,10 +33,10 @@ function RenderResults() {
 					</div>
 				) : (
 					<div
-						className={`mx-2 flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 transition-all ${
+						className={`mx-2 flex cursor-pointer items-center justify-between rounded-lg border-l-2 px-3 py-2.5 transition-all ${
 							active
-								? "bg-primary-500/10 text-gray-100 shadow-[inset_0_0_0_1px_rgba(239,71,121,0.25)]"
-								: "text-gray-400 hover:bg-primary-500/5"
+								? "border-primary-400 bg-primary-500/15 text-gray-100 shadow-[inset_0_0_0_1px_rgba(239,71,121,0.3)]"
+								: "border-transparent text-gray-400 hover:bg-primary-500/5"
 						}`}
 					>
 						<div className="flex min-w-0 items-center gap-3">
@@ -101,11 +101,11 @@ export default function KBarModal({
 				data-kbar-state={visualState}
 			>
 				<KBarAnimator className="kbar-animator w-[clamp(min(92vw,24rem),60vw,48rem)]">
-					<div className="kbar-surface overflow-hidden rounded-2xl border border-primary-500/[0.15] bg-gray-950/40 shadow-[0_8px_60px_0_rgba(0,0,0,0.7),0_0_0_1px_rgba(239,71,121,0.06)] backdrop-blur-2xl">
+					<div className="kbar-surface overflow-hidden rounded-2xl border border-primary-500/40 bg-gray-950/40 shadow-[0_8px_60px_0_rgba(0,0,0,0.7),0_0_50px_10px_rgba(239,71,121,0.15),0_0_0_1px_rgba(239,71,121,0.15)] backdrop-blur-2xl">
 						{/* Search input row */}
 						<div className="flex items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4">
 							<svg
-								className="h-4 w-4 shrink-0 text-gray-500"
+								className="h-4 w-4 shrink-0 text-primary-400"
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
 								viewBox="0 0 24 24"
@@ -119,16 +119,16 @@ export default function KBarModal({
 								/>
 							</svg>
 							<KBarSearch
-								className="h-8 w-full bg-transparent text-sm text-gray-100 caret-primary-400 placeholder-gray-500 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 sm:h-9 sm:text-base"
+								className="h-8 w-full border border-transparent bg-transparent text-sm text-gray-100 caret-primary-400 placeholder-gray-500 focus:border-gray-600 focus:outline-none focus:ring-0 focus-visible:border-gray-600 focus-visible:outline-none focus-visible:ring-0 sm:h-9 sm:text-base"
 								defaultPlaceholder="Search writeups, pages…"
 							/>
-							<kbd className="inline-flex shrink-0 items-center rounded-md border border-white/10 bg-white/5 px-1.5 py-0.5 text-[10px] font-medium text-gray-500">
+							<kbd className="inline-flex shrink-0 items-center rounded-md border border-primary-500/20 bg-primary-500/5 px-1.5 py-0.5 text-[10px] font-medium text-primary-300/80">
 								ESC
 							</kbd>
 						</div>
 
 						{/* Divider */}
-						<div className="h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent" />
+						<div className="h-px bg-gradient-to-r from-transparent via-primary-500/40 to-transparent" />
 
 						{/* Results */}
 						<div className="max-h-[60vh] overflow-y-auto py-1.5 scrollbar-thin">

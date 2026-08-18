@@ -387,7 +387,7 @@ export default function ListLayoutWithTags({
 											</div>
 
 											{coverImage && (
-												<div className="relative z-10 hidden aspect-video w-40 shrink-0 -mr-8 overflow-hidden rounded-lg shadow-lg shadow-black/40 sm:-mr-10 sm:block sm:w-56 sm:rounded-xl md:-mr-14 md:w-64">
+												<div className="relative z-10 hidden aspect-video w-40 shrink-0 -mr-8 overflow-hidden rounded-lg shadow-lg shadow-black/40 xl:-mr-10 xl:block xl:w-56 xl:rounded-xl 2xl:-mr-14 2xl:w-64">
 													{/* biome-ignore lint/performance/noImgElement: fixed-aspect decorative thumbnail, next/image domain config not needed */}
 													<img
 														src={coverImage}
