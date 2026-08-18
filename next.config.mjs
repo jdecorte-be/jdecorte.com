@@ -79,16 +79,16 @@ const nextConfig = {
 		return [];
 	},
 	// Serve the Umami tracker from our own origin so ad blockers that
-	// filter cloud.umami.is / gateway.umami.is don't drop pageviews.
+	// filter umami.jdecorte.com don't drop pageviews.
 	async rewrites() {
 		return [
 			{
 				source: "/stats/script.js",
-				destination: "https://cloud.umami.is/script.js",
+				destination: "https://umami.jdecorte.com/script.js",
 			},
 			{
 				source: "/stats/api/send",
-				destination: "https://gateway.umami.is/api/send",
+				destination: "https://umami.jdecorte.com/api/send",
 			},
 		];
 	},
