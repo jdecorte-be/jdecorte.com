@@ -3,7 +3,7 @@ import { allWriteups } from "contentlayer/generated";
 import { allCoreContent, sortPosts } from "pliny/utils/contentlayer.js";
 import ListLayout from "@/layouts/ListLayoutWithTags";
 
-const POSTS_PER_PAGE = 5;
+const POSTS_PER_PAGE = 10;
 
 export const metadata = genPageMetadata({ title: "Writeups" });
 
@@ -26,7 +26,7 @@ export default function ThoughtPage() {
 			posts={posts}
 			initialDisplayPosts={initialDisplayPosts}
 			pagination={pagination}
-			title="All Posts"
+			title="Writeups"
 		/>
 	);
 }

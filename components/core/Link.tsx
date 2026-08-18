@@ -20,20 +20,26 @@ const CustomLink = ({ href, ...rest }: LinkProps & UmamiAnchorProps) => {
 				: "";
 	const isInternalLink = hrefValue.startsWith("/");
 	const isAnchorLink = hrefValue.startsWith("#");
-	const umamiEvent =
-		rest["data-umami-event"] ??
-		(hrefValue ? `Clicked link ${hrefValue}` : "Clicked link");
+	// Internal navigation is already captured as a pageview, so only tag it
+	// as a custom event when the caller explicitly opts in (e.g. a project
+	// card click we want to track as a goal). Outbound links default to an
+	// auto-generated event since they leave the site untracked otherwise.
+	const explicitEvent = rest["data-umami-event"];
 
-	if (isInternalLink) {
-		return <Link href={href} {...rest} data-umami-event={umamiEvent} />;
-	}
+	if (isInternalLink || isAnchorLink) {
+		const linkProps = explicitEvent
+			? { ...rest, "data-umami-event": explicitEvent }
+			: rest;
 
-	if (isAnchorLink) {
-		return (
-			<a href={hrefValue} {...rest} data-umami-event={umamiEvent}>
-				{rest.children}
-			</a>
-		);
+		if (isAnchorLink) {
+			return (
+				<a href={hrefValue} {...linkProps}>
+					{rest.children}
+				</a>
+			);
+		}
+
+		return <Link href={href} {...linkProps} />;
 	}
 
 	return (
@@ -42,7 +48,7 @@ const CustomLink = ({ href, ...rest }: LinkProps & UmamiAnchorProps) => {
 			rel="noopener noreferrer"
 			href={hrefValue}
 			{...rest}
-			data-umami-event={umamiEvent}
+			data-umami-event={explicitEvent ?? `Clicked link ${hrefValue}`}
 		>
 			{rest.children}
 		</a>

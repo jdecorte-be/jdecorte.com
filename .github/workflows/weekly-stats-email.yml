@@ -1,0 +1,22 @@
+name: Weekly stats email
+
+on:
+  schedule:
+    # Monday 13:00 UTC (~9am ET)
+    - cron: "0 13 * * 1"
+  workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger stats email
+        run: |
+          status=$(curl -s -o /tmp/response.txt -w "%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "${{ secrets.SITE_URL }}/api/cron/stats-email")
+          cat /tmp/response.txt
+          if [ "$status" -ge 300 ]; then
+            echo "Request failed with status $status"
+            exit 1
+          fi

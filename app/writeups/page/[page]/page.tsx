@@ -2,7 +2,7 @@ import { allWriteups } from "contentlayer/generated";
 import { allCoreContent, sortPosts } from "pliny/utils/contentlayer.js";
 import ListLayout from "@/layouts/ListLayoutWithTags";
 
-const POSTS_PER_PAGE = 5;
+const POSTS_PER_PAGE = 10;
 
 export const generateStaticParams = async () => {
 	const publishedPosts = allWriteups.filter((post) => !post.draft);
@@ -36,7 +36,7 @@ export default async function Page(
 			posts={posts}
 			initialDisplayPosts={initialDisplayPosts}
 			pagination={pagination}
-			title="All Posts"
+			title="Writeups"
 		/>
 	);
 }

@@ -6,7 +6,12 @@ const SearchButton = () => {
 	const { query } = useKBar();
 
 	return (
-		<button type="button" aria-label="Search" onClick={() => query.toggle()}>
+		<button
+			type="button"
+			aria-label="Search"
+			data-umami-event="Opened search"
+			onClick={() => query.toggle()}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"

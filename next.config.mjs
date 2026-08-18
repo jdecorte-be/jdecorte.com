@@ -14,13 +14,13 @@ const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === "true";
 // You might need to insert additional domains in script-src if you are using external services
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-eval' 'unsafe-inline' giscus.app cloud.umami.is;
+  script-src 'self' 'unsafe-eval' 'unsafe-inline';
   style-src 'self' 'unsafe-inline';
   img-src * blob: data:;
   media-src 'self' *.s3.amazonaws.com;
   connect-src *;
   font-src 'self' fonts.gstatic.com;
-  frame-src giscus.app itch.io;
+  frame-src itch.io;
 `;
 
 const securityHeaders = [
@@ -78,6 +78,20 @@ const nextConfig = {
 		}
 		return [];
 	},
+	// Serve the Umami tracker from our own origin so ad blockers that
+	// filter cloud.umami.is / gateway.umami.is don't drop pageviews.
+	async rewrites() {
+		return [
+			{
+				source: "/stats/script.js",
+				destination: "https://cloud.umami.is/script.js",
+			},
+			{
+				source: "/stats/api/send",
+				destination: "https://gateway.umami.is/api/send",
+			},
+		];
+	},
 	reactStrictMode: true,
 	// Enable gzip/brotli compression for responses served by Next.js
 	compress: true,
@@ -102,6 +116,17 @@ const nextConfig = {
 					{
 						key: "Cache-Control",
 						value: "public, max-age=31536000, immutable",
+					},
+				],
+			},
+			// The proxied Umami tracker is not content-hashed; later rules win,
+			// so this overrides the immutable *.js rule above.
+			{
+				source: "/stats/script.js",
+				headers: [
+					{
+						key: "Cache-Control",
+						value: "public, max-age=3600, must-revalidate",
 					},
 				],
 			},

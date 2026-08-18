@@ -1,6 +1,7 @@
 import type { Authors, Writeups } from "contentlayer/generated";
 import type { CoreContent } from "pliny/utils/contentlayer.js";
 import type { ReactNode } from "react";
+import ViewCounter from "@/components/analytics/ViewCounter";
 import Comments from "@/components/content/LazyComments";
 import PageTitle from "@/components/content/PageTitle";
 import ScrollTopAndComment from "@/components/content/ScrollTopAndComment";
@@ -50,13 +51,14 @@ export default function PostLayout({
 							<dl className="space-y-10">
 								<div>
 									<dt className="sr-only">Published on</dt>
-									<dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+									<dd className="flex items-center justify-center gap-3 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
 										<time dateTime={date}>
 											{new Date(date).toLocaleDateString(
 												siteMetadata.locale,
 												postDateTemplate,
 											)}
 										</time>
+										<ViewCounter path={path} />
 									</dd>
 								</div>
 							</dl>
@@ -87,7 +89,7 @@ export default function PostLayout({
 													width={96}
 													height={96}
 													alt="avatar"
-													className="h-12 w-14  rounded-full"
+													className="h-12 w-12 rounded-full object-cover"
 												/>
 											)}
 											<dl className="whitespace-nowrap text-sm font-medium leading-5">

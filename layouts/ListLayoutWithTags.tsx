@@ -103,7 +103,7 @@ export default function ListLayoutWithTags({
 	};
 
 	return (
-		<div className="chronicle">
+		<div className="chronicle xl:relative xl:left-1/2 xl:w-[min(72rem,calc(100vw-3rem))] xl:-translate-x-1/2">
 			{/* Mobile Header + Tag Toggle */}
 			<div className="pb-4 pt-6 sm:hidden">
 				<div className="flex items-center justify-between">
@@ -204,10 +204,14 @@ export default function ListLayoutWithTags({
 						<Link
 							href="/writeups"
 							aria-current={
-								pathname.startsWith("/writeups") ? "page" : undefined
+								pathname.startsWith("/writeups") &&
+								!pathname.includes("/tags/")
+									? "page"
+									: undefined
 							}
 							className={
-								pathname.startsWith("/writeups")
+								pathname.startsWith("/writeups") &&
+								!pathname.includes("/tags/")
 									? "font-bold uppercase text-primary-500"
 									: "font-bold uppercase text-gray-700 hover:text-primary-500 dark:text-gray-300 dark:hover:text-primary-500"
 							}
@@ -241,7 +245,7 @@ export default function ListLayoutWithTags({
 				{/* Timeline */}
 				<div className="chronicle-timeline relative w-full flex-1 max-w-none">
 					{displayPosts.map((post, idx) => {
-						const { path, date, title, summary, tags } = post;
+						const { path, date, title, summary, tags, readingTime } = post;
 						return (
 							<motion.article
 								key={path}
@@ -300,6 +304,21 @@ export default function ListLayoutWithTags({
 												{summary}
 											</p>
 										)}
+
+										{/* Reading time + hover hint */}
+										<div className="mt-3 flex items-center justify-between">
+											{readingTime?.text && (
+												<span className="select-none font-mono text-[0.65rem] uppercase tracking-wider text-gray-500">
+													{readingTime.text}
+												</span>
+											)}
+											<span
+												aria-hidden="true"
+												className="select-none font-mono text-[0.65rem] uppercase tracking-wider text-primary-400 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+											>
+												read →
+											</span>
+										</div>
 									</div>
 								</div>
 

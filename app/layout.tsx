@@ -5,8 +5,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Roboto_Mono, Space_Grotesk } from "next/font/google";
 import { Analytics, type AnalyticsConfig } from "pliny/analytics/index.js";
-import { Suspense } from "react";
-import UmamiPageview from "@/components/analytics/UmamiPageview";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import SectionContainer from "@/components/layout/SectionContainer";
@@ -94,11 +92,6 @@ export default function RootLayout({
 				href="/static/favicons/favicon-16x16.png"
 			/>
 			<link rel="manifest" href="/static/favicons/site.webmanifest" />
-			<link
-				rel="mask-icon"
-				href="/static/favicons/safari-pinned-tab.svg"
-				color="#5bbad5"
-			/>
 			<meta name="msapplication-TileColor" content="#000000" />
 			<meta name="theme-color" content="#000000" />
 			<link rel="alternate" type="application/rss+xml" href="/feed.xml" />
@@ -107,9 +100,6 @@ export default function RootLayout({
 					<Analytics
 						analyticsConfig={siteMetadata.analytics as AnalyticsConfig}
 					/>
-					<Suspense fallback={null}>
-						<UmamiPageview />
-					</Suspense>
 					<div className="flex min-h-screen flex-col font-sans">
 						<CustomKBarSearchProvider
 							searchConfig={

@@ -1,8 +1,8 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-	title: "John Decorte - Full-Stack Developer & Cybersecurity Engineer - Portfolio",
+	title: "John Decorte — Full Stack Engineer",
 	author: "John Decorte",
-	headerTitle: "John Decorte - Full-Stack Developer & Cybersecurity Engineer - Portfolio",
+	headerTitle: "John Decorte — Full Stack Engineer",
 	description: "John Decorte | Full-Stack Developer & Cybersecurity Engineer in Montreal. Explore my projects, skills, and experience.",
 	language: "en",
 	theme: "dark", // system, dark or light
@@ -22,8 +22,14 @@ const siteMetadata = {
 		umamiAnalytics: {
 			// We use an env variable for this site to avoid other users cloning our analytics ID
 			umamiWebsiteId: process.env.UMAMI_ID, // e.g. 123e4567-e89b-12d3-a456-426614174000
-			src: "https://cloud.umami.is/script.js",
-			// Remember to add 'us.umami.is' in `next.config.js` as a permitted domain for the CSP
+			// Same-origin proxy (see rewrites in next.config.mjs) so ad blockers
+			// don't filter the tracker; beacons go to /stats/api/send.
+			src: "/stats/script.js",
+			umamiHostUrl: "/stats",
+			// Don't record query strings, and only track the production domain
+			// (keeps localhost and preview deploys out of the stats).
+			umamiExcludeSearch: true,
+			umamiDomains: "jdecorte.com",
 		},
 		// plausibleAnalytics: {
 		//   plausibleDataDomain: '', // e.g. tailwind-nextjs-starter-blog.vercel.app
@@ -42,32 +48,9 @@ const siteMetadata = {
 	//   provider: 'buttondown',
 	// },
 	comments: {
-	  // Select a provider and use the environment variables associated to it
-	  // https://vercel.com/docs/environment-variables
-	  provider: 'giscus', // supported providers: giscus, utterances, disqus
-	  giscusConfig: {
-	    // Visit the link below, and follow the steps in the 'configuration' section
-	    // https://giscus.app/
-	    repo: process.env.NEXT_PUBLIC_GISCUS_REPO,
-	    repositoryId: process.env.NEXT_PUBLIC_GISCUS_REPOSITORY_ID,
-	    category: process.env.NEXT_PUBLIC_GISCUS_CATEGORY,
-	    categoryId: process.env.NEXT_PUBLIC_GISCUS_CATEGORY_ID,
-	    mapping: 'pathname', // supported options: pathname, url, title
-	    reactions: '0', // Emoji reactions: 1 = enable / 0 = disable
-	    // Send discussion metadata periodically to the parent window: 1 = enable / 0 = disable
-	    metadata: '0',
-	    // theme example: light, dark, dark_dimmed, dark_high_contrast
-	    // transparent_dark, preferred_color_scheme, custom
-	    theme: 'noborder_dark',
-	    // theme when dark mode
-	    darkTheme: 'catppuccin_mocha',
-	    // If the theme option above is set to 'custom`
-	    // please provide a link below to your custom theme css file.
-	    // example: https://giscus.app/themes/custom_example.css
-	    themeURL: '',
-	    // This corresponds to the `data-lang="en"` in giscus's configurations
-	    lang: 'en',
-	  },
+	  // Self-hosted comments stored in MongoDB (see app/api/comments/route.ts).
+	  // Requires MONGODB_URI in the environment.
+	  provider: 'mongodb',
 	},
 	search: {
 		provider: "kbar", // kbar or algolia
