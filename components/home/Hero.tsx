@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { Github, HackTheBox, Linkedin, Mail } from "@/components/social/social-icons/icons";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import siteMetadata from "@/data/siteMetadata.mjs";
@@ -14,17 +17,19 @@ const SocialTooltip = ({ label }: { label: string }) => (
 );
 
 const Hero = ({ heroFontStyles }) => {
+	const [imageLoaded, setImageLoaded] = useState(false);
+
 	return (
 		<div className="relative min-h-[380px] overflow-hidden rounded-md bg-gradient-to-b from-[#1e1e22] to-[#0c0c0e] p-6 md:min-h-[500px] md:p-10 lg:min-h-0">
 			<h1
-				className={`${heroFontStyles} fade-in-down-headline text-5xl font-bold uppercase tracking-tighter text-[#F2F0EA]
+				className={`${heroFontStyles} ${imageLoaded ? "fade-in-down-headline" : ""} text-5xl font-bold uppercase tracking-tighter text-[#F2F0EA]
            opacity-0 md:text-[114px] lg:leading-[114px] xl:text-[168px] xl:leading-[168px]`}
 			>
 				John Decorte
 			</h1>
 			<div className="flex">
 				<p
-					className={`fade-in-down pr-20 pt-10 text-[#F2F0EA]/65 opacity-0 md:max-w-[300px] md:pt-24 xl:whitespace-pre`}
+					className={`${imageLoaded ? "fade-in-down" : ""} pr-20 pt-10 text-[#F2F0EA]/65 opacity-0 md:max-w-[300px] md:pt-24 xl:whitespace-pre`}
 				>
 					<span className="text-primary-400">{`Fullstack & Security Engineer`}</span>
 					{` \ncrafting resilient, real-time \nsystems — from startups \nto scale. `}
@@ -37,9 +42,10 @@ const Hero = ({ heroFontStyles }) => {
 					height={1364}
 					sizes="(max-width: 768px) 140px, 270px"
 					placeholder="blur"
-					className={`image-animate-on-load absolute -bottom-10 right-0 h-auto w-[140px] opacity-0 drop-shadow-2xl md:right-48 md:top-40 md:w-[270px] xl:left-60`}
+					className={`${imageLoaded ? "image-animate-on-load" : ""} absolute -bottom-10 right-0 h-auto w-[140px] opacity-0 drop-shadow-2xl md:right-48 md:top-40 md:w-[270px] xl:left-60`}
 					preload
 					fetchPriority="high"
+					onLoad={() => setImageLoaded(true)}
 					blurDataURL="data:image/webp;base64,UklGRqgAAABXRUJQVlA4WAoAAAAQAAAABwAACwAAQUxQSFcAAAAJcFvbtqKckVAyd89nSsAhogr68JQGaMOrmAoIySjAvYiImAAQhiOWBzAnvV4DeMK1BlKNcw3mOEANcVbN10tZlIOeCK+qU8ovAKfgb6r/04//buvLnxMAVlA4ICoAAACQAQCdASoIAAwABUB8JZQCdADZgLAA/ujzxRifiDrU0tgCA2xucpNcAAA=="
 				/>
 			</div>
