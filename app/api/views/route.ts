@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 	const endAt = Math.ceil(Date.now() / 3_600_000) * 3_600_000;
 	const url = `/${path.replace(/^\/+/, "")}`;
 
-	const stats = await umamiGet<{ pageviews?: { value?: number } }>(
+	const stats = await umamiGet<{ pageviews?: number }>(
 		"/stats",
 		{ startAt: "0", endAt: String(endAt), url },
 		{ next: { revalidate: 300 } },
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
 	}
 
 	return NextResponse.json(
-		{ views: stats.pageviews?.value ?? 0 },
+		{ views: stats.pageviews ?? 0 },
 		{
 			headers: {
 				"Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",

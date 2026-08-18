@@ -5,14 +5,14 @@ import { umamiGet } from "@/lib/umami";
 
 const DAY_MS = 86_400_000;
 
-type StatsMetric = { value: number; prev: number };
-type Stats = {
-	pageviews: StatsMetric;
-	visitors: StatsMetric;
-	visits: StatsMetric;
-	bounces: StatsMetric;
-	totaltime: StatsMetric;
+type StatsTotals = {
+	pageviews: number;
+	visitors: number;
+	visits: number;
+	bounces: number;
+	totaltime: number;
 };
+type Stats = StatsTotals & { comparison: StatsTotals };
 type MetricRow = { x: string; y: number };
 
 const formatChange = (current: number, prev: number) => {
@@ -54,14 +54,14 @@ const renderEmail = (
 		<tr>
 			<td style="padding:8px;background:#f5f5f5;border-radius:6px;">
 				<div style="font-size:12px;color:#888;">Pageviews</div>
-				<div style="font-size:20px;font-weight:600;">${stats.pageviews.value.toLocaleString()}</div>
-				<div style="font-size:12px;color:#888;">${formatChange(stats.pageviews.value, stats.pageviews.prev)} vs prior period</div>
+				<div style="font-size:20px;font-weight:600;">${stats.pageviews.toLocaleString()}</div>
+				<div style="font-size:12px;color:#888;">${formatChange(stats.pageviews, stats.comparison.pageviews)} vs prior period</div>
 			</td>
 			<td style="width:8px;"></td>
 			<td style="padding:8px;background:#f5f5f5;border-radius:6px;">
 				<div style="font-size:12px;color:#888;">Visitors</div>
-				<div style="font-size:20px;font-weight:600;">${stats.visitors.value.toLocaleString()}</div>
-				<div style="font-size:12px;color:#888;">${formatChange(stats.visitors.value, stats.visitors.prev)} vs prior period</div>
+				<div style="font-size:20px;font-weight:600;">${stats.visitors.toLocaleString()}</div>
+				<div style="font-size:12px;color:#888;">${formatChange(stats.visitors, stats.comparison.visitors)} vs prior period</div>
 			</td>
 		</tr>
 	</table>
@@ -97,7 +97,7 @@ export async function GET(request: Request) {
 
 	const [stats, topPages, topReferrers] = await Promise.all([
 		umamiGet<Stats>("/stats", range),
-		umamiGet<MetricRow[]>("/metrics", { ...range, type: "url", limit: "5" }),
+		umamiGet<MetricRow[]>("/metrics", { ...range, type: "path", limit: "5" }),
 		umamiGet<MetricRow[]>("/metrics", {
 			...range,
 			type: "referrer",
@@ -118,7 +118,7 @@ export async function GET(request: Request) {
 	const { error } = await resend.emails.send({
 		from,
 		to,
-		subject: `Weekly stats: ${stats.pageviews.value.toLocaleString()} pageviews`,
+		subject: `Weekly stats: ${stats.pageviews.toLocaleString()} pageviews`,
 		html: renderEmail(stats, topPages ?? [], topReferrers ?? [], rangeLabel),
 	});
 
