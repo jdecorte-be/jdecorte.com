@@ -289,6 +289,7 @@ export default function StackGraph() {
 										<motion.button
 											type="button"
 											variants={nodeVariants}
+											custom={itemDimmed ? 0.4 : 1}
 											onMouseEnter={() =>
 												setActive({ kind: "item", category, item })
 											}
@@ -305,18 +306,17 @@ export default function StackGraph() {
 												borderColor: itemActive
 													? category.color
 													: "rgba(255,255,255,0.12)",
-												opacity: itemDimmed ? 0.4 : 1,
 											}}
-											className="absolute z-10 flex h-9 w-9 items-center justify-center rounded-full border bg-gray-950/80 text-gray-300 backdrop-blur-sm transition-opacity hover:text-white sm:h-11 sm:w-11"
+											className="absolute z-10 flex h-9 w-9 items-center justify-center rounded-full border bg-gray-950/80 text-gray-300 backdrop-blur-sm hover:text-white sm:h-11 sm:w-11"
 										>
 											<ItemIcon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
 										</motion.button>
 										<motion.span
 											variants={labelVariants}
+											custom={itemDimmed ? 0.4 : 1}
 											style={{
 												left: `${item.x}%`,
 												top: `${item.y}%`,
-												opacity: itemDimmed ? 0.4 : 1,
 												transform: labelTransform(item.x, item.y, 16),
 											}}
 											className="pointer-events-none absolute z-10 whitespace-nowrap text-[10px] text-gray-500 sm:text-xs"
