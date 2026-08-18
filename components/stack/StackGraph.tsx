@@ -84,20 +84,24 @@ const containerVariants = {
 // x/y stay fixed at -50% in both states — Framer Motion writes its own
 // `transform` while animating `scale`, which would otherwise clobber the
 // Tailwind `-translate-x-1/2 -translate-y-1/2` centering classes.
+// `visible` opacity is a function of the `custom` prop (rather than a fixed
+// 1) so the hover/click dim effect can keep animating it after mount —
+// Framer Motion ignores plain `style.opacity` updates once it owns that
+// property via variants.
 const nodeVariants = {
 	hidden: { opacity: 0, scale: 0.4, x: "-50%", y: "-50%" },
-	visible: {
-		opacity: 1,
+	visible: (opacity = 1) => ({
+		opacity,
 		scale: 1,
 		x: "-50%",
 		y: "-50%",
 		transition: { type: "spring" as const, damping: 16, stiffness: 260 },
-	},
+	}),
 };
 
 const labelVariants = {
 	hidden: { opacity: 0 },
-	visible: { opacity: 1, transition: { duration: 0.25 } },
+	visible: (opacity = 1) => ({ opacity, transition: { duration: 0.25 } }),
 };
 
 export default function StackGraph() {
@@ -246,6 +250,7 @@ export default function StackGraph() {
 							<motion.button
 								type="button"
 								variants={nodeVariants}
+								custom={dimmed ? 0.35 : 1}
 								onMouseEnter={() => setActive({ kind: "category", category })}
 								onFocus={() => setActive({ kind: "category", category })}
 								onClick={() => setActive({ kind: "category", category })}
@@ -255,18 +260,17 @@ export default function StackGraph() {
 									top: `${category.y}%`,
 									borderColor: `${category.color}80`,
 									color: category.color,
-									opacity: dimmed ? 0.35 : 1,
 								}}
-								className="absolute z-10 flex h-11 w-11 items-center justify-center rounded-full border bg-gray-950/90 backdrop-blur-sm transition-opacity sm:h-14 sm:w-14"
+								className="absolute z-10 flex h-11 w-11 items-center justify-center rounded-full border bg-gray-950/90 backdrop-blur-sm sm:h-14 sm:w-14"
 							>
 								<CategoryIcon className="h-4 w-4 sm:h-5 sm:w-5" />
 							</motion.button>
 							<motion.span
-								variants={nodeVariants}
+								variants={labelVariants}
+								custom={dimmed ? 0.35 : 1}
 								style={{
 									left: `${category.x}%`,
 									top: `${category.y}%`,
-									opacity: dimmed ? 0.35 : 1,
 									transform: labelTransform(category.x, category.y, 26),
 								}}
 								className="pointer-events-none absolute z-10 whitespace-nowrap text-xs font-medium text-gray-200 sm:text-sm"
@@ -308,13 +312,14 @@ export default function StackGraph() {
 											<ItemIcon className="h-4 w-4 sm:h-[18px] sm:w-[18px]" />
 										</motion.button>
 										<motion.span
-											variants={nodeVariants}
+											variants={labelVariants}
 											style={{
 												left: `${item.x}%`,
 												top: `${item.y}%`,
 												opacity: itemDimmed ? 0.4 : 1,
+												transform: labelTransform(item.x, item.y, 16),
 											}}
-											className="pointer-events-none absolute z-10 -translate-x-1/2 translate-y-[18px] whitespace-nowrap text-[10px] text-gray-500 sm:translate-y-[22px] sm:text-xs"
+											className="pointer-events-none absolute z-10 whitespace-nowrap text-[10px] text-gray-500 sm:text-xs"
 										>
 											{item.name}
 										</motion.span>
