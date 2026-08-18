@@ -25,7 +25,7 @@ export default function PostLayout({
 	const { slug, date, title, summary } = content;
 
 	return (
-		<SectionContainer wide>
+		<SectionContainer>
 			<ScrollTopAndComment />
 			<article>
 				<div>
