@@ -10,6 +10,7 @@ import Header from "@/components/layout/Header";
 import SectionContainer from "@/components/layout/SectionContainer";
 import TransitionWrapper from "@/components/layout/TransitionWrapper";
 import { CustomKBarSearchProvider } from "@/components/navigation/CustomKBarSearch";
+import StackButton from "@/components/stack/StackButton";
 import siteMetadata from "@/data/siteMetadata.mjs";
 import { ThemeProviders } from "./theme-providers";
 
@@ -121,6 +122,7 @@ export default function RootLayout({
 							</SectionContainer>
 						</CustomKBarSearchProvider>
 					</div>
+					<StackButton />
 				</ThemeProviders>
 			</body>
 		</html>
