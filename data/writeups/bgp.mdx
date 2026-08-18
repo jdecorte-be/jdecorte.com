@@ -1,26 +1,26 @@
 ---
-title: 'BGP at Doors of Autonomous Systems is Simple'
+title: 'BGP at Doors of Autonomous Systems Is Simple'
 date: '2025-09-10'
 tags: ['bgp', 'evpn', 'vxlan', 'networking', 'gns3', 'docker']
 draft: false
 images: ['/static/images/portfolio/badass/main.avif']
 summary: "Build VXLAN tunnels and a BGP EVPN control plane in GNS3 — the same data center networking techniques major cloud providers run in production."
+bibliography: 'bgp.bib'
 ---
+
 ## Overview
 
-**BADASS (BGP At Doors of Autonomous Systems is Simple)** is a three-part project. Each part builds on the last. You'll start with container networking basics in GNS3. You'll end with a working BGP EVPN fabric — the same architecture used by companies like Amazon, Google, and Microsoft.
+**BADASS (BGP At Doors of Autonomous Systems is Simple)** is a three-part 42 project that took me from basic container networking to running the same BGP EVPN control plane that data centers at companies like Amazon, Google, and Microsoft run in production. I built the whole thing in GNS3, one layer at a time: first a Docker-based lab environment, then VXLAN tunnels between hosts, then a full EVPN fabric that discovers those tunnels automatically over BGP.
 
-This isn't just theory. Every part is hands-on. By the end, you'll have built a network virtualization lab that runs on real protocols, not simplified stand-ins.
+None of it is simplified for the sake of the lab. The FRRouting configuration, the route types, the troubleshooting commands — all of it maps directly onto production hardware from vendors like Cisco and Juniper. That was the point: build real intuition for how data center fabrics work, rather than memorize a lab script that falls apart the moment something doesn't match the happy path.
 
-The project adds complexity gradually. Each new concept builds on what you already know. That means you develop real intuition for how networks work, not just memorized commands.
+Each part builds on the one before it, so the complexity creeps in gradually instead of hitting all at once.
 
 ## Part 1 — GNS3 Configuration with Docker
 
 Every networking project needs a reliable test environment. Part 1 sets one up using GNS3 and Docker.
 
-GNS3 gives you a graphical network simulator. Docker gives you lightweight containers that can stand in for network devices, without the overhead of full virtual machines.
-
-Containers are efficient because they share the host's kernel instead of running a separate OS. That means you can run complex topologies on modest hardware — something full VMs would struggle with. Docker images are also easy to version and share, so your lab stays consistent across different machines and students.
+GNS3 gives you a graphical network simulator. Docker gives you lightweight containers that can stand in for network devices, without the overhead of full virtual machines. Containers share the host's kernel instead of running a separate OS, so you can run complex topologies on modest hardware — something full VMs would struggle with — and Docker images are easy to version and share, which keeps the lab consistent across machines.
 
 You'll build two Docker images in this part:
 
@@ -31,13 +31,13 @@ This split mirrors real networks, where edge devices and core routing infrastruc
 
 ### Setting Up the Lab Environment
 
-Start by installing GNS3 and Docker in your VM. GNS3 handles the topology and simulation. Docker handles the containers. Together, they let you drag containers into a topology and wire them up like physical hardware.
+Start by installing GNS3 and Docker in your VM. GNS3 handles the topology and simulation; Docker handles the containers. Together, they let you drag containers into a topology and wire them up like physical hardware.
 
-Getting this right matters. You'll need to configure Docker's networking mode, enable IP forwarding on the host, and adjust firewall rules so containers can talk to each other. These steps also teach you Linux networking fundamentals — skills that carry over to everything else in this project.
+Getting this right matters: you'll need to configure Docker's networking mode, enable IP forwarding on the host, and adjust firewall rules so containers can talk to each other. These steps also teach you Linux networking fundamentals — skills that carry over to everything else in this project.
 
 ### Building the Host Container Image
 
-The host image should be small but functional. Alpine Linux is a good base: it's minimal, security-focused, and the standard choice for containerized workloads.
+The host image should be small but functional. Alpine Linux is a good base: minimal, security-focused, and the standard choice for containerized workloads.
 
 Example Dockerfile:
 
@@ -65,9 +65,7 @@ Make sure the image includes these tools:
 - **traceroute** — trace the path and measure latency
 - **tcpdump** — capture packets for deep analysis
 
-You'll use these constantly to verify each configuration step.
-
-Later in the project, these host containers become your test endpoints for VXLAN and BGP EVPN traffic. Keeping them simple makes troubleshooting easier — if something breaks, you'll know it's the network infrastructure, not the host.
+You'll use these constantly to verify each configuration step. Later in the project, these host containers become your test endpoints for VXLAN and BGP EVPN traffic. Keeping them simple makes troubleshooting easier — if something breaks, you'll know it's the network infrastructure, not the host.
 
 ### Building the Router Container Image
 
@@ -107,9 +105,7 @@ Include these daemons:
 - **ospfd** — OSPF, a link-state routing protocol
 - **isisd** — IS-IS, another link-state protocol
 
-This project focuses on BGP, but having other protocols available lets you compare approaches later. Each daemon runs separately and talks to zebra to install or remove routes.
-
-The configuration style mirrors real hardware from Cisco and Juniper. That's deliberate — the skills transfer directly to physical routers.
+This project focuses on BGP, but having other protocols available lets you compare approaches later. Each daemon runs separately and talks to zebra to install or remove routes. The configuration style mirrors real hardware from Cisco and Juniper — that's deliberate, since the skills transfer directly to physical routers.
 
 ### Verifying Connectivity
 
@@ -138,6 +134,10 @@ ping 10.2.2.2
 
 A simple test topology: two hosts, each on a different subnet, connected through one router. This also gets you comfortable with GNS3's console access and basic interface configuration — skills you'll lean on repeatedly as the project grows.
 
+<Callout type="tip">
+If your router and host templates in GNS3 don't run with the `NET_ADMIN` capability (or `--privileged`), come back to this later — creating VXLAN interfaces in Part 2 will fail silently otherwise, and it's an easy thing to lose an hour to.
+</Callout>
+
 ## Part 2 — Discovering VXLAN
 
 Part 2 introduces VXLAN, which extends Layer 2 networks across Layer 3 infrastructure. To understand why VXLAN exists, start with what it replaced: the traditional VLAN.
@@ -146,11 +146,9 @@ Part 2 introduces VXLAN, which extends Layer 2 networks across Layer 3 infrastru
 
 ![VLAN Architecture](/static/images/portfolio/badass/vlan.avif)
 
-A VLAN splits one physical network into multiple logical ones. Unlike physical segmentation, it needs no extra switches or cabling. VLANs work at Layer 2, tagging Ethernet frames with a 12-bit identifier.
+A VLAN splits one physical network into multiple logical ones, with no extra switches or cabling required. VLANs work at Layer 2, tagging Ethernet frames with a 12-bit identifier defined by the 802.1Q standard [@ieee8021q]. Think of them as virtual rooms: devices in the same VLAN talk directly at Layer 2, devices in different VLANs can't — even on the same switch. Any traffic between VLANs has to pass through a router, which can apply security rules along the way.
 
-Think of VLANs as virtual rooms. Devices in the same VLAN talk directly at Layer 2. Devices in different VLANs can't — even on the same switch. Any traffic between VLANs has to pass through a router, which can apply security rules along the way.
-
-The 802.1Q standard defines this tagging. It adds a 4-byte tag to the Ethernet header. The 12-bit ID field allows for 4096 VLANs, with a handful reserved — so about 4094 are usable in practice. That was enough for traditional enterprise networks. Cloud computing changed that.
+802.1Q adds a 4-byte tag to the Ethernet header, and its 12-bit ID field allows for 4096 VLANs, with a handful reserved — so about 4094 are usable in practice. That was enough for traditional enterprise networks. Cloud computing changed that.
 
 ### The Limitations of Traditional VLANs
 
@@ -162,15 +160,13 @@ Cloud-scale data centers exposed real cracks in the VLAN model:
 - **Manual provisioning** — needs configuration on every switch in the path
 - **Multi-tenancy limits** — not enough isolation for cloud-scale environments
 
-In multi-tenant clouds, each customer may need its own isolated network. That burns through VLAN IDs fast. VLANs are also stuck within a single broadcast domain — they can't naturally span multiple data centers.
-
-Spanning Tree Protocol makes this worse. STP blocks redundant links to prevent loops, which means a chunk of your network capacity sits idle. And adding a new VLAN often means touching every switch in the path by hand — slow, manual, and error-prone. None of this fits how modern, API-driven data centers operate. These limits are what drove VXLAN's design.
+In multi-tenant clouds, each customer may need its own isolated network, which burns through VLAN IDs fast. VLANs are also stuck within a single broadcast domain — they can't naturally span multiple data centers. Spanning Tree Protocol makes this worse: STP blocks redundant links to prevent loops, so a chunk of network capacity sits idle. And adding a new VLAN often means touching every switch in the path by hand — slow, manual, and error-prone. None of this fits how modern, API-driven data centers operate. These limits are what drove VXLAN's design.
 
 ### VXLAN Architecture and Design
 
 ![VXLAN Overview](/static/images/portfolio/badass/p2.avif)
 
-VXLAN takes a different approach. Instead of tagging frames, it wraps entire Ethernet frames inside Layer 3 UDP packets — sometimes called "MAC-in-UDP." This lets Layer 2 segments stretch across any IP network, including routed networks that span data centers or regions.
+VXLAN takes a different approach [@rfc7348]. Instead of tagging frames, it wraps entire Ethernet frames inside Layer 3 UDP packets — sometimes called "MAC-in-UDP." This lets Layer 2 segments stretch across any IP network, including routed networks that span data centers or regions.
 
 A VXLAN packet includes:
 
@@ -202,13 +198,15 @@ ip link set vxlan10 master br0
 ip link set eth1 master br0
 ```
 
-VXLAN uses UDP, not TCP. That avoids the overhead of connection setup and state tracking. The underlying IP network already handles routing. If a packet gets dropped, TCP running *inside* the tunnel handles retransmission — VXLAN itself doesn't need to.
+VXLAN uses UDP, not TCP. That avoids the overhead of connection setup and state tracking — the underlying IP network already handles routing, and if a packet gets dropped, TCP running *inside* the tunnel handles retransmission. VXLAN itself doesn't need to.
+
+![VXLAN packet encapsulation, showing the outer Ethernet, IP, and UDP headers, the 8-byte VXLAN header carrying the 24-bit VNI, and the untouched original Ethernet frame as payload](/static/images/portfolio/badass/vxlan-packet.avif)
 
 ### VTEP: The VXLAN Tunnel Endpoint
 
 ![VTEP Architecture](/static/images/portfolio/badass/vtep.avif)
 
-A VXLAN Tunnel Endpoint (VTEP) sits at the edge of each segment and handles encapsulation and decapsulation. It can live in a physical switch, a virtual switch on a hypervisor, or a container network stack.
+A VXLAN Tunnel Endpoint (VTEP) sits at the edge of each segment and handles encapsulation and decapsulation. It can live in a physical switch, a virtual switch on a hypervisor, or — as in this lab — a container network stack.
 
 Here's what happens when a VTEP sends traffic to a remote segment:
 
@@ -221,51 +219,47 @@ The reverse happens on receipt: the VTEP strips the VXLAN header, reads the dest
 
 ### The Performance Benefits of VXLAN
 
-Traditional Layer 2 networks suffer from broadcast storms — broadcast traffic hits every device on the network. VXLAN limits this by scoping broadcast traffic to only the VTEPs that have members in a given VNI.
+Traditional Layer 2 networks suffer from broadcast storms, where broadcast traffic hits every device on the network. VXLAN limits this by scoping broadcast traffic to only the VTEPs that have members in a given VNI — either through ingress replication, where the source VTEP sends a separate unicast copy to every other VTEP in the VNI, or through multicast in the underlay, where a single copy fans out at the routers. Ingress replication needs no multicast support from the underlay and is what most modern EVPN deployments use, at the cost of extra bandwidth at the source VTEP when a VNI has many members.
 
 VXLAN also enables real multipath networking. Since VXLAN packets are just IP packets, they can be load-balanced across multiple links using standard ECMP. The UDP source port is derived from the inner frame's headers, so packets in the same flow take the same path — no reordering — while different flows can spread across multiple paths.
 
 There's a design benefit too: the overlay and underlay are decoupled. You can optimize the underlay purely for throughput and latency, without worrying about what the overlay networks running on top of it need.
 
-### Security and Isolation with VXLAN
+### Why VXLAN Wins Beyond Performance
 
-Each VNI is isolated from every other VNI at the VTEP level. Traffic can't cross between VNIs unless you explicitly configure a path — critical in multi-tenant environments where different customers share the same physical hardware.
+Two more properties make VXLAN the default choice for multi-tenant data centers, beyond the raw scale numbers.
 
-Because of this isolation, any traffic that needs to move between VNIs must pass through a Layer 3 device. That's where you can enforce firewall rules, run intrusion detection, or inspect traffic. It also contains the blast radius of any breach — a compromised host in one VNI has no path into another.
+The first is isolation. Each VNI is sealed off from every other VNI at the VTEP — traffic can't cross between them unless you explicitly configure a path. That's what makes it safe for unrelated tenants to share the same physical switches: a compromised host in one VNI has no way into another. Any traffic that does need to cross VNIs has to pass through a Layer 3 device, which is exactly where you'd enforce firewall rules or run intrusion detection, and where security teams can apply different policies per VNI.
 
-This narrows the attack surface significantly. Security teams can also apply different policies per VNI: strict controls for sensitive workloads, lighter ones for everything else.
-
-### Cost Efficiency Through Network Virtualization
-
-Compare VXLAN to the alternative — separate physical networks for every tenant. That gets expensive fast, both in hardware and in operational overhead. VXLAN lets multiple virtual networks share the same physical infrastructure, cutting capital and operating costs.
-
-Automation compounds the savings. Instead of manually configuring VLANs across hundreds of switches, operators define VXLAN segments through APIs. That means fewer configuration errors, faster provisioning, and more time for engineers to focus on higher-value work.
-
-VXLAN also makes it easier to move workloads between data centers without reconfiguring the network. That flexibility improves availability and gets more value out of existing infrastructure.
+The second is cost. Building a separate physical network per tenant doesn't scale, in hardware or in operational overhead. VXLAN lets many virtual networks share the same physical infrastructure instead, and because segments are defined through APIs rather than touched switch-by-switch, provisioning gets faster and less error-prone. That same decoupling is what lets workloads move between data centers without a network reconfiguration.
 
 ## Part 3 — Discovering BGP with EVPN
 
-Part 3 introduces BGP EVPN — the control plane that automates VXLAN at scale. Manually wiring up VXLAN tunnels between VTEPs works for a handful of devices. It falls apart once you have dozens or hundreds. BGP EVPN solves this by letting VTEPs discover each other and build tunnels automatically.
+Part 3 introduces BGP EVPN — the control plane that automates VXLAN at scale. Manually wiring up VXLAN tunnels between VTEPs works for a handful of devices, but it falls apart once you have dozens or hundreds. BGP EVPN solves this by letting VTEPs discover each other and build tunnels automatically.
 
 ### Understanding BGP Fundamentals
 
-BGP has run the internet for decades. It exchanges routing information between the autonomous systems that make up the global network. As a path vector protocol, BGP tracks the full path to each destination — every AS traffic must cross. That lets it apply routing policy based on business relationships, performance, or other rules.
+BGP has run the internet for decades [@rfc4271]. It exchanges routing information between the autonomous systems that make up the global network. As a path vector protocol, BGP tracks the full path to each destination — every AS traffic must cross — which lets it apply routing policy based on business relationships, performance, or other rules.
 
-BGP's real strength is extensibility. It started out carrying only IPv4 routes. Multi-Protocol BGP extensions later added support for IPv6, multicast, VPNs, and — relevant here — EVPN routes, which carry Layer 2 and Layer 3 reachability for overlay networks.
+BGP's real strength is extensibility. It started out carrying only IPv4 routes. Multi-Protocol BGP extensions [@rfc4760] later added support for IPv6, multicast, VPNs, and — relevant here — EVPN routes, which carry Layer 2 and Layer 3 reachability for overlay networks.
 
-BGP runs over TCP sessions between routers. It sends incremental updates only when something changes, rather than re-sending the full routing table. That efficiency matters at scale — it's a big reason BGP is a solid foundation for overlay control planes.
+BGP runs over TCP sessions between routers and sends incremental updates only when something changes, rather than re-sending the full routing table. That efficiency matters at scale — it's a big reason BGP is a solid foundation for overlay control planes.
 
 ### EVPN: Extending BGP for Ethernet VPNs
 
-EVPN extends BGP to carry MAC address reachability alongside IP routes. That makes BGP the control plane for VXLAN overlays: it tells every VTEP which MAC addresses live behind which other VTEPs.
+EVPN extends BGP [@rfc7432] to carry MAC address reachability alongside IP routes, which makes BGP the control plane for VXLAN overlays: it tells every VTEP which MAC addresses live behind which other VTEPs.
 
 Here's the key shift: instead of learning MAC addresses through flooding (the traditional data-plane approach), EVPN learns them through BGP signaling. When a VTEP sees a new local MAC address, it advertises it to every other VTEP over BGP. Remote VTEPs install the forwarding state directly — no flooding required. This cuts broadcast, unknown-unicast, and multicast traffic dramatically.
 
-EVPN also borrows route distinguishers and route targets from BGP VPN technology. Each VNI gets a route target, and VTEPs only import routes matching their configured targets. That keeps each VTEP's forwarding table lean — it only holds state for the VNIs it actually serves. The route distinguisher keeps identical MAC addresses in different VNIs from colliding in the BGP table.
+EVPN also borrows route distinguishers and route targets from BGP VPN technology. Each VNI gets a route target, and VTEPs only import routes matching their configured targets, which keeps each VTEP's forwarding table lean — it only holds state for the VNIs it actually serves. The route distinguisher keeps identical MAC addresses in different VNIs from colliding in the BGP table.
 
 ### EVPN Route Types and Their Functions
 
-EVPN defines several route types. Each does one job.
+EVPN defines several route types, each doing one job. This lab only exercises Types 2, 3, and 5 directly — Types 1 and 4 belong to a piece of the picture this two-VTEP topology doesn't need, but they're worth knowing exist, since production fabrics lean on them heavily.
+
+#### Type 1 Routes — Ethernet Auto-Discovery
+
+Type 1 routes matter once a device is multihomed to more than one VTEP — a common redundancy pattern in real fabrics. They serve two purposes: fast convergence, by letting a failed VTEP withdraw one route instead of every individual MAC it was advertising, and aliasing, which lets remote VTEPs load-balance traffic across all the VTEPs serving a multihomed segment.
 
 #### Type 2 Routes — MAC/IP Advertisement
 
@@ -289,6 +283,10 @@ What it does:
 - Supports ingress replication or multicast-based flooding
 - Needed for initial host discovery, before Type 2 routes exist
 
+#### Type 4 Routes — Ethernet Segment
+
+Type 4 routes are how multihomed VTEPs elect a Designated Forwarder for a given segment — the one VTEP responsible for forwarding that segment's BUM traffic. Without this election, every multihomed VTEP would flood the same broadcast frame, and hosts downstream would see duplicates.
+
 #### Type 5 Routes — IP Prefix Routes
 
 Type 5 enables routing between VNIs directly at the VTEP. While Type 2 carries individual host addresses, Type 5 carries whole IP subnets.
@@ -298,6 +296,10 @@ What it does:
 - Enables Layer 3 routing between VNIs
 - Supports symmetric and asymmetric IRB (Integrated Routing and Bridging)
 - Allows centralized or distributed gateway designs
+
+The symmetric/asymmetric distinction is about where the routing lookup happens. Symmetric IRB routes twice — once at the ingress VTEP into a shared transit VNI, again at the egress VTEP into the destination VNI — so no VTEP needs to know about every VNI in the fabric, just the ones it directly serves. Asymmetric IRB skips the transit hop by doing both lookups on ingress, which is simpler to configure but requires every VTEP doing inter-VNI routing to carry every VNI it might route into, which scales worse.
+
+![EVPN route types 1 through 5, with Types 2, 3, and 5 highlighted as the ones this lab's fabric actually exercises, and Types 1 and 4 marked as relevant once VTEPs are multihomed](/static/images/portfolio/badass/evpn-route-types.avif)
 
 ### Building the BGP EVPN Control Plane
 
@@ -343,11 +345,13 @@ You need two things running side by side: the standard IPv4 unicast address fami
 
 Each VTEP needs its VNIs configured, along with a route distinguisher and route targets. The route distinguisher keeps BGP table entries unique. Route targets control which routes get imported where — this is how you'd implement policies like hub-and-spoke VNIs, where spokes can only reach each other through a central hub.
 
+`advertise-all-vni` is the easy default for a lab: every locally configured VNI gets advertised automatically. Production fabrics often advertise VNIs more selectively instead, to keep control over exactly what each VTEP exposes.
+
 ### Dynamic VXLAN Tunnel Establishment
 
-BGP EVPN builds VXLAN tunnels on demand. When a VTEP receives an EVPN route for a MAC address in one of its VNIs, it automatically creates the tunnel state needed to reach that VTEP. No manual neighbor configuration required — the network adapts as VTEPs come and go.
+BGP EVPN builds VXLAN tunnels on demand. When a VTEP receives an EVPN route for a MAC address in one of its VNIs, it automatically creates the tunnel state needed to reach that VTEP — no manual neighbor configuration required, and the network adapts as VTEPs come and go.
 
-This also saves resources. Rather than maintaining a full mesh of tunnels regardless of traffic, tunnels only form where there's actual demand. At scale, that's a meaningful reduction in state each VTEP has to track.
+This also saves resources. Rather than maintaining a full mesh of tunnels regardless of traffic, tunnels only form where there's actual demand, which at scale is a meaningful reduction in state each VTEP has to track.
 
 When a host moves — through VM migration or container rescheduling — EVPN updates automatically. The old VTEP withdraws its route, the new VTEP advertises one, and every other VTEP updates its forwarding table. This is core to how modern data centers handle load balancing, maintenance, and failure recovery.
 
@@ -406,9 +410,13 @@ ping 10.0.0.2 -c 4
 traceroute 10.0.0.2
 ```
 
-Start at the underlay. If VTEP loopbacks can't reach each other, BGP sessions never come up, and nothing above that layer will work.
+Start at the underlay: if VTEP loopbacks can't reach each other, BGP sessions never come up, and nothing above that layer will work.
 
-Next, check the control plane. Confirm BGP sessions are established and EVPN routes are flowing correctly. Missing or malformed route advertisements are the most common source of EVPN problems, so get comfortable reading BGP's show output.
+Next, check the control plane. Confirm BGP sessions are established and EVPN routes are flowing correctly — missing or malformed route advertisements are the most common source of EVPN problems, so get comfortable reading BGP's show output.
+
+<Callout type="warning">
+The most common reason an EVPN route never shows up on a remote VTEP isn't a broken BGP session — it's a route target mismatch. Double-check that the `route-target export` on one side actually matches the `route-target import` on the other. A typo here fails silently: no error, just a route that never arrives.
+</Callout>
 
 Finally, check the data plane. Generate traffic between test hosts and capture packets to confirm the right VNI is used, the right destination VTEP is targeted, and encapsulation/decapsulation both work as expected.
 
@@ -416,7 +424,7 @@ Finally, check the data plane. Generate traffic between test hosts and capture p
 
 A minimal EVPN fabric needs just two router VTEPs, each with a host attached in the same VNI. That's enough to show dynamic MAC learning, automatic tunnel setup, and cross-fabric communication.
 
-Router A and Router B each run BGP with the EVPN address family enabled. They peer with each other — directly, or through a route reflector. Both are configured with the same VNI. As hosts talk, each router learns local MAC addresses and advertises them via Type 2 routes.
+Router A and Router B each run BGP with the EVPN address family enabled. They peer with each other — directly, or through a route reflector — and both are configured with the same VNI. As hosts talk, each router learns local MAC addresses and advertises them via Type 2 routes.
 
 The VXLAN tunnel forms automatically once both routers exchange EVPN routes. From there, Router A encapsulates traffic from Host 1, and Router B decapsulates it before delivering it to Host 2. The reverse path works the same way. The hosts never know any of this is happening.
 
@@ -424,43 +432,33 @@ The VXLAN tunnel forms automatically once both routers exchange EVPN routes. Fro
 
 This isn't an academic exercise. Major cloud providers run VXLAN with BGP EVPN at massive scale — the same design you just built in GNS3 scales to data centers with tens of thousands of servers and millions of workloads.
 
-Production deployments add a few more layers:
+Production deployments add a few more layers on top of what you built here:
 
 - Route reflectors run in redundant pairs, to avoid a single point of failure in the control plane.
-- VTEPs are often dual-homed to multiple underlay switches for data-plane redundancy.
-- Traffic engineering — via ECMP or prioritization — helps make sure critical workloads get the bandwidth they need.
+- VTEPs are often dual-homed to multiple underlay switches for data-plane redundancy — which is exactly where the Type 1 and Type 4 EVPN routes from earlier come into play.
+- Traffic engineering — via ECMP or explicit prioritization — helps make sure critical workloads get the bandwidth they need instead of getting starved by everything else on the fabric.
 
-From here, you might explore anycast gateways, where multiple VTEPs answer the same gateway IP to avoid inefficient routing. Or you might look at how Kubernetes uses VXLAN overlays for pod networking across hosts. Everything in this project is the foundation for those ideas.
+For a look at how this runs at real cloud-provider scale, Vinit Jain's NANOG 68 talk walks through the same VxLAN BGP EVPN design principles from this lab, applied to production fabrics:
+
+<div className="aspect-video w-full overflow-hidden rounded-lg border border-gray-700">
+  <iframe
+    className="h-full w-full"
+    src="https://www.youtube-nocookie.com/embed/p8RJU3LMQG8"
+    title="NANOG 68: VxLAN BGP EVPN — Vinit Jain"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerPolicy="strict-origin-when-cross-origin"
+    allowFullScreen
+  ></iframe>
+</div>
 
 ## Key Takeaways
 
-BADASS gives you hands-on experience with the technologies that define modern data center networking.
+Three parts, but really one arc: basic container networking, then an overlay on top of it, then a control plane that automates the overlay. A few things stuck with me more than the rest:
 
-**Technical skills:**
-- Container-based network simulation with GNS3 and Docker
-- VXLAN overlay networking and encapsulation
-- BGP configuration and EVPN route types
-- Multi-layer network troubleshooting
-- Linux networking and routing daemon setup
+1. **VXLAN's 24-bit VNI is the whole story.** 16 million segments instead of 4096 VLANs is what actually makes multi-tenant cloud networking possible at today's scale — everything else about VXLAN exists to serve that number.
+2. **EVPN replaces flooding with signaling.** Learning MAC addresses through BGP instead of data-plane flooding is a small idea with a large effect: it's the difference between a fabric that scales to a few dozen switches and one that scales to thousands.
+3. **Route targets are the real access control.** Import/export policy on route targets is what lets you build hub-and-spoke VNIs, shared services segments, or strict per-tenant isolation — all without touching the underlay.
+4. **The underlay barely matters, and that's the point.** Once IP reachability exists between VTEP loopbacks, everything above it — VXLAN, BGP, EVPN — works the same whether the underlay runs OSPF, IS-IS, or static routes. That decoupling is what makes the design portable.
+5. **Debugging beats reading.** Tracing a broken EVPN route through three layers — underlay reachability, BGP session state, then a packet capture on the wire — taught me more than any amount of documentation would have.
 
-**Architectural understanding:**
-- Modern data center fabric design
-- Control plane vs. data plane separation
-- Underlay and overlay architecture
-- Multi-tenancy and segmentation
-- Cloud-scale considerations
-
-**Operational experience:**
-- Systematic validation and troubleshooting
-- Protocol debugging with standard tools
-- Configuration management for complex systems
-- Cross-technology integration
-- Performance analysis
-
-Part 1 through Part 3 mirrors a decade of real data center evolution — from basic Docker networking, to VXLAN overlays, to a full BGP EVPN control plane.
-
-VXLAN alone is a big deal: 16 million VNIs versus 4096 VLANs made multi-tenant cloud computing possible at today's scale. Without VXLAN or something like it, cloud computing wouldn't scale the way it does now.
-
-BGP EVPN takes that further. It automates network configuration entirely, using BGP's proven scaling and MAC learning through signaling instead of flooding. The result is infrastructure you can manage through APIs, not manual configuration.
-
-Most importantly, this project builds troubleshooting instinct. Reading about BGP EVPN is one thing. Debugging a broken BGP session, capturing packets to confirm encapsulation, and tracing a problem across three network layers is another. That instinct — built through actually breaking things and fixing them — is what makes the difference in production network operations.
+If you want to go further from here, anycast gateways and Kubernetes' own use of VXLAN for pod networking are the natural next steps — both build directly on what's in this lab.

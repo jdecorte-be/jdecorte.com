@@ -80,6 +80,37 @@ function createSearchIndex(allWriteups) {
 	}
 }
 
+/**
+ * llms.txt (https://llmstxt.org) — a plain-language index of the site's
+ * content so AI assistants/answer engines can find and cite the writeups
+ * without having to crawl and parse the rendered HTML.
+ */
+function createLlmsTxt(allWriteups) {
+	const posts = sortPosts(allWriteups.filter((post) => post.draft !== true));
+
+	const lines = [
+		`# ${siteMetadata.author}`,
+		"",
+		`> ${siteMetadata.description}`,
+		"",
+		"## Writeups",
+		"",
+		...posts.map(
+			(post) =>
+				`- [${post.title}](${siteMetadata.siteUrl}/${post.path}): ${post.summary}`,
+		),
+		"",
+		"## Pages",
+		"",
+		`- [Home](${siteMetadata.siteUrl}/): Portfolio, background, and projects`,
+		`- [All writeups](${siteMetadata.siteUrl}/writeups): Full list of writeups, sorted by date`,
+		"",
+	];
+
+	writeFileSync("public/llms.txt", lines.join("\n"));
+	console.log("llms.txt generated...");
+}
+
 export const Writeups = defineDocumentType(() => ({
 	name: "Writeups",
 	filePathPattern: "writeups/**/*.mdx",
@@ -111,13 +142,16 @@ export const Writeups = defineDocumentType(() => ({
 					datePublished: new Date(doc.date).toISOString(),
 					dateModified: new Date(doc.lastmod ?? doc.date).toISOString(),
 					description: doc.summary,
-					image: doc.images ? doc.images[0] : siteMetadata.socialBanner,
+					// schema.org's `image` wants a fully-qualified URL, unlike OG tags
+					image: `${siteMetadata.siteUrl}${doc.images ? doc.images[0] : siteMetadata.socialBanner}`,
 					url,
+					inLanguage: siteMetadata.language,
 					mainEntityOfPage: { "@type": "WebPage", "@id": url },
 					keywords: doc.tags ? Array.from(doc.tags).join(", ") : undefined,
 					wordCount: readingTime(doc.body.raw).words,
 					publisher: {
 						"@type": "Person",
+						"@id": `${siteMetadata.siteUrl}/#person`,
 						name: siteMetadata.author,
 						url: siteMetadata.siteUrl,
 					},
@@ -170,5 +204,6 @@ export default makeSource({
 		const { allWriteups } = await importData();
 		createTagCount(allWriteups);
 		createSearchIndex(allWriteups);
+		createLlmsTxt(allWriteups);
 	},
 });

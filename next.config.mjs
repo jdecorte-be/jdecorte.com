@@ -20,7 +20,7 @@ const ContentSecurityPolicy = `
   media-src 'self' *.s3.amazonaws.com;
   connect-src *;
   font-src 'self' fonts.gstatic.com;
-  frame-src itch.io;
+  frame-src itch.io www.youtube-nocookie.com;
 `;
 
 const securityHeaders = [

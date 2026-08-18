@@ -1,4 +1,5 @@
 import "css/prism.css";
+import "katex/dist/katex.min.css";
 
 import type { Authors, Writeups } from "contentlayer/generated";
 import { allAuthors, allWriteups } from "contentlayer/generated";
@@ -44,8 +45,7 @@ export async function generateMetadata({
 
 	// Generate dynamic ogImage and imageList
 	const ogImageUrl = `/api/og?title=${encodeURIComponent(post.title)}`;
-	const ogImages = [ogImageUrl];
-	const imageList = [ogImageUrl];
+	const ogImage = { url: ogImageUrl, width: 1200, height: 630, alt: post.title };
 	const canonical = post.canonicalUrl || `${siteMetadata.siteUrl}/${post.path}`;
 
 	return {
@@ -68,14 +68,14 @@ export async function generateMetadata({
 			modifiedTime: modifiedAt,
 			tags: post.tags,
 			url: canonical,
-			images: ogImages,
+			images: [ogImage],
 			authors: authors.length > 0 ? authors : [siteMetadata.author],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: post.title,
 			description: post.summary,
-			images: imageList,
+			images: [ogImage.url],
 		},
 	};
 }
@@ -117,6 +117,31 @@ export default async function Page({ params }) {
 		};
 	});
 
+	const breadcrumbJsonLd = {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: [
+			{
+				"@type": "ListItem",
+				position: 1,
+				name: "Home",
+				item: siteMetadata.siteUrl,
+			},
+			{
+				"@type": "ListItem",
+				position: 2,
+				name: "Writeups",
+				item: `${siteMetadata.siteUrl}/writeups`,
+			},
+			{
+				"@type": "ListItem",
+				position: 3,
+				name: post.title,
+				item: `${siteMetadata.siteUrl}/${post.path}`,
+			},
+		],
+	};
+
 	const Layout = layouts[post.layout ?? defaultLayout];
 
 	return (
@@ -125,6 +150,11 @@ export default async function Page({ params }) {
 				type="application/ld+json"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+			/>
+			<script
+				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
 			/>
 			<Layout
 				content={mainContent}

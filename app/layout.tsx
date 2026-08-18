@@ -1,5 +1,4 @@
 import "css/tailwind.css";
-import "katex/dist/katex.min.css";
 
 import type { Metadata } from "next";
 import { Roboto_Mono, Space_Grotesk } from "next/font/google";
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
 		description: siteMetadata.description,
 		url: "./",
 		siteName: siteMetadata.title,
-		images: [siteMetadata.socialBanner],
+		images: [{ url: siteMetadata.socialBanner, width: 1200, height: 675 }],
 		locale: siteMetadata.locale,
 		type: "website",
 	},

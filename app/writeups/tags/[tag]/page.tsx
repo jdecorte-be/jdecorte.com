@@ -18,7 +18,8 @@ export async function generateMetadata(props: {
 		alternates: {
 			canonical: "./",
 			types: {
-				"application/rss+xml": `${siteMetadata.siteUrl}/writeups/tags/${tag}/feed.xml`,
+				// scripts/rss.mjs writes these feeds to public/tags/<tag>/feed.xml
+				"application/rss+xml": `${siteMetadata.siteUrl}/tags/${tag}/feed.xml`,
 			},
 		},
 		// Thin/duplicate tag-filtered listing — keep out of search results,

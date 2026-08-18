@@ -14,6 +14,9 @@ export function genPageMetadata({
 	image,
 	...rest
 }: PageSEOProps): Metadata {
+	const images = image
+		? [image]
+		: [{ url: siteMetadata.socialBanner, width: 1200, height: 675 }];
 	return {
 		title,
 		description: description ?? siteMetadata.description,
@@ -25,7 +28,7 @@ export function genPageMetadata({
 			description: description ?? siteMetadata.description,
 			url: "./",
 			siteName: siteMetadata.title,
-			images: image ? [image] : [siteMetadata.socialBanner],
+			images,
 			locale: siteMetadata.locale,
 			type: "website",
 		},

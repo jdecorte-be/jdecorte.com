@@ -1,0 +1,18 @@
+# John Decorte
+
+> John Decorte | Full-Stack Developer & Cybersecurity Engineer in Montreal. Explore my projects, skills, and experience.
+
+## Writeups
+
+- [BGP at Doors of Autonomous Systems Is Simple](https://jdecorte.com/writeups/bgp): Build VXLAN tunnels and a BGP EVPN control plane in GNS3 — the same data center networking techniques major cloud providers run in production.
+- [AWS Cloud Practitioner Certification Cheat Sheet](https://jdecorte.com/writeups/todo/aws-cloud-practitioner-certification): Quick reference guide for passing the AWS Certified Cloud Practitioner (CLF-C02) exam with all essential concepts, services, and exam tips.
+- [Dynamic Mach-O ARM64 Packer](https://jdecorte.com/writeups/macho-injection): Building a Mach-O packer for macOS ARM64 binaries: dynamic library injection, binary manipulation, and the internal structure of macOS executables.
+- [x86-64 ELF Binary Packer](https://jdecorte.com/writeups/x86-injection): Build your own ELF packer for x86-64 Linux. Learn binary manipulation, shellcode injection, and executable file structure through hands-on implementation.
+- [Building an HTTP/1.1 Web Server from Scratch in C++98](https://jdecorte.com/writeups/webserv): Building a production-grade HTTP/1.1 web server from scratch in C++98: TCP sockets, I/O multiplexing with select(), HTTP parsing, and CGI support.
+- [Minishell: Building a Mini-Bash Shell from Scratch in C](https://jdecorte.com/writeups/minishell): Building a Bash-like shell from scratch in C: pipes, process management, signal handling, redirections, and command execution.
+- [Demystifying get_next_line: A Deep Dive into Static Buffer Memory](https://jdecorte.com/writeups/get-next-line): Reading huge files line by line without crashing: how 42 School's get_next_line uses static variables and buffer management to persist memory across calls.
+
+## Pages
+
+- [Home](https://jdecorte.com/): Portfolio, background, and projects
+- [All writeups](https://jdecorte.com/writeups): Full list of writeups, sorted by date
