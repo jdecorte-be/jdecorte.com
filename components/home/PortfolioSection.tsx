@@ -237,48 +237,27 @@ export default function PortfolioSection() {
 								</m.div>
 							</TabsContent>
 
-							{/* Web Layout: Grid with large card on top, two small cards below */}
+							{/* Web Layout: Small cards stacked left, Large right */}
 							<TabsContent value={slug("Web Dev")}>
 								<m.div
-									className="flex flex-col gap-6"
+									className="grid grid-cols-1 gap-6 lg:grid-cols-2"
 									initial="hidden"
 									whileInView="visible"
 									viewport={{ once: true, amount: 0.2 }}
 									variants={staggerContainer}
 								>
-									<m.div
-										initial="hidden"
-										whileInView="visible"
-										viewport={{ once: true, amount: 0.2 }}
-										variants={fadeInFromTop}
-									>
-										{projects["Web Dev"]
-											.filter((p) => p.size === "large")
-											.map((project) => (
-												<ProjectCard
-													key={project.title}
-													title={project.title}
-													size={project.size}
-													buttonText={project.buttonText}
-													imgSrc={project.imgSrc}
-													href={project.href}
-													index={project.index}
-												>
-													{project.description}
-												</ProjectCard>
-											))}
-									</m.div>
-									<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+									<div className="flex h-full flex-col gap-6">
 										{projects["Web Dev"]
 											.filter((p) => p.size === "small")
 											.map((project, index) => (
 												<m.div
 													key={project.title}
+													className="flex-1"
 													initial="hidden"
 													whileInView="visible"
 													viewport={{ once: true, amount: 0.2 }}
 													variants={
-														index === 0 ? fadeInFromLeft : fadeInFromRight
+														index === 0 ? fadeInFromLeft : fadeInFromBottom
 													}
 												>
 													<ProjectCard
@@ -294,6 +273,30 @@ export default function PortfolioSection() {
 												</m.div>
 											))}
 									</div>
+									<m.div
+										className="lg:h-full"
+										initial="hidden"
+										whileInView="visible"
+										viewport={{ once: true, amount: 0.2 }}
+										variants={fadeInFromRight}
+									>
+										{projects["Web Dev"]
+											.filter((p) => p.size === "large")
+											.map((project) => (
+												<div key={project.title} className="h-full">
+													<ProjectCard
+														title={project.title}
+														size={project.size}
+														buttonText={project.buttonText}
+														imgSrc={project.imgSrc}
+														href={project.href}
+														index={project.index}
+													>
+														{project.description}
+													</ProjectCard>
+												</div>
+											))}
+									</m.div>
 								</m.div>
 							</TabsContent>
 
