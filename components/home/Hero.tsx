@@ -33,8 +33,8 @@ const Hero = ({ heroFontStyles }) => {
 				<Image
 					src="/static/images/jdecorte_fullbody-v2.avif"
 					alt="John Decorte"
-					width={1396}
-					height={2267}
+					width={840}
+					height={1364}
 					sizes="(max-width: 768px) 140px, 270px"
 					placeholder="blur"
 					className={`image-animate-on-load absolute -bottom-10 right-0 h-auto w-[140px] opacity-0 drop-shadow-2xl md:right-48 md:top-40 md:w-[270px] xl:left-60`}
